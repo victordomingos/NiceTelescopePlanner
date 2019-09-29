@@ -17,7 +17,10 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         rightPanel.setVisible(false);
-        btn_right_panel.setSelected(false);
+        btn_rightPanel.setSelected(false);
+        
+        centerBottomPanel.setVisible(false);
+        btn_sessionNotes.setSelected(false);
         
     }
 
@@ -31,18 +34,24 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        btn_left_panel = new javax.swing.JToggleButton();
+        btn_leftPanel = new javax.swing.JToggleButton();
         btn_manageSessions = new javax.swing.JToggleButton();
         btn_manageLocations = new javax.swing.JToggleButton();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         btn_includePlanets = new javax.swing.JToggleButton();
         btn_bookmarkedOnly = new javax.swing.JToggleButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        btn_right_panel = new javax.swing.JToggleButton();
+        btn_hideAlreadySeen = new javax.swing.JToggleButton();
+        btn_sessionNotes = new javax.swing.JToggleButton();
+        btn_rightPanel = new javax.swing.JToggleButton();
         centerPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        centerBottomPanel = new org.jdesktop.swingx.JXPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
         rightPanel = new org.jdesktop.swingx.JXPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jLabel10 = new javax.swing.JLabel();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
@@ -79,43 +88,45 @@ public class Main extends javax.swing.JFrame {
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1000, 750));
         setName("mainWindow"); // NOI18N
-        setSize(new java.awt.Dimension(1024, 700));
+        setPreferredSize(new java.awt.Dimension(1280, 800));
+        setSize(new java.awt.Dimension(1024, 750));
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 204));
-        jToolBar1.setBorder(null);
+        jToolBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jToolBar1.setForeground(javax.swing.UIManager.getDefaults().getColor("ToolBar.background"));
         jToolBar1.setRollover(true);
+        jToolBar1.setMaximumSize(new java.awt.Dimension(2400, 50));
+        jToolBar1.setMinimumSize(new java.awt.Dimension(800, 50));
+        jToolBar1.setPreferredSize(new java.awt.Dimension(1000, 50));
 
-        btn_left_panel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        btn_left_panel.setSelected(true);
-        btn_left_panel.setText("Session Setup");
-        btn_left_panel.setFocusable(false);
-        btn_left_panel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_left_panel.setMaximumSize(new java.awt.Dimension(70, 48));
-        btn_left_panel.setMinimumSize(new java.awt.Dimension(70, 48));
-        btn_left_panel.setPreferredSize(new java.awt.Dimension(128, 48));
-        btn_left_panel.addActionListener(new java.awt.event.ActionListener() {
+        btn_leftPanel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btn_leftPanel.setSelected(true);
+        btn_leftPanel.setText("Session Setup");
+        btn_leftPanel.setFocusable(false);
+        btn_leftPanel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_leftPanel.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_leftPanel.setMinimumSize(new java.awt.Dimension(100, 48));
+        btn_leftPanel.setPreferredSize(new java.awt.Dimension(128, 48));
+        btn_leftPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_left_panelActionPerformed(evt);
+                btn_leftPanelActionPerformed(evt);
             }
         });
-        jToolBar1.add(btn_left_panel);
+        jToolBar1.add(btn_leftPanel);
 
         btn_manageSessions.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         btn_manageSessions.setText("Manage Sessions");
         btn_manageSessions.setFocusable(false);
         btn_manageSessions.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_manageSessions.setMaximumSize(new java.awt.Dimension(111, 48));
-        btn_manageSessions.setMinimumSize(new java.awt.Dimension(111, 48));
+        btn_manageSessions.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_manageSessions.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_manageSessions.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_manageSessions.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btn_manageSessions);
@@ -124,19 +135,19 @@ public class Main extends javax.swing.JFrame {
         btn_manageLocations.setText("Manage Locations");
         btn_manageLocations.setFocusable(false);
         btn_manageLocations.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_manageLocations.setMaximumSize(new java.awt.Dimension(130, 48));
-        btn_manageLocations.setMinimumSize(new java.awt.Dimension(130, 48));
+        btn_manageLocations.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_manageLocations.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_manageLocations.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_manageLocations.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btn_manageLocations);
-        jToolBar1.add(filler3);
 
         btn_includePlanets.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btn_includePlanets.setSelected(true);
         btn_includePlanets.setText("Include Planets");
         btn_includePlanets.setFocusable(false);
         btn_includePlanets.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_includePlanets.setMaximumSize(new java.awt.Dimension(130, 48));
-        btn_includePlanets.setMinimumSize(new java.awt.Dimension(130, 48));
+        btn_includePlanets.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_includePlanets.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_includePlanets.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_includePlanets.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btn_includePlanets);
@@ -145,27 +156,51 @@ public class Main extends javax.swing.JFrame {
         btn_bookmarkedOnly.setText("Bookmarked Only");
         btn_bookmarkedOnly.setFocusable(false);
         btn_bookmarkedOnly.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_bookmarkedOnly.setMaximumSize(new java.awt.Dimension(111, 48));
-        btn_bookmarkedOnly.setMinimumSize(new java.awt.Dimension(111, 48));
+        btn_bookmarkedOnly.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_bookmarkedOnly.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_bookmarkedOnly.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_bookmarkedOnly.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btn_bookmarkedOnly);
-        jToolBar1.add(filler2);
 
-        btn_right_panel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        btn_right_panel.setSelected(true);
-        btn_right_panel.setText("Object Details");
-        btn_right_panel.setFocusable(false);
-        btn_right_panel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_right_panel.setMaximumSize(new java.awt.Dimension(78, 48));
-        btn_right_panel.setMinimumSize(new java.awt.Dimension(78, 48));
-        btn_right_panel.setPreferredSize(new java.awt.Dimension(128, 48));
-        btn_right_panel.addActionListener(new java.awt.event.ActionListener() {
+        btn_hideAlreadySeen.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btn_hideAlreadySeen.setText("Hide Already Seen");
+        btn_hideAlreadySeen.setFocusable(false);
+        btn_hideAlreadySeen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_hideAlreadySeen.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_hideAlreadySeen.setMinimumSize(new java.awt.Dimension(100, 48));
+        btn_hideAlreadySeen.setPreferredSize(new java.awt.Dimension(128, 48));
+        btn_hideAlreadySeen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btn_hideAlreadySeen);
+
+        btn_sessionNotes.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btn_sessionNotes.setText("Session Notes");
+        btn_sessionNotes.setFocusable(false);
+        btn_sessionNotes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_sessionNotes.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_sessionNotes.setMinimumSize(new java.awt.Dimension(100, 48));
+        btn_sessionNotes.setPreferredSize(new java.awt.Dimension(128, 48));
+        btn_sessionNotes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_sessionNotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_right_panelActionPerformed(evt);
+                btn_sessionNotesActionPerformed(evt);
             }
         });
-        jToolBar1.add(btn_right_panel);
+        jToolBar1.add(btn_sessionNotes);
+
+        btn_rightPanel.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btn_rightPanel.setSelected(true);
+        btn_rightPanel.setText("Object Details");
+        btn_rightPanel.setFocusable(false);
+        btn_rightPanel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_rightPanel.setMaximumSize(new java.awt.Dimension(300, 48));
+        btn_rightPanel.setMinimumSize(new java.awt.Dimension(100, 48));
+        btn_rightPanel.setPreferredSize(new java.awt.Dimension(128, 48));
+        btn_rightPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_rightPanelActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_rightPanel);
 
         table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -194,6 +229,8 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
+        table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
@@ -205,37 +242,87 @@ public class Main extends javax.swing.JFrame {
             table.getColumnModel().getColumn(5).setPreferredWidth(8);
         }
 
+        jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
+        jLabel21.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel21.setText("Session notes");
+
+        jXTextArea1.setColumns(20);
+        jXTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jXTextArea1);
+
+        javax.swing.GroupLayout centerBottomPanelLayout = new javax.swing.GroupLayout(centerBottomPanel);
+        centerBottomPanel.setLayout(centerBottomPanelLayout);
+        centerBottomPanelLayout.setHorizontalGroup(
+            centerBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerBottomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jScrollPane2)
+        );
+        centerBottomPanelLayout.setVerticalGroup(
+            centerBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerBottomPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);
         centerPanelLayout.setHorizontalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(centerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(centerBottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(centerPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
                 .addComponent(jScrollPane1)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(centerBottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        rightPanel.setBackground(new java.awt.Color(153, 153, 153));
+        rightPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         rightPanel.setPreferredSize(new java.awt.Dimension(340, 0));
+
+        jLabel16.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
+        jLabel16.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel16.setText("Target details");
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("[There is no target object selected yet.]");
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 755, Short.MAX_VALUE)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         leftPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
-        leftPanel.setPreferredSize(new java.awt.Dimension(320, 580));
+        leftPanel.setPreferredSize(new java.awt.Dimension(350, 580));
 
         jLabel10.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -276,7 +363,8 @@ public class Main extends javax.swing.JFrame {
         jButton2.setName("btn_applySessionSettings"); // NOI18N
         jButton2.setPreferredSize(new java.awt.Dimension(260, 29));
 
-        jXPanel2.setPreferredSize(new java.awt.Dimension(340, 100));
+        jXPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jXPanel2.setPreferredSize(new java.awt.Dimension(334, 100));
 
         jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel20.setText("Date and time");
@@ -351,8 +439,11 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_SetToTwilightTime1)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        jXPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jXPanel3.setPreferredSize(new java.awt.Dimension(334, 161));
 
         jLabel11.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel11.setText("Telescope Angles");
@@ -404,7 +495,7 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_SetToTwilightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,6 +522,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(btn_SetToTwilightTime)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
+
+        jXPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jXPanel4.setPreferredSize(new java.awt.Dimension(334, 153));
 
         jLabel17.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel17.setText("Filter sugestions by");
@@ -500,7 +594,7 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jXPanel4Layout.setVerticalGroup(
             jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,26 +623,19 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(leftPanelLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(leftPanelLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(leftPanelLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(leftPanelLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator1)
-                    .addComponent(jSeparator4)
-                    .addComponent(jSeparator5))
+                    .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         leftPanelLayout.setVerticalGroup(
@@ -558,19 +645,13 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
@@ -588,12 +669,12 @@ public class Main extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1050, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -601,21 +682,25 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
-                    .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)))
+                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+                    .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_left_panelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_left_panelActionPerformed
-        this.leftPanel.setVisible(this.btn_left_panel.isSelected());
-    }//GEN-LAST:event_btn_left_panelActionPerformed
+    private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
+        this.leftPanel.setVisible(this.btn_leftPanel.isSelected());
+    }//GEN-LAST:event_btn_leftPanelActionPerformed
 
-    private void btn_right_panelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_right_panelActionPerformed
-        this.rightPanel.setVisible(this.btn_right_panel.isSelected());
+    private void btn_rightPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rightPanelActionPerformed
+        this.rightPanel.setVisible(this.btn_rightPanel.isSelected());
 
-    }//GEN-LAST:event_btn_right_panelActionPerformed
+    }//GEN-LAST:event_btn_rightPanelActionPerformed
+
+    private void btn_sessionNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sessionNotesActionPerformed
+        this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
+    }//GEN-LAST:event_btn_sessionNotesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -656,18 +741,19 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_SetToTwilightTime;
     private javax.swing.JButton btn_SetToTwilightTime1;
     private javax.swing.JToggleButton btn_bookmarkedOnly;
+    private javax.swing.JToggleButton btn_hideAlreadySeen;
     private javax.swing.JToggleButton btn_includePlanets;
-    private javax.swing.JToggleButton btn_left_panel;
+    private javax.swing.JToggleButton btn_leftPanel;
     private javax.swing.JToggleButton btn_manageLocations;
     private javax.swing.JToggleButton btn_manageSessions;
-    private javax.swing.JToggleButton btn_right_panel;
+    private javax.swing.JToggleButton btn_rightPanel;
+    private javax.swing.JToggleButton btn_sessionNotes;
+    private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JComboBox<String> cmb_endTime;
     private javax.swing.JComboBox<String> cmb_location;
     private javax.swing.JComboBox<String> cmb_startTime;
     private org.jdesktop.swingx.JXDatePicker date_picker;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler3;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
@@ -678,27 +764,29 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private org.jdesktop.swingx.JXPanel jXPanel3;
     private org.jdesktop.swingx.JXPanel jXPanel4;
+    private org.jdesktop.swingx.JXTextArea jXTextArea1;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private org.jdesktop.swingx.JXPanel rightPanel;
     private javax.swing.JSlider slider_minMagnitude;
