@@ -11,6 +11,9 @@ package gui;
  */
 public class Main extends javax.swing.JFrame {
 
+    public final SessionManager session_manager = new SessionManager(this);
+    public final LocationManager location_manager = new LocationManager(this);
+    
     /**
      * Creates new form Main
      */
@@ -130,6 +133,11 @@ public class Main extends javax.swing.JFrame {
         btn_manageSessions.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_manageSessions.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_manageSessions.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_manageSessions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_manageSessionsActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_manageSessions);
 
         btn_manageLocations.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
@@ -140,6 +148,11 @@ public class Main extends javax.swing.JFrame {
         btn_manageLocations.setMinimumSize(new java.awt.Dimension(100, 48));
         btn_manageLocations.setPreferredSize(new java.awt.Dimension(128, 48));
         btn_manageLocations.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_manageLocations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_manageLocationsActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_manageLocations);
 
         btn_includePlanets.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
@@ -702,6 +715,23 @@ public class Main extends javax.swing.JFrame {
     private void btn_sessionNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sessionNotesActionPerformed
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
     }//GEN-LAST:event_btn_sessionNotesActionPerformed
+
+    private void btn_manageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_manageSessionsActionPerformed
+        if(session_manager.isVisible()){
+            session_manager.setVisible(false);
+        } else {
+            session_manager.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btn_manageSessionsActionPerformed
+
+    private void btn_manageLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_manageLocationsActionPerformed
+        if(location_manager.isVisible()){
+            location_manager.setVisible(false);
+        } else {
+            location_manager.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_manageLocationsActionPerformed
 
     /**
      * @param args the command line arguments

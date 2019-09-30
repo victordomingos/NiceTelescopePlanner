@@ -9,13 +9,23 @@ package gui;
  *
  * @author victor
  */
-public class Sessions extends javax.swing.JFrame {
+public class SessionManager extends javax.swing.JFrame {
+
+    private Main master;
 
     /**
      * Creates new form Sessions
      */
-    public Sessions() {
+    public SessionManager() {
         initComponents();
+        this.centerBottomPanel.setVisible(false);
+        this.btn_sessionNotes.setSelected(false);
+    }
+    
+    
+    public SessionManager(Main master) {
+        this();
+        this.master = master;
     }
 
     /**
@@ -29,8 +39,8 @@ public class Sessions extends javax.swing.JFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         btn_newSession = new org.jdesktop.swingx.JXButton();
-        btn_newSession1 = new org.jdesktop.swingx.JXButton();
-        btn_newSession2 = new org.jdesktop.swingx.JXButton();
+        btn_loadSelectedSession = new org.jdesktop.swingx.JXButton();
+        btn_deleteSelectedSession = new org.jdesktop.swingx.JXButton();
         centerPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -59,23 +69,23 @@ public class Sessions extends javax.swing.JFrame {
         btn_newSession.setPreferredSize(new java.awt.Dimension(200, 32));
         jToolBar1.add(btn_newSession);
 
-        btn_newSession1.setText("Load Selected");
-        btn_newSession1.setFocusable(false);
-        btn_newSession1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_newSession1.setMaximumSize(new java.awt.Dimension(400, 32));
-        btn_newSession1.setMinimumSize(new java.awt.Dimension(100, 32));
-        btn_newSession1.setPreferredSize(new java.awt.Dimension(200, 32));
-        btn_newSession1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btn_newSession1);
+        btn_loadSelectedSession.setText("Load Selected");
+        btn_loadSelectedSession.setFocusable(false);
+        btn_loadSelectedSession.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_loadSelectedSession.setMaximumSize(new java.awt.Dimension(400, 32));
+        btn_loadSelectedSession.setMinimumSize(new java.awt.Dimension(100, 32));
+        btn_loadSelectedSession.setPreferredSize(new java.awt.Dimension(200, 32));
+        btn_loadSelectedSession.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btn_loadSelectedSession);
 
-        btn_newSession2.setText("Delete Selected");
-        btn_newSession2.setFocusable(false);
-        btn_newSession2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_newSession2.setMaximumSize(new java.awt.Dimension(400, 32));
-        btn_newSession2.setMinimumSize(new java.awt.Dimension(100, 32));
-        btn_newSession2.setPreferredSize(new java.awt.Dimension(200, 32));
-        btn_newSession2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btn_newSession2);
+        btn_deleteSelectedSession.setText("Delete Selected");
+        btn_deleteSelectedSession.setFocusable(false);
+        btn_deleteSelectedSession.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_deleteSelectedSession.setMaximumSize(new java.awt.Dimension(400, 32));
+        btn_deleteSelectedSession.setMinimumSize(new java.awt.Dimension(100, 32));
+        btn_deleteSelectedSession.setPreferredSize(new java.awt.Dimension(200, 32));
+        btn_deleteSelectedSession.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btn_deleteSelectedSession);
 
         table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -111,6 +121,13 @@ public class Sessions extends javax.swing.JFrame {
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
+            table.getColumnModel().getColumn(3).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(300);
+        }
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);
@@ -123,8 +140,7 @@ public class Sessions extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
-        btn_sessionNotes.setSelected(true);
-        btn_sessionNotes.setText("Hide Session Notes");
+        btn_sessionNotes.setText("Show Session Notes");
         btn_sessionNotes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btn_sessionNotes.setFocusable(false);
         btn_sessionNotes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -220,28 +236,29 @@ public class Sessions extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sessions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SessionManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sessions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SessionManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sessions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SessionManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Sessions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SessionManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Sessions().setVisible(true);
+                new SessionManager().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXButton btn_deleteSelectedSession;
+    private org.jdesktop.swingx.JXButton btn_loadSelectedSession;
     private org.jdesktop.swingx.JXButton btn_newSession;
-    private org.jdesktop.swingx.JXButton btn_newSession1;
-    private org.jdesktop.swingx.JXButton btn_newSession2;
     private javax.swing.JToggleButton btn_sessionNotes;
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
