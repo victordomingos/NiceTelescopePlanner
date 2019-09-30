@@ -114,10 +114,13 @@ public class LocationManager extends javax.swing.JFrame {
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(30);
+            table.getColumnModel().getColumn(4).setPreferredWidth(25);
+        }
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);

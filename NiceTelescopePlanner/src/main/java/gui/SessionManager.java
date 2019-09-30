@@ -117,13 +117,12 @@ public class SessionManager extends javax.swing.JFrame {
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(150);
-            table.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.getColumnModel().getColumn(0).setPreferredWidth(160);
+            table.getColumnModel().getColumn(1).setPreferredWidth(140);
             table.getColumnModel().getColumn(2).setPreferredWidth(100);
             table.getColumnModel().getColumn(3).setPreferredWidth(100);
             table.getColumnModel().getColumn(4).setPreferredWidth(300);
