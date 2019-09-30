@@ -50,8 +50,12 @@ public class SessionManager extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Session Manager");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 204));
         jToolBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -217,6 +221,10 @@ public class SessionManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
         this.btn_sessionNotes.setText(btn_text);
     }//GEN-LAST:event_btn_sessionNotesActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.master.getBtn_manageSessions().setSelected(false);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
