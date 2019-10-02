@@ -11,8 +11,7 @@ package gui;
  */
 public class SessionManager extends javax.swing.JFrame {
 
-    private Main master;
-
+    
     /**
      * Creates new form Sessions
      */
@@ -22,11 +21,6 @@ public class SessionManager extends javax.swing.JFrame {
         this.btn_sessionNotes.setSelected(false);
     }
     
-    
-    public SessionManager(Main master) {
-        this();
-        this.master = master;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,11 +47,6 @@ public class SessionManager extends javax.swing.JFrame {
         setTitle("Session Manager");
         setMaximumSize(new java.awt.Dimension(800, 2000));
         setMinimumSize(new java.awt.Dimension(480, 400));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 204));
         jToolBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -226,10 +215,6 @@ public class SessionManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
         this.btn_sessionNotes.setText(btn_text);
     }//GEN-LAST:event_btn_sessionNotesActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.master.getBtn_manageSessions().setSelected(false);
-    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

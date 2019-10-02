@@ -20,6 +20,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         initComponents();
         
         
+        
         date_picker.setDate(new Date());
 
         // TODO: remove this line after the first MVP release ;)

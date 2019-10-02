@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JToggleButton;
 
 /**
@@ -24,10 +26,36 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         
         
-        //TODO: adicionar listeners para fecho das janelas secundárias
+        // Update button state when Session Manager window opens/closes --------
+        session_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                btn_manageSessions.setSelected(false);
+            }
+        });
         
-        // TODO: verificar interacoes entre as janelas e painel SessionSetupPanel
+        session_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                btn_manageSessions.setSelected(true);
+            }
+        });
         
+        
+        // Update button state when Location Manager window opens/closes -------
+        location_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                btn_manageLocations.setSelected(false);
+            }
+        });
+        
+        location_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                btn_manageLocations.setSelected(true);
+            }
+        });
         
         
         rightPanel.setVisible(false);
