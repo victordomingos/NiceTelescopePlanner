@@ -5,22 +5,21 @@
  */
 package gui.panels;
 
-import gui.Main;
+import java.time.LocalDate;
 
 /**
  *
  * @author victor
  */
 public class SessionSetupPanel extends javax.swing.JPanel {
-    private final Main master;
     
     /**
      * Creates new form SessionSetupPanel
-     * @param master
      */
-    public SessionSetupPanel(gui.Main master) {
+    public SessionSetupPanel() {
         initComponents();
-        this.master = master;
+               
+       
     }
 
     /**
@@ -63,13 +62,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        cmb_limitingMagnitude = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        spin_minMagnitude = new javax.swing.JSpinner();
-        slider_minMagnitude = new javax.swing.JSlider();
+        spin_limitingMagnitude = new javax.swing.JSpinner();
+        slider_limitingMagnitude = new javax.swing.JSlider();
 
         setMaximumSize(new java.awt.Dimension(350, 32767));
-        setPreferredSize(new java.awt.Dimension(350, 580));
+        setPreferredSize(new java.awt.Dimension(350, 700));
 
         leftPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         leftPanel.setPreferredSize(new java.awt.Dimension(350, 580));
@@ -103,7 +102,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
@@ -125,6 +124,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel2.setMinimumSize(new java.awt.Dimension(105, 16));
         jLabel2.setPreferredSize(new java.awt.Dimension(105, 16));
 
+        date_picker.setToolTipText("The day of the observation being planned. Most likely, it will be during nght time, so please specify the day corresponding to the session start date.");
         date_picker.setName("date_picker"); // NOI18N
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -187,7 +187,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_SetToTwilightTime1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jXPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -248,7 +248,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_SetToTwilightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(17, 17, 17))
         );
         jXPanel3Layout.setVerticalGroup(
             jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +269,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_SetToTwilightTime)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(4, 4, 4))
         );
 
         jXPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -290,21 +290,45 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox4.setName("cmb_catalog"); // NOI18N
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "24\" Telescope (30min stacked images)", "+14.5  Common portable telescopes", " +9.5  7x50 Binoculars", " +8.0  Extreme naked eye limit", " +6.5  Average naked eye limit", "  0.0  Betelgeuse", " -1.4  Sirius", " -2.9  Jupiter  ", " -2.9  Mars", " -4.8  Venus" }));
-        jComboBox6.setSelectedIndex(1);
-        jComboBox6.setName("cmb_kind"); // NOI18N
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+        cmb_limitingMagnitude.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "24\" Telescope (30min stacked images)", "+14.5  Common portable telescopes", " +9.5  7x50 Binoculars", " +8.0  Extreme naked eye limit", " +6.5  Average naked eye limit", "  0.0  Betelgeuse", " -1.4  Sirius", " -2.9  Jupiter  ", " -2.9  Mars", " -4.8  Venus" }));
+        cmb_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
+        cmb_limitingMagnitude.setName("cmb_kind"); // NOI18N
+        cmb_limitingMagnitude.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
+                cmb_limitingMagnitudeActionPerformed(evt);
             }
         });
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Lim. Magnitude:");
 
-        spin_minMagnitude.setName("spin_minMagnitude"); // NOI18N
+        spin_limitingMagnitude.setModel(new javax.swing.SpinnerNumberModel(15, -27, 22, 1));
+        spin_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
+        spin_limitingMagnitude.setName("spin_limitingMagnitude"); // NOI18N
+        spin_limitingMagnitude.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spin_limitingMagnitudeStateChanged(evt);
+            }
+        });
+        spin_limitingMagnitude.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                spin_limitingMagnitudePropertyChange(evt);
+            }
+        });
 
-        slider_minMagnitude.setName("slider_minMagnitude"); // NOI18N
+        slider_limitingMagnitude.setMajorTickSpacing(10);
+        slider_limitingMagnitude.setMaximum(23);
+        slider_limitingMagnitude.setMinimum(-27);
+        slider_limitingMagnitude.setMinorTickSpacing(2);
+        slider_limitingMagnitude.setPaintTicks(true);
+        slider_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
+        slider_limitingMagnitude.setValue(15);
+        slider_limitingMagnitude.setName("slider_limitingMagnitude"); // NOI18N
+        slider_limitingMagnitude.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_limitingMagnitudeStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel4Layout = new javax.swing.GroupLayout(jXPanel4);
         jXPanel4.setLayout(jXPanel4Layout);
@@ -328,14 +352,14 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                             .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jXPanel4Layout.createSequentialGroup()
                                 .addGap(85, 85, 85)
-                                .addComponent(spin_minMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jXPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
-                            .addComponent(jComboBox6, 0, 309, Short.MAX_VALUE)
-                            .addComponent(slider_minMagnitude, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                            .addComponent(cmb_limitingMagnitude, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(15, 15, 15))
         );
         jXPanel4Layout.setVerticalGroup(
             jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,12 +369,12 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(spin_minMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(slider_minMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -358,7 +382,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -383,11 +407,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                                 .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(leftPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 4, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(leftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,14 +421,14 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -417,30 +443,44 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+            .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
+    private void cmb_limitingMagnitudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_limitingMagnitudeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
+    }//GEN-LAST:event_cmb_limitingMagnitudeActionPerformed
 
     private void cmb_locationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_locationActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb_locationActionPerformed
 
+    private void spin_limitingMagnitudePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudePropertyChange
+
+    }//GEN-LAST:event_spin_limitingMagnitudePropertyChange
+
+    private void slider_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_limitingMagnitudeStateChanged
+        spin_limitingMagnitude.setValue(slider_limitingMagnitude.getValue()); 
+        System.out.println("slider state change: " + slider_limitingMagnitude.getValue());
+    }//GEN-LAST:event_slider_limitingMagnitudeStateChanged
+
+    private void spin_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudeStateChanged
+        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());     
+        System.out.println("spin");
+// TODO add your handling code here:    }//GEN-LAST:event_spin_limitingMagnitudeStateChanged
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToTwilightTime;
     private javax.swing.JButton btn_SetToTwilightTime1;
     private javax.swing.JComboBox<String> cmb_endTime;
+    private javax.swing.JComboBox<String> cmb_limitingMagnitude;
     private javax.swing.JComboBox<String> cmb_location;
     private javax.swing.JComboBox<String> cmb_startTime;
     private org.jdesktop.swingx.JXDatePicker date_picker;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -460,11 +500,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel jXPanel3;
     private org.jdesktop.swingx.JXPanel jXPanel4;
     private org.jdesktop.swingx.JXPanel leftPanel;
-    private javax.swing.JSlider slider_minMagnitude;
+    private javax.swing.JSlider slider_limitingMagnitude;
     private javax.swing.JSpinner spin_altEnd;
     private javax.swing.JSpinner spin_altStart;
     private javax.swing.JSpinner spin_azEnd;
     private javax.swing.JSpinner spin_azStart;
-    private javax.swing.JSpinner spin_minMagnitude;
+    private javax.swing.JSpinner spin_limitingMagnitude;
     // End of variables declaration//GEN-END:variables
 }

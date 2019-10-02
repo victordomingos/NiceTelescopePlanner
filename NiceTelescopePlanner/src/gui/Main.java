@@ -13,15 +13,23 @@ import javax.swing.JToggleButton;
  */
 public class Main extends javax.swing.JFrame {
 
-    public final SessionManager session_manager = new SessionManager(this);
-    public final LocationManager location_manager = new LocationManager(this);
-    public final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
+    private final SessionManager session_manager = new SessionManager();
+    private final LocationManager location_manager = new LocationManager();
+    private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel();
     
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        
+        
+        //TODO: adicionar listeners para fecho das janelas secundárias
+        
+        // TODO: verificar interacoes entre as janelas e painel SessionSetupPanel
+        
+        
+        
         rightPanel.setVisible(false);
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
