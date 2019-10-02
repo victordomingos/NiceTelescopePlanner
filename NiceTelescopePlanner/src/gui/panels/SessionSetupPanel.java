@@ -461,12 +461,10 @@ public class SessionSetupPanel extends javax.swing.JPanel {
 
     private void slider_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_limitingMagnitudeStateChanged
         spin_limitingMagnitude.setValue(slider_limitingMagnitude.getValue()); 
-        System.out.println("slider state change: " + slider_limitingMagnitude.getValue());
     }//GEN-LAST:event_slider_limitingMagnitudeStateChanged
 
     private void spin_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudeStateChanged
         this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());     
-        System.out.println("spin");
 // TODO add your handling code here:    }//GEN-LAST:event_spin_limitingMagnitudeStateChanged
     }
 
