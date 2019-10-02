@@ -5,7 +5,7 @@
  */
 package gui.panels;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  *
@@ -18,7 +18,12 @@ public class SessionSetupPanel extends javax.swing.JPanel {
      */
     public SessionSetupPanel() {
         initComponents();
-               
+        
+        
+        date_picker.setDate(new Date());
+
+        // TODO: remove this line after the first MVP release ;)
+        subpanel_telescopeAngles.setVisible(false); 
        
     }
 
@@ -33,10 +38,10 @@ public class SessionSetupPanel extends javax.swing.JPanel {
 
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jLabel10 = new javax.swing.JLabel();
-        jXPanel1 = new org.jdesktop.swingx.JXPanel();
+        subpanel_location = new org.jdesktop.swingx.JXPanel();
         cmb_location = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jXPanel2 = new org.jdesktop.swingx.JXPanel();
+        btn_applySessionSettings = new javax.swing.JButton();
+        subpanel_dateTime = new org.jdesktop.swingx.JXPanel();
         jLabel20 = new javax.swing.JLabel();
         btn_SetToTwilightTime1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -45,7 +50,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         cmb_startTime = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         cmb_endTime = new javax.swing.JComboBox<>();
-        jXPanel3 = new org.jdesktop.swingx.JXPanel();
+        subpanel_telescopeAngles = new org.jdesktop.swingx.JXPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         spin_altStart = new javax.swing.JSpinner();
@@ -56,7 +61,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         spin_azEnd = new javax.swing.JSpinner();
         btn_SetToTwilightTime = new javax.swing.JButton();
-        jXPanel4 = new org.jdesktop.swingx.JXPanel();
+        subpanel_filterSugestions = new org.jdesktop.swingx.JXPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jComboBox5 = new javax.swing.JComboBox<>();
@@ -78,7 +83,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("Session setup");
 
-        jXPanel1.setPreferredSize(new java.awt.Dimension(340, 100));
+        subpanel_location.setPreferredSize(new java.awt.Dimension(340, 100));
 
         cmb_location.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select observatory/location" }));
         cmb_location.setName("cmb_location"); // NOI18N
@@ -88,30 +93,30 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
-        jXPanel1.setLayout(jXPanel1Layout);
-        jXPanel1Layout.setHorizontalGroup(
-            jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout subpanel_locationLayout = new javax.swing.GroupLayout(subpanel_location);
+        subpanel_location.setLayout(subpanel_locationLayout);
+        subpanel_locationLayout.setHorizontalGroup(
+            subpanel_locationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_locationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_location, 0, 325, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jXPanel1Layout.setVerticalGroup(
-            jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel1Layout.createSequentialGroup()
+        subpanel_locationLayout.setVerticalGroup(
+            subpanel_locationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_locationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jButton2.setText("Apply these settings");
-        jButton2.setName("btn_applySessionSettings"); // NOI18N
-        jButton2.setPreferredSize(new java.awt.Dimension(260, 29));
+        btn_applySessionSettings.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        btn_applySessionSettings.setText("Apply these settings");
+        btn_applySessionSettings.setName("btn_applySessionSettings"); // NOI18N
+        btn_applySessionSettings.setPreferredSize(new java.awt.Dimension(260, 29));
 
-        jXPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jXPanel2.setPreferredSize(new java.awt.Dimension(334, 100));
+        subpanel_dateTime.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subpanel_dateTime.setPreferredSize(new java.awt.Dimension(334, 100));
 
         jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel20.setText("Date and time");
@@ -141,27 +146,27 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         cmb_endTime.setSelectedIndex(3);
         cmb_endTime.setName("cmb_endTime"); // NOI18N
 
-        javax.swing.GroupLayout jXPanel2Layout = new javax.swing.GroupLayout(jXPanel2);
-        jXPanel2.setLayout(jXPanel2Layout);
-        jXPanel2Layout.setHorizontalGroup(
-            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout subpanel_dateTimeLayout = new javax.swing.GroupLayout(subpanel_dateTime);
+        subpanel_dateTime.setLayout(subpanel_dateTimeLayout);
+        subpanel_dateTimeLayout.setHorizontalGroup(
+            subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_dateTimeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(subpanel_dateTimeLayout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_dateTimeLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jXPanel2Layout.createSequentialGroup()
-                                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(subpanel_dateTimeLayout.createSequentialGroup()
+                                .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(date_picker, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                                    .addGroup(subpanel_dateTimeLayout.createSequentialGroup()
                                         .addComponent(cmb_startTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(2, 2, 2)
                                         .addComponent(jLabel4)
@@ -170,17 +175,17 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                             .addComponent(btn_SetToTwilightTime1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28))))
         );
-        jXPanel2Layout.setVerticalGroup(
-            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel2Layout.createSequentialGroup()
+        subpanel_dateTimeLayout.setVerticalGroup(
+            subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_dateTimeLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel20)
                 .addGap(10, 10, 10)
-                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(date_picker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_dateTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_startTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(cmb_endTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,8 +195,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jXPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jXPanel3.setPreferredSize(new java.awt.Dimension(334, 161));
+        subpanel_telescopeAngles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subpanel_telescopeAngles.setPreferredSize(new java.awt.Dimension(334, 161));
 
         jLabel11.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel11.setText("Telescope Angles");
@@ -218,51 +223,51 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         btn_SetToTwilightTime.setText("Set to 5º above the horizon");
         btn_SetToTwilightTime.setName("btn_SetToTwilightTime"); // NOI18N
 
-        javax.swing.GroupLayout jXPanel3Layout = new javax.swing.GroupLayout(jXPanel3);
-        jXPanel3.setLayout(jXPanel3Layout);
-        jXPanel3Layout.setHorizontalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout subpanel_telescopeAnglesLayout = new javax.swing.GroupLayout(subpanel_telescopeAngles);
+        subpanel_telescopeAngles.setLayout(subpanel_telescopeAnglesLayout);
+        subpanel_telescopeAnglesLayout.setHorizontalGroup(
+            subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jXPanel3Layout.createSequentialGroup()
-                        .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
+                        .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jXPanel3Layout.createSequentialGroup()
+                        .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
                                 .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jXPanel3Layout.createSequentialGroup()
+                            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
                                 .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_telescopeAnglesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_SetToTwilightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
-        jXPanel3Layout.setVerticalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel3Layout.createSequentialGroup()
+        subpanel_telescopeAnglesLayout.setVerticalGroup(
+            subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel11)
                 .addGap(10, 10, 10)
-                .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,8 +277,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGap(4, 4, 4))
         );
 
-        jXPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jXPanel4.setPreferredSize(new java.awt.Dimension(334, 153));
+        subpanel_filterSugestions.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subpanel_filterSugestions.setPreferredSize(new java.awt.Dimension(334, 153));
 
         jLabel17.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel17.setText("Filter sugestions by");
@@ -302,7 +307,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Lim. Magnitude:");
 
-        spin_limitingMagnitude.setModel(new javax.swing.SpinnerNumberModel(15, -27, 22, 1));
+        spin_limitingMagnitude.setModel(new javax.swing.SpinnerNumberModel(15, -27, 23, 1));
         spin_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
         spin_limitingMagnitude.setName("spin_limitingMagnitude"); // NOI18N
         spin_limitingMagnitude.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -330,44 +335,44 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jXPanel4Layout = new javax.swing.GroupLayout(jXPanel4);
-        jXPanel4.setLayout(jXPanel4Layout);
-        jXPanel4Layout.setHorizontalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel4Layout.createSequentialGroup()
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel4Layout.createSequentialGroup()
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jXPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout subpanel_filterSugestionsLayout = new javax.swing.GroupLayout(subpanel_filterSugestions);
+        subpanel_filterSugestions.setLayout(subpanel_filterSugestionsLayout);
+        subpanel_filterSugestionsLayout.setHorizontalGroup(
+            subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
+                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
+                        .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jXPanel4Layout.createSequentialGroup()
+                            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addGap(85, 85, 85)
                                 .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jXPanel4Layout.createSequentialGroup()
+                    .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
                             .addComponent(cmb_limitingMagnitude, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(15, 15, 15))
         );
-        jXPanel4Layout.setVerticalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel4Layout.createSequentialGroup()
+        subpanel_filterSugestionsLayout.setVerticalGroup(
+            subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel17)
                 .addGap(5, 5, 5)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -375,14 +380,14 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmb_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -393,26 +398,26 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(leftPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(subpanel_location, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(leftPanelLayout.createSequentialGroup()
                         .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(leftPanelLayout.createSequentialGroup()
                                 .addGap(39, 39, 39)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_applySessionSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(leftPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(leftPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(subpanel_dateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(leftPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(subpanel_telescopeAngles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 4, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subpanel_filterSugestions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftPanelLayout.setVerticalGroup(
@@ -421,15 +426,15 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subpanel_location, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subpanel_dateTime, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subpanel_telescopeAngles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subpanel_filterSugestions, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_applySessionSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -471,12 +476,12 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToTwilightTime;
     private javax.swing.JButton btn_SetToTwilightTime1;
+    private javax.swing.JButton btn_applySessionSettings;
     private javax.swing.JComboBox<String> cmb_endTime;
     private javax.swing.JComboBox<String> cmb_limitingMagnitude;
     private javax.swing.JComboBox<String> cmb_location;
     private javax.swing.JComboBox<String> cmb_startTime;
     private org.jdesktop.swingx.JXDatePicker date_picker;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel10;
@@ -493,10 +498,6 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
-    private org.jdesktop.swingx.JXPanel jXPanel1;
-    private org.jdesktop.swingx.JXPanel jXPanel2;
-    private org.jdesktop.swingx.JXPanel jXPanel3;
-    private org.jdesktop.swingx.JXPanel jXPanel4;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private javax.swing.JSlider slider_limitingMagnitude;
     private javax.swing.JSpinner spin_altEnd;
@@ -504,5 +505,9 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JSpinner spin_azEnd;
     private javax.swing.JSpinner spin_azStart;
     private javax.swing.JSpinner spin_limitingMagnitude;
+    private org.jdesktop.swingx.JXPanel subpanel_dateTime;
+    private org.jdesktop.swingx.JXPanel subpanel_filterSugestions;
+    private org.jdesktop.swingx.JXPanel subpanel_location;
+    private org.jdesktop.swingx.JXPanel subpanel_telescopeAngles;
     // End of variables declaration//GEN-END:variables
 }

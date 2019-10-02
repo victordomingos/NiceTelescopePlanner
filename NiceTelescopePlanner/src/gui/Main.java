@@ -37,6 +37,7 @@ public class Main extends javax.swing.JFrame {
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
         
+        
     }
 
     /**
