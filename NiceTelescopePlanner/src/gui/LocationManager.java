@@ -12,6 +12,7 @@ import jparsec.observer.City;
 import jparsec.observer.CityElement;
 
 import jparsec.observer.Country;
+import jparsec.observer.Country.COUNTRY;
 import jparsec.util.JPARSECException;
 
 /**
@@ -219,9 +220,9 @@ public class LocationManager extends javax.swing.JFrame {
         cmb_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select city" }));
 
         cmb_country.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select country" }));
-        cmb_country.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_countryActionPerformed(evt);
+        cmb_country.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_countryItemStateChanged(evt);
             }
         });
 
@@ -420,9 +421,31 @@ public class LocationManager extends javax.swing.JFrame {
         this.btn_locationDetails.setText(btn_text);
     }//GEN-LAST:event_btn_locationDetailsActionPerformed
 
-    private void cmb_countryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_countryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmb_countryActionPerformed
+    private void cmb_countryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_countryItemStateChanged
+        String selectedCountry = cmb_country.getSelectedItem().toString();
+        
+        try {
+            COUNTRY scountry = Country.getID(selectedCountry);
+            CityElement[] cities = City.getCities(scountry);
+            System.out.println(cities);
+            System.out.println(cities.length);
+            ArrayList<String> cities_strarr = new ArrayList<>();
+            
+            for (CityElement c : cities) {
+                cities_strarr.add(c.name);
+            } 
+            
+            Collections.sort(cities_strarr);
+            cmb_city.removeAllItems();
+            
+            for (String city : cities_strarr) {
+                cmb_city.addItem(city);
+            } 
+        }    
+        catch (JPARSECException e) {
+                System.out.println(e);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_countryItemStateChanged
 
     /**
      * @param args the command line arguments
