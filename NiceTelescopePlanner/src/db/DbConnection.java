@@ -115,7 +115,13 @@ public class DbConnection {
         }
     }
     
-    
+    public int insertOrUpdateLocation(int locId, String name, String latitude,
+                String longitude, int height, String address, String timezone){
+        // TODO...
+        String ssql = "INSERT INTO location";
+                
+        return updateData(ssql);
+    }
     
     
     

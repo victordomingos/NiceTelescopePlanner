@@ -5,18 +5,22 @@
  */
 package gui;
 
-import core.Location;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static javax.swing.JOptionPane.showMessageDialog;
+        
 import jparsec.math.Constant;
 import jparsec.observer.City;
 import jparsec.observer.CityElement;
-
 import jparsec.observer.Country;
 import jparsec.observer.Country.COUNTRY;
 import jparsec.observer.LocationElement;
 import jparsec.util.JPARSECException;
+
+import core.Location;
 
 /**
  *
@@ -24,17 +28,31 @@ import jparsec.util.JPARSECException;
  */
 public class LocationManager extends javax.swing.JFrame {
     private final db.DbConnection mydb = new db.DbConnection();
+    // -1 means form empty or editing a new session; 
+    // Any other number means the db ID of an existing location being edited/shown.
+    private int curLocationBeingEdited = -1;
+   
     /**
      * Creates new form Sessions
      */
     public LocationManager() {
         initComponents();
         
+        if(table.getRowCount() == 0){
+            this.centerBottomPanel.setVisible(true);
+            this.btn_locationDetails.setSelected(true);
+        }
+        else {
+            this.centerBottomPanel.setVisible(false);
+            this.btn_locationDetails.setSelected(false);
+        }
         
-        this.centerBottomPanel.setVisible(false);
-        this.subpanel_enterAddress.setVisible(false);
-        this.btn_locationDetails.setSelected(false);
+        String btn_text = this.btn_locationDetails.isSelected()? "Hide Location Details": "Show Location Details";
+        this.btn_locationDetails.setText(btn_text);
         
+        this.subpanel_enterAddress.setVisible(false); // Rescheduled to a future release
+        this.img_map.setVisible(false);               // Rescheduled to a future release
+                
         initCombos();
     }
     
@@ -121,6 +139,11 @@ public class LocationManager extends javax.swing.JFrame {
         btn_newLocation.setMaximumSize(new java.awt.Dimension(400, 32));
         btn_newLocation.setMinimumSize(new java.awt.Dimension(100, 32));
         btn_newLocation.setPreferredSize(new java.awt.Dimension(200, 32));
+        btn_newLocation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newLocationActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_newLocation);
 
         btn_editSelectedLocation.setText("Edit Selected");
@@ -144,19 +167,17 @@ public class LocationManager extends javax.swing.JFrame {
         table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Name", "Address", "Latitude", "Longitude", "Altitude"
+                "Location name", "Latitude", "Longitude", "Altitude"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -176,7 +197,7 @@ public class LocationManager extends javax.swing.JFrame {
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(30);
-            table.getColumnModel().getColumn(4).setPreferredWidth(25);
+            table.getColumnModel().getColumn(3).setPreferredWidth(25);
         }
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
@@ -188,7 +209,7 @@ public class LocationManager extends javax.swing.JFrame {
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -223,6 +244,8 @@ public class LocationManager extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jXPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jXPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pick a City"));
 
         cmb_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select city" }));
@@ -246,14 +269,14 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(jXPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmb_city, 0, 169, Short.MAX_VALUE)
-                    .addComponent(cmb_country, 0, 169, Short.MAX_VALUE))
+                    .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jXPanel3Layout.setVerticalGroup(
             jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,19 +308,16 @@ public class LocationManager extends javax.swing.JFrame {
                         .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_longitude, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(txt_height)))
+                        .addGap(21, 21, 21)
+                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_latitude)))
+                        .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        jXPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_latitude, txt_longitude});
-
         jXPanel4Layout.setVerticalGroup(
             jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
@@ -324,7 +344,7 @@ public class LocationManager extends javax.swing.JFrame {
             subpanel_enterAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(txt_address)
                 .addContainerGap())
         );
         subpanel_enterAddressLayout.setVerticalGroup(
@@ -332,7 +352,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         btn_saveLocation.setText("Save Location");
@@ -342,33 +362,37 @@ public class LocationManager extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Choose one of these methods (GPS coordinates will provide results that are more precise).");
+
         javax.swing.GroupLayout jXPanel6Layout = new javax.swing.GroupLayout(jXPanel6);
         jXPanel6.setLayout(jXPanel6Layout);
         jXPanel6Layout.setHorizontalGroup(
             jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_saveLocation)
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_saveLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jXPanel6Layout.setVerticalGroup(
             jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
-                .addGap(0, 7, Short.MAX_VALUE)
-                .addComponent(btn_saveLocation))
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addGroup(jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_saveLocation)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
-
-        jLabel3.setText("Choose one of these 2 methods. GPS coordinates should be the best option, when possible.");
 
         javax.swing.GroupLayout img_mapLayout = new javax.swing.GroupLayout(img_map);
         img_map.setLayout(img_mapLayout);
         img_mapLayout.setHorizontalGroup(
             img_mapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         img_mapLayout.setVerticalGroup(
             img_mapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 132, Short.MAX_VALUE)
+            .addGap(0, 139, Short.MAX_VALUE)
         );
 
         jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -385,28 +409,24 @@ public class LocationManager extends javax.swing.JFrame {
                 .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jXPanel2Layout.createSequentialGroup()
-                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(jXPanel2Layout.createSequentialGroup()
-                                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(img_map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(img_map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jXPanel2Layout.setVerticalGroup(
             jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -426,11 +446,13 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(centerBottomPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
+                .addContainerGap())
         );
         centerBottomPanelLayout.setVerticalGroup(
             centerBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jXPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerBottomPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -440,7 +462,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(centerBottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(centerBottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,13 +529,11 @@ public class LocationManager extends javax.swing.JFrame {
             // TODO: 
             // We definitely should add a clear way to choose between multiple 
             // cities in case they happen to have the same name, but for now, 
-            // for the sake of a faster MVP release, let's present the user with
-            // a single, quick result…
+            // for the sake of a faster MVP release, let's just present the user 
+            // with a single, quick result…
             
             if (cmb_country.getSelectedIndex() >= 1) {
-                
-                // Not forgetting that we have a "Select country" item in the combo box.
-                
+                // Not forgetting "Select country" is item #0 in the combo box.
                 String selectedCountry = cmb_country.getSelectedItem().toString();
                 COUNTRY countryID = Country.getID(selectedCountry);
                 
@@ -534,31 +554,118 @@ public class LocationManager extends javax.swing.JFrame {
             txt_latitude.setText(df.format(lat));
             txt_longitude.setText(df.format(lon));
             // TODO: See if we can provide a better default value here.
-            txt_height.setText("0");  
+            txt_height.setText("200");  
+            
+            System.out.print("selected city: ");
+            System.out.print(selectedCity);
+            System.out.println("lat:" + lat);
+            System.out.println("lon:" + lon);
             
         }
         catch (JPARSECException e) {
-            System.out.println("excecao!!");
             System.out.println(e);
         }
     }//GEN-LAST:event_cmb_cityItemStateChanged
 
     private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
+        Integer locId;
+        String locName;
+        String locTz;
+        Double latitude, longitude;
+        int height = 200;
+        
+        if (this.curLocationBeingEdited == -1){
+            locId = null;
+        }
+        else {
+            locId = this.curLocationBeingEdited;
+        }
+       
+                
         // Verify if there are valid GPS coordinates in their fields.
         
-        // Display a confirmation messabox displaying the data that is about to
+        if(txt_latitude.getText().isEmpty()){
+            // msgbox?
+            return;
+        }
+        else{
+            try {
+                latitude = Double.parseDouble(txt_latitude.getText());
+            } catch (NumberFormatException e) {
+                //msgbox?
+                return;
+            }
+        }
+        
+        
+        if(txt_longitude.getText().isEmpty()){
+            // msgbox?
+            return;
+        }
+        else{
+            try {
+                longitude = Double.parseDouble(txt_longitude.getText());    
+            } catch (NumberFormatException e) {
+                //msgbox?
+                return;
+            }
+            
+        }    
+        
+        
+        if(txt_height.getText().isEmpty()){
+            height = 200;
+        }
+        else{
+            try {
+                height = Integer.parseInt(txt_height.getText());
+            } catch (NumberFormatException e) {
+                showMessageDialog(null, 
+                        "Please enter an integer number (height in meters above the sea level) in the Altitude field.");
+                return;
+            }
+            
+        }
+        
+        
+        // Display a confirmation messagebox displaying the data that is about to
         // be saved and and a text field to enter a name for the new observatory.
         // Present an option to create a new session using this location.
                    
         // Save to the database
+//        db.DbConnection.insertOrUpdateLocation(locId, LocName, txt_latitude.getText(),
+//                txt_longitude.getText(), txt_height.getText(), txt_address.getText(), locTz);
+        
         
         // Update the table
         
+
         // Hide the bottom panel
         this.btn_locationDetails.setSelected(false);
         this.centerBottomPanel.setVisible(false);
         this.btn_locationDetails.setText("Show Location Details");
     }//GEN-LAST:event_btn_saveLocationActionPerformed
+
+    private void btn_newLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newLocationActionPerformed
+        this.centerBottomPanel.setVisible((true));
+        this.btn_locationDetails.setSelected(true);
+        this.btn_locationDetails.setText("Hide Location Details");
+
+        if (curLocationBeingEdited > 0) {
+            //messagebox already editing an existing location, do you want to start over?
+        } else if (cmb_country.getSelectedIndex() > 0
+                || cmb_city.getSelectedIndex() > 0
+                || txt_latitude.getText() != ""
+                || txt_longitude.getText() != ""
+                || txt_height.getText() != ""
+                || txt_address.getText() != "") {
+            //messagebox already editing an new location, do you want to start over?
+            }
+        else {
+
+        }
+            
+    }//GEN-LAST:event_btn_newLocationActionPerformed
 
     /**
      * @param args the command line arguments
