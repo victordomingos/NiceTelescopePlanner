@@ -1,8 +1,8 @@
 .DS_Store
-*/nbproject/private/private.properties
-**/nbproject/private/
-**/nbproject/Makefile-*.mk
-**/nbproject/Package-*.bash
+/NiceTelescopePlanner/nbproject/private/private.properties
+*/nbproject/private/
+*/nbproject/Makefile-*.mk
+*/nbproject/Package-*.bash
 build/
 nbbuild/
 dist/
