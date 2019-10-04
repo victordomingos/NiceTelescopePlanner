@@ -5,13 +5,10 @@
  */
 package gui;
 
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-        
 import jparsec.math.Constant;
 import jparsec.observer.City;
 import jparsec.observer.CityElement;
@@ -21,68 +18,69 @@ import jparsec.observer.LocationElement;
 import jparsec.util.JPARSECException;
 
 import core.Location;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author victordomingos
  */
+           
 public class LocationManager extends javax.swing.JFrame {
+
     private final db.DbConnection mydb = new db.DbConnection();
     // -1 means form empty or editing a new session; 
     // Any other number means the db ID of an existing location being edited/shown.
     private int curLocationBeingEdited = -1;
-   
+    
     /**
      * Creates new form Sessions
      */
     public LocationManager() {
         initComponents();
-        
-        if(table.getRowCount() == 0){
+
+        if (table.getRowCount() == 0) {
             this.centerBottomPanel.setVisible(true);
             this.btn_locationDetails.setSelected(true);
-        }
-        else {
+        } else {
             this.centerBottomPanel.setVisible(false);
             this.btn_locationDetails.setSelected(false);
         }
-        
-        String btn_text = this.btn_locationDetails.isSelected()? "Hide Location Details": "Show Location Details";
+
+        String btn_text = this.btn_locationDetails.isSelected() ? "Hide Location Details" : "Show Location Details";
         this.btn_locationDetails.setText(btn_text);
-        
+
         this.subpanel_enterAddress.setVisible(false); // Rescheduled to a future release
         this.img_map.setVisible(false);               // Rescheduled to a future release
-                
+
         initCombos();
     }
-    
+
     private void updateTable() {
         ArrayList<Location> locations = mydb.getAllLocations();
     }
-    
-    private void initCombos(){
-        for (Country.COUNTRY c: Country.COUNTRY.values()) {
+
+    private void initCombos() {
+        for (Country.COUNTRY c : Country.COUNTRY.values()) {
             cmb_country.addItem(c.toString());
         }
-        
+
         try {
             CityElement[] cities = City.getAllCities();
             ArrayList<String> cities_names = new ArrayList<>();
-            
+
             for (CityElement c : cities) {
                 cities_names.add(c.name);
-            } 
-            
+            }
+
             Collections.sort(cities_names);
 
             for (String city : cities_names) {
                 cmb_city.addItem(city);
-            } 
-        }    
-        catch (JPARSECException e) {
-                System.out.println(e);
+            }
+        } catch (JPARSECException e) {
+            System.out.println(e);
         }
-        
+
     }
 
     /**
@@ -109,12 +107,12 @@ public class LocationManager extends javax.swing.JFrame {
         cmb_city = new javax.swing.JComboBox<>();
         cmb_country = new javax.swing.JComboBox<>();
         jXPanel4 = new org.jdesktop.swingx.JXPanel();
-        txt_latitude = new javax.swing.JTextField();
-        txt_longitude = new javax.swing.JTextField();
-        txt_height = new javax.swing.JTextField();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        txt_latitude = new javax.swing.JFormattedTextField();
+        txt_longitude = new javax.swing.JFormattedTextField();
+        txt_height = new javax.swing.JFormattedTextField();
         subpanel_enterAddress = new org.jdesktop.swingx.JXPanel();
         txt_address = new javax.swing.JTextField();
         jXPanel6 = new org.jdesktop.swingx.JXPanel();
@@ -209,7 +207,7 @@ public class LocationManager extends javax.swing.JFrame {
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -275,27 +273,33 @@ public class LocationManager extends javax.swing.JFrame {
         );
         jXPanel3Layout.setVerticalGroup(
             jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+            .addGroup(jXPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jXPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter GPS coords"));
-
-        txt_latitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        txt_longitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        txt_height.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jXLabel1.setText("Latitude ");
 
         jXLabel2.setText("Longitude ");
 
         jXLabel3.setText("Altitude (m)");
+
+        txt_latitude.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txt_latitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_latitude.setToolTipText("Please enter latitude in degrees (decimal value).");
+
+        txt_longitude.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.######"))));
+        txt_longitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_longitude.setToolTipText("Please enter latitude in degrees (decimal value).");
+
+        txt_height.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txt_height.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_height.setToolTipText("Please enter latitude in degrees (decimal value).");
 
         javax.swing.GroupLayout jXPanel4Layout = new javax.swing.GroupLayout(jXPanel4);
         jXPanel4.setLayout(jXPanel4Layout);
@@ -304,36 +308,39 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(jXPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
-                        .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
+                    .addGroup(jXPanel4Layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jXPanel4Layout.createSequentialGroup()
+                        .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jXPanel4Layout.createSequentialGroup()
+                        .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        jXPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_height, txt_latitude, txt_longitude});
+
         jXPanel4Layout.setVerticalGroup(
             jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6))
         );
 
         subpanel_enterAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter an address"));
@@ -344,7 +351,7 @@ public class LocationManager extends javax.swing.JFrame {
             subpanel_enterAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txt_address)
+                .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addContainerGap())
         );
         subpanel_enterAddressLayout.setVerticalGroup(
@@ -352,7 +359,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         btn_saveLocation.setText("Save Location");
@@ -392,7 +399,7 @@ public class LocationManager extends javax.swing.JFrame {
         );
         img_mapLayout.setVerticalGroup(
             img_mapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 139, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -415,29 +422,34 @@ public class LocationManager extends javax.swing.JFrame {
                         .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(img_map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        jXPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jXPanel3, jXPanel4});
+
         jXPanel2Layout.setVerticalGroup(
             jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(img_map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(img_map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
 
-        jXPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {img_map, jXPanel3, jXPanel4, subpanel_enterAddress});
+        jXPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jXPanel3, jXPanel4, subpanel_enterAddress});
 
         javax.swing.GroupLayout centerBottomPanelLayout = new javax.swing.GroupLayout(centerBottomPanel);
         centerBottomPanel.setLayout(centerBottomPanelLayout);
@@ -481,62 +493,60 @@ public class LocationManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_locationDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locationDetailsActionPerformed
-        String btn_text = this.btn_locationDetails.isSelected()? "Hide Location Details": "Show Location Details";
+        String btn_text = this.btn_locationDetails.isSelected() ? "Hide Location Details" : "Show Location Details";
         this.centerBottomPanel.setVisible(this.btn_locationDetails.isSelected());
         this.btn_locationDetails.setText(btn_text);
     }//GEN-LAST:event_btn_locationDetailsActionPerformed
 
     private void cmb_countryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_countryItemStateChanged
-        if(cmb_country.getSelectedIndex() < 1){ 
+        if (cmb_country.getSelectedIndex() < 1) {
             return;
         }
-        
+
         String selectedCountry = cmb_country.getSelectedItem().toString();
-        
+
         try {
             COUNTRY countryID = Country.getID(selectedCountry);
             CityElement[] cities = City.getCities(countryID);
-           
+
             ArrayList<String> cities_names = new ArrayList<>();
-            
+
             for (CityElement c : cities) {
                 cities_names.add(c.name);
-            } 
-            
+            }
+
             Collections.sort(cities_names);
             cmb_city.removeAllItems();
             cmb_city.addItem("Select city");
             for (String city : cities_names) {
                 cmb_city.addItem(city);
-            } 
-        }    
-        catch (JPARSECException e) {
-                System.out.println(e);
+            }
+        } catch (JPARSECException e) {
+            System.out.println(e);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_cmb_countryItemStateChanged
 
     private void cmb_cityItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_cityItemStateChanged
         // Not forgetting that we have a "Select city" item in the combo box.
-        if(cmb_city.getSelectedIndex() < 1){ 
+        if (cmb_city.getSelectedIndex() < 1) {
             return;
         }
-        CityElement realCity = null;    
+        CityElement realCity = null;
         String selectedCity = cmb_city.getSelectedItem().toString();
-        
+
         try {
             CityElement[] cities = City.getCities(selectedCity);
-            
+
             // TODO: 
             // We definitely should add a clear way to choose between multiple 
             // cities in case they happen to have the same name, but for now, 
             // for the sake of a faster MVP release, let's just present the user 
             // with a single, quick result…
-            
             if (cmb_country.getSelectedIndex() >= 1) {
                 // Not forgetting "Select country" is item #0 in the combo box.
                 String selectedCountry = cmb_country.getSelectedItem().toString();
                 COUNTRY countryID = Country.getID(selectedCountry);
-                
+
                 realCity = cities[0];
                 // Make sure the city is at least in the same country...
                 for (int i = 0; i < cities.length && realCity != null; i++) {
@@ -545,24 +555,23 @@ public class LocationManager extends javax.swing.JFrame {
                     }
                 }
             }
-            
+
             LocationElement loc = LocationElement.parseCity(realCity);
             Double lat = Constant.RAD_TO_DEG * loc.getLatitude();
             Double lon = Constant.RAD_TO_DEG * loc.getLongitude();
-            
+
             DecimalFormat df = new DecimalFormat("###0.00000");
             txt_latitude.setText(df.format(lat));
             txt_longitude.setText(df.format(lon));
             // TODO: See if we can provide a better default value here.
-            txt_height.setText("200");  
-            
+            txt_height.setText("200");
+
             System.out.print("selected city: ");
             System.out.print(selectedCity);
             System.out.println("lat:" + lat);
             System.out.println("lon:" + lon);
-            
-        }
-        catch (JPARSECException e) {
+
+        } catch (JPARSECException e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_cmb_cityItemStateChanged
@@ -573,74 +582,58 @@ public class LocationManager extends javax.swing.JFrame {
         String locTz;
         Double latitude, longitude;
         int height = 200;
-        
-        if (this.curLocationBeingEdited == -1){
-            locId = null;
+
+
+        // Verify if there are valid GPS coordinates in their fields.
+        if (txt_latitude.getText().isEmpty()) {
+            String msg = "Please specifiy latitude as a number, in degrees.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
+                    JOptionPane.WARNING_MESSAGE);
+            txt_latitude.requestFocusInWindow();
+            return;
+        } else {
+            latitude = Constant.DEG_TO_RAD * Double.parseDouble(
+                    txt_latitude.getText().replace(',', '.'));
         }
-        else {
+
+        if (txt_longitude.getText().isEmpty()) {
+            String msg = "Please specifiy longitude as a number, in degrees.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
+                    JOptionPane.WARNING_MESSAGE);
+            txt_longitude.requestFocusInWindow();
+            return;
+        } else {
+            longitude = Constant.DEG_TO_RAD * Double.parseDouble(
+                    txt_longitude.getText().replace(',', '.'));
+        }
+
+        if (txt_height.getText().isEmpty()) {
+            String msg = "Please enter an integer number (height in meters "
+                    + "above the sea level) in the Altitude field.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
+                    JOptionPane.WARNING_MESSAGE);
+            txt_height.requestFocusInWindow();
+            return;
+        } else {
+            height = Integer.parseInt(txt_height.getText());
+        }
+
+        
+        
+        if (this.curLocationBeingEdited == -1) {
+            locId = null;
+        } else {
             locId = this.curLocationBeingEdited;
         }
-       
-                
-        // Verify if there are valid GPS coordinates in their fields.
-        
-        if(txt_latitude.getText().isEmpty()){
-            // msgbox?
-            return;
-        }
-        else{
-            try {
-                latitude = Double.parseDouble(txt_latitude.getText());
-            } catch (NumberFormatException e) {
-                //msgbox?
-                return;
-            }
-        }
-        
-        
-        if(txt_longitude.getText().isEmpty()){
-            // msgbox?
-            return;
-        }
-        else{
-            try {
-                longitude = Double.parseDouble(txt_longitude.getText());    
-            } catch (NumberFormatException e) {
-                //msgbox?
-                return;
-            }
-            
-        }    
-        
-        
-        if(txt_height.getText().isEmpty()){
-            height = 200;
-        }
-        else{
-            try {
-                height = Integer.parseInt(txt_height.getText());
-            } catch (NumberFormatException e) {
-                showMessageDialog(null, 
-                        "Please enter an integer number (height in meters above the sea level) in the Altitude field.");
-                return;
-            }
-            
-        }
-        
-        
         // Display a confirmation messagebox displaying the data that is about to
         // be saved and and a text field to enter a name for the new observatory.
         // Present an option to create a new session using this location.
-                   
         // Save to the database
 //        db.DbConnection.insertOrUpdateLocation(locId, LocName, txt_latitude.getText(),
 //                txt_longitude.getText(), txt_height.getText(), txt_address.getText(), locTz);
-        
-        
         // Update the table
-        
-
         // Hide the bottom panel
+        this.clearBottomPanel();
         this.btn_locationDetails.setSelected(false);
         this.centerBottomPanel.setVisible(false);
         this.btn_locationDetails.setText("Show Location Details");
@@ -652,21 +645,46 @@ public class LocationManager extends javax.swing.JFrame {
         this.btn_locationDetails.setText("Hide Location Details");
 
         if (curLocationBeingEdited > 0) {
-            //messagebox already editing an existing location, do you want to start over?
-        } else if (cmb_country.getSelectedIndex() > 0
-                || cmb_city.getSelectedIndex() > 0
-                || txt_latitude.getText() != ""
-                || txt_longitude.getText() != ""
-                || txt_height.getText() != ""
-                || txt_address.getText() != "") {
-            //messagebox already editing an new location, do you want to start over?
-            }
-        else {
-
-        }
+            String msg = "You were already editing an existing location. \n"
+                    + "Do you prefer to keep editing or to start over \n"
+                    + "with an empty form?";
             
+            String[] options = {"Keep Editing", "Start Over"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question", 
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                clearBottomPanel();
+                curLocationBeingEdited = -1;
+            }
+            
+        } else if (isBotomPanelEmpty()) {
+            String msg = "You were already editing a new location. \n"
+                    + "Do you prefer to keep editing or to start over \n"
+                    + "with an empty form?";
+            
+            String[] options = {"Keep Editing", "Start Over"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question", 
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                clearBottomPanel();
+                curLocationBeingEdited = -1;
+            }
+        }
+
     }//GEN-LAST:event_btn_newLocationActionPerformed
 
+    private boolean isBotomPanelEmpty()
+    {
+        return cmb_country.getSelectedIndex() > 0
+                || cmb_city.getSelectedIndex() > 0
+                || !txt_latitude.getText().isEmpty()
+                || !txt_longitude.getText().isEmpty()
+                || !txt_height.getText().isEmpty()
+                || !txt_address.getText().trim().isEmpty();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -728,8 +746,17 @@ public class LocationManager extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel subpanel_enterAddress;
     private javax.swing.JTable table;
     private javax.swing.JTextField txt_address;
-    private javax.swing.JTextField txt_height;
-    private javax.swing.JTextField txt_latitude;
-    private javax.swing.JTextField txt_longitude;
+    private javax.swing.JFormattedTextField txt_height;
+    private javax.swing.JFormattedTextField txt_latitude;
+    private javax.swing.JFormattedTextField txt_longitude;
     // End of variables declaration//GEN-END:variables
+
+    private void clearBottomPanel() {
+        cmb_country.setSelectedIndex(0);
+        cmb_city.setSelectedIndex(0);
+        txt_latitude.setText("");
+        txt_longitude.setText("");
+        txt_height.setText("");
+        txt_address.setText("");
+    }
 }

@@ -17,6 +17,8 @@ public class Constants {
             "NGC6533", "NGC6611", "NGC6618", "NGC6656", "NGC6720", "NGC6853", 
             "NGC7089", 
     };
+    
+    //public static final 
 //    
 //    public static final DEFAULT_LOCATION = {
 //        'latitude': 41.55926513671875,
