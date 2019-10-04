@@ -5,6 +5,8 @@
         <group>
             <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/Main.java</file>
             <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/LocationManager.java</file>
+            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/db/DbConnection.java</file>
+            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/db/Config.java</file>
             <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/core/Constants.java</file>
         </group>
     </open-files>

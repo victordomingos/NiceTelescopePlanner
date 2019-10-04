@@ -16,10 +16,21 @@ import jparsec.observer.Country;
 import jparsec.observer.Country.COUNTRY;
 import jparsec.observer.LocationElement;
 import jparsec.util.JPARSECException;
+import jparsec.observer.ObserverElement;
 
-import core.Location;
 import javax.swing.JOptionPane;
 
+import core.Location;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author victordomingos
@@ -118,6 +129,7 @@ public class LocationManager extends javax.swing.JFrame {
         jXPanel6 = new org.jdesktop.swingx.JXPanel();
         btn_saveLocation = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         img_map = new org.jdesktop.swingx.JXImageView();
         jLabel21 = new javax.swing.JLabel();
 
@@ -371,15 +383,24 @@ public class LocationManager extends javax.swing.JFrame {
 
         jLabel3.setText("Choose one of these methods (GPS coordinates will provide results that are more precise).");
 
+        jButton1.setText("Detect by IP");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel6Layout = new javax.swing.GroupLayout(jXPanel6);
         jXPanel6.setLayout(jXPanel6Layout);
         jXPanel6Layout.setHorizontalGroup(
             jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_saveLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_saveLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jXPanel6Layout.setVerticalGroup(
@@ -388,7 +409,8 @@ public class LocationManager extends javax.swing.JFrame {
                 .addGap(0, 6, Short.MAX_VALUE)
                 .addGroup(jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_saveLocation)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)))
         );
 
         javax.swing.GroupLayout img_mapLayout = new javax.swing.GroupLayout(img_map);
@@ -583,7 +605,6 @@ public class LocationManager extends javax.swing.JFrame {
         Double latitude, longitude;
         int height = 200;
 
-
         // Verify if there are valid GPS coordinates in their fields.
         if (txt_latitude.getText().isEmpty()) {
             String msg = "Please specifiy latitude as a number, in degrees.";
@@ -625,6 +646,9 @@ public class LocationManager extends javax.swing.JFrame {
         } else {
             locId = this.curLocationBeingEdited;
         }
+        
+        
+        
         // Display a confirmation messagebox displaying the data that is about to
         // be saved and and a text field to enter a name for the new observatory.
         // Present an option to create a new session using this location.
@@ -675,7 +699,48 @@ public class LocationManager extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_newLocationActionPerformed
 
-    private boolean isBotomPanelEmpty()
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String ipErrorMsg = "We were not able to get GPS coordinates from your current IP address. \n"
+                + "Please select enter your coordinates manually or choose country/city.\n\n";
+        String line;
+        
+        try {
+            // Get current GPS coordinates from current outbound IP address
+            // by parsing the JSON response from IP-API.
+            URL url = new URL("http://ip-api.com/json/?fields=country,lat,lon,timezone,query");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(2000);
+            con.setReadTimeout(2000);
+            
+            BufferedReader inBuf = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            
+            StringBuilder content = new StringBuilder();
+            while ((line = inBuf.readLine()) != null) {
+                content.append(line);
+            }
+            inBuf.close();
+            con.disconnect();
+            
+            // TODO: parse JSON `content` variable to extract lat/lon/country/timezone
+            
+            
+            
+            JOptionPane.showMessageDialog(this, content , "Response", 
+                    JOptionPane.WARNING_MESSAGE);
+            
+        } catch (IOException ex) {
+            ipErrorMsg += ex.getMessage().replace(": ", "\n");
+            JOptionPane.showMessageDialog(this, ipErrorMsg , "Missing parameter", 
+                    JOptionPane.WARNING_MESSAGE);
+            txt_longitude.requestFocusInWindow();
+        }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public boolean isBotomPanelEmpty()
     {
         return cmb_country.getSelectedIndex() > 0
                 || cmb_city.getSelectedIndex() > 0
@@ -731,6 +796,7 @@ public class LocationManager extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_city;
     private javax.swing.JComboBox<String> cmb_country;
     private org.jdesktop.swingx.JXImageView img_map;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;

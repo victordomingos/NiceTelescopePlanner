@@ -11,3 +11,4 @@ This application integrates a few useful libraries that are essential for its op
 
 - SwingX, a set of GUI components that extend Swing.
 
+
