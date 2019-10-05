@@ -16,21 +16,16 @@ import jparsec.observer.Country;
 import jparsec.observer.Country.COUNTRY;
 import jparsec.observer.LocationElement;
 import jparsec.util.JPARSECException;
-import jparsec.observer.ObserverElement;
 
 import javax.swing.JOptionPane;
 
 import core.Location;
-import java.io.BufferedReader;
-import java.io.File;
+import core.OnlineLocation;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URL;
+import java.net.ProtocolException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author victordomingos
@@ -219,7 +214,7 @@ public class LocationManager extends javax.swing.JFrame {
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(centerPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -290,7 +285,7 @@ public class LocationManager extends javax.swing.JFrame {
                 .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jXPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter GPS coords"));
@@ -371,7 +366,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         btn_saveLocation.setText("Save Location");
@@ -381,6 +376,7 @@ public class LocationManager extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         jLabel3.setText("Choose one of these methods (GPS coordinates will provide results that are more precise).");
 
         jButton1.setText("Detect by IP");
@@ -397,8 +393,8 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_saveLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -459,8 +455,8 @@ public class LocationManager extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(img_map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -588,11 +584,6 @@ public class LocationManager extends javax.swing.JFrame {
             // TODO: See if we can provide a better default value here.
             txt_height.setText("200");
 
-            System.out.print("selected city: ");
-            System.out.print(selectedCity);
-            System.out.println("lat:" + lat);
-            System.out.println("lon:" + lon);
-
         } catch (JPARSECException e) {
             System.out.println(e);
         }
@@ -601,13 +592,15 @@ public class LocationManager extends javax.swing.JFrame {
     private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
         Integer locId;
         String locName;
-        String locTz;
+        String locTz = null;
         Double latitude, longitude;
         int height = 200;
+        String msg;
+        
 
         // Verify if there are valid GPS coordinates in their fields.
         if (txt_latitude.getText().isEmpty()) {
-            String msg = "Please specifiy latitude as a number, in degrees.";
+            msg = "Please specifiy latitude as a number, in degrees.";
             JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
                     JOptionPane.WARNING_MESSAGE);
             txt_latitude.requestFocusInWindow();
@@ -618,7 +611,7 @@ public class LocationManager extends javax.swing.JFrame {
         }
 
         if (txt_longitude.getText().isEmpty()) {
-            String msg = "Please specifiy longitude as a number, in degrees.";
+            msg = "Please specifiy longitude as a number, in degrees.";
             JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
                     JOptionPane.WARNING_MESSAGE);
             txt_longitude.requestFocusInWindow();
@@ -629,7 +622,7 @@ public class LocationManager extends javax.swing.JFrame {
         }
 
         if (txt_height.getText().isEmpty()) {
-            String msg = "Please enter an integer number (height in meters "
+            msg = "Please enter an integer number (height in meters "
                     + "above the sea level) in the Altitude field.";
             JOptionPane.showMessageDialog(this, msg, "Missing parameter", 
                     JOptionPane.WARNING_MESSAGE);
@@ -638,8 +631,6 @@ public class LocationManager extends javax.swing.JFrame {
         } else {
             height = Integer.parseInt(txt_height.getText());
         }
-
-        
         
         if (this.curLocationBeingEdited == -1) {
             locId = null;
@@ -647,15 +638,22 @@ public class LocationManager extends javax.swing.JFrame {
             locId = this.curLocationBeingEdited;
         }
         
-        
-        
-        // Display a confirmation messagebox displaying the data that is about to
-        // be saved and and a text field to enter a name for the new observatory.
-        // Present an option to create a new session using this location.
+        msg = "Please enter a new name for this observatory: ";
+        do{
+            locName = JOptionPane.showInputDialog(null, msg, 
+                    "Preparing to save Location", JOptionPane.QUESTION_MESSAGE);
+        } while (locName.trim().length() == 0);
+
         // Save to the database
-//        db.DbConnection.insertOrUpdateLocation(locId, LocName, txt_latitude.getText(),
-//                txt_longitude.getText(), txt_height.getText(), txt_address.getText(), locTz);
+        db.DbConnection.insertOrUpdateLocation(locId, LocName, txt_latitude.getText(),
+               txt_longitude.getText(), txt_height.getText(), txt_address.getText(), locTz);
+        
+
         // Update the table
+        
+        
+        // Present an option to create a new session using this location.
+        
         // Hide the bottom panel
         this.clearBottomPanel();
         this.btn_locationDetails.setSelected(false);
@@ -700,44 +698,27 @@ public class LocationManager extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_newLocationActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String ipErrorMsg = "We were not able to get GPS coordinates from your current IP address. \n"
-                + "Please select enter your coordinates manually or choose country/city.\n\n";
-        String line;
-        
+        String ipErrorMsg = "We were not able to get GPS coordinates from your\n"
+                + "current IP address. Please select enter your coordinates\n"
+                + "manually or choose country/city.\n\n";
+            
         try {
             // Get current GPS coordinates from current outbound IP address
-            // by parsing the JSON response from IP-API.
-            URL url = new URL("http://ip-api.com/json/?fields=country,lat,lon,timezone,query");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setConnectTimeout(2000);
-            con.setReadTimeout(2000);
-            
-            BufferedReader inBuf = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            
-            StringBuilder content = new StringBuilder();
-            while ((line = inBuf.readLine()) != null) {
-                content.append(line);
-            }
-            inBuf.close();
-            con.disconnect();
-            
-            // TODO: parse JSON `content` variable to extract lat/lon/country/timezone
-            
-            
-            
-            JOptionPane.showMessageDialog(this, content , "Response", 
+            Location onloc = new Location();
+            txt_latitude.setText(onloc.getLatitude().toString());
+            txt_longitude.setText(onloc.getLongitude().toString());
+            String msg = "According to IP-API.com, you're near " + onloc.getName()
+                    + ".\nPlease keep in mind that GPS coordinates obtained by \n"
+                    + "this process are just (inherently imprecise) estimations.";
+            JOptionPane.showMessageDialog(this, msg, "Warning", 
                     JOptionPane.WARNING_MESSAGE);
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ipErrorMsg += ex.getMessage().replace(": ", "\n");
             JOptionPane.showMessageDialog(this, ipErrorMsg , "Missing parameter", 
                     JOptionPane.WARNING_MESSAGE);
             txt_longitude.requestFocusInWindow();
         }
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public boolean isBotomPanelEmpty()
