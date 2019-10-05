@@ -304,7 +304,7 @@ public class LocationManager extends javax.swing.JFrame {
         txt_longitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_longitude.setToolTipText("Please enter latitude in degrees (decimal value).");
 
-        txt_height.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txt_height.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.###"))));
         txt_height.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_height.setToolTipText("Please enter latitude in degrees (decimal value).");
 
@@ -591,10 +591,10 @@ public class LocationManager extends javax.swing.JFrame {
 
     private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
         Integer locId;
-        String locName;
-        String locTz = null;
+        String locName="";
+        Double locTz = 0.0;
         Double latitude, longitude;
-        int height = 200;
+        int height;
         String msg;
         
 
@@ -632,21 +632,28 @@ public class LocationManager extends javax.swing.JFrame {
             height = Integer.parseInt(txt_height.getText());
         }
         
-        if (this.curLocationBeingEdited == -1) {
-            locId = null;
-        } else {
-            locId = this.curLocationBeingEdited;
-        }
+        locId = this.curLocationBeingEdited;
+                
+                
         
         msg = "Please enter a new name for this observatory: ";
         do{
-            locName = JOptionPane.showInputDialog(null, msg, 
-                    "Preparing to save Location", JOptionPane.QUESTION_MESSAGE);
-        } while (locName.trim().length() == 0);
-
+            if(locName.length() > 127){
+                msg = "The name should not exceed 128 characters. \n"
+                        + "Which, by the way, should be more that enough. ;-)";
+            JOptionPane.showMessageDialog(this, msg, "Incorrect parameter", 
+                    JOptionPane.WARNING_MESSAGE);
+            }
+            locName = (String) JOptionPane.showInputDialog(null, msg, "Preparing to save Location", 
+                    JOptionPane.QUESTION_MESSAGE, null, null,  locName);
+            locName = locName.trim();
+            System.out.println(locName);
+        } while (locName.isEmpty() || locName.length()>128);
+        
+        
         // Save to the database
-        db.DbConnection.insertOrUpdateLocation(locId, LocName, txt_latitude.getText(),
-               txt_longitude.getText(), txt_height.getText(), txt_address.getText(), locTz);
+        int status = mydb.insertOrUpdateLocation(locId, locName, latitude, 
+                longitude, height, txt_address.getText(), locTz);
         
 
         // Update the table
@@ -707,9 +714,13 @@ public class LocationManager extends javax.swing.JFrame {
             Location onloc = new Location();
             txt_latitude.setText(onloc.getLatitude().toString());
             txt_longitude.setText(onloc.getLongitude().toString());
+            txt_height.setText(core.Constants.DEFAULT_LOCATION_HEIGHT);
             String msg = "According to IP-API.com, you're near " + onloc.getName()
                     + ".\nPlease keep in mind that GPS coordinates obtained by \n"
-                    + "this process are just (inherently imprecise) estimations.";
+                    + "this process are just (inherently imprecise) estimations.\n"
+                    + "Currently, altitude cannot be determined automatically,\n"
+                    + "so we have preset it for you to the median elevation\n"
+                    + "inhabited by humans. Please change it if necessary.";
             JOptionPane.showMessageDialog(this, msg, "Warning", 
                     JOptionPane.WARNING_MESSAGE);
             

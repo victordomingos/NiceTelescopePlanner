@@ -6,6 +6,8 @@
 package core;
 
 import com.google.gson.Gson;
+import static core.Constants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
+import static core.Constants.DEFAULT_LOCATION_HEIGHT;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -80,7 +82,7 @@ public class Location {
         this.longitude = onloc.getLongitude();
         this.address = "";
         this.name = onloc.getCity() + "/" + onloc.getCountry() + " (IP)";
-        this.height = 190;
+        this.height = Integer.parseInt(DEFAULT_LOCATION_HEIGHT);
         this.timezone = 0;
     }
 
@@ -100,8 +102,8 @@ public class Location {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-        con.setConnectTimeout(2000);
-        con.setReadTimeout(2000);
+        con.setConnectTimeout(DEFAULT_HTTP_CONNECTION_TIMEOUT);
+        con.setReadTimeout(DEFAULT_HTTP_CONNECTION_TIMEOUT);
 
         StringBuilder sb = new StringBuilder();
         try (BufferedReader inBuffer = new BufferedReader(

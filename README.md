@@ -11,4 +11,4 @@ This application integrates a few useful libraries that are essential for its op
 
 - SwingX, a set of GUI components that extend Swing.
 
-
+- [Gson](https://github.com/google/gson), a serialization/deserialization library to convert Java Objects into JSON and back.
