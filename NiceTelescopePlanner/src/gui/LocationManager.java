@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -59,10 +61,28 @@ public class LocationManager extends javax.swing.JFrame {
         this.img_map.setVisible(false);               // Rescheduled to a future release
 
         initCombos();
+        updateTable();
     }
 
     private void updateTable() {
-        ArrayList<Location> locations = mydb.getAllLocations();
+        // get all locations from the database
+        ArrayList<Location> allLocations = mydb.getAllLocations();
+        
+        //Set columns headers and table Model
+        String columns[] = {"Location name","Latitude","Longitude", "Altitude"};
+        DefaultTableModel LocationsTableModel = new DefaultTableModel(columns, 0);                                    
+        table.setModel(LocationsTableModel);
+        
+        // add locations to table
+        for (int i = 0; i < allLocations.size(); i++){
+            String name = allLocations.get(i).getName();
+            String lat = allLocations.get(i).getLatitude().toString();
+            String lon = allLocations.get(i).getLongitude().toString();
+            String height = Integer.toString(allLocations.get(i).getHeight());
+            
+            Object[] data = {name, lat, lon, height};
+            LocationsTableModel.addRow(data);
+        }   
     }
 
     private void initCombos() {
@@ -647,7 +667,6 @@ public class LocationManager extends javax.swing.JFrame {
             locName = (String) JOptionPane.showInputDialog(null, msg, "Preparing to save Location", 
                     JOptionPane.QUESTION_MESSAGE, null, null,  locName);
             locName = locName.trim();
-            System.out.println(locName);
         } while (locName.isEmpty() || locName.length()>128);
         
         
