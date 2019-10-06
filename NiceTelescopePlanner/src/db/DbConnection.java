@@ -178,11 +178,11 @@ public class DbConnection {
             st.setDouble(6, timezone);
             
             
-            System.out.println(ssql);
-            System.out.println(st);
-            System.out.println(st.getParameterMetaData());
-            System.out.println(st.getWarnings());
-            
+//            System.out.println(ssql);
+//            System.out.println(st);
+//            System.out.println(st.getParameterMetaData());
+//            System.out.println(st.getWarnings());
+//            
             
             r = st.executeUpdate();
         } catch (SQLException e) {

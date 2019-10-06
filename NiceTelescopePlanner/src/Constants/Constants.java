@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package Constants;
 
-import java.util.HashMap;
 
 /**
  *
@@ -27,21 +26,5 @@ public class Constants {
 
     public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 3000;
 
-    // Some approximate Limiting Magnitude values (meaning the brightness of the 
-    // faintest visible star) for some kinds of equipment and for some sky 
-    // objects, rouded up to fit into Integer values. This Hashmap feeds a
-    // combobox in the session setup panel.
-    public static HashMap<String, Integer> LIM_MAGNITUDE = new HashMap<String, Integer>();
-
-    public Constants() {
-        LIM_MAGNITUDE.put("24\" Telescope (30min stacked images)", 22);
-        LIM_MAGNITUDE.put("Common portable telescopes", 15);
-        LIM_MAGNITUDE.put("7x50 Binoculars", 10);
-        LIM_MAGNITUDE.put("Extreme naked eye limit", 8);
-        LIM_MAGNITUDE.put("Average naked eye limit", 7);
-        LIM_MAGNITUDE.put("Betelgeuse", 0);
-        LIM_MAGNITUDE.put("Sirius", 2);
-        LIM_MAGNITUDE.put("Jupiter/Mars", 3);
-        LIM_MAGNITUDE.put("Venus", 5);
-    }
+    
 }

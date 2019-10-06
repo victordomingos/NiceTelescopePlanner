@@ -6,8 +6,8 @@
 package core;
 
 import com.google.gson.Gson;
-import static core.Constants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
-import static core.Constants.DEFAULT_LOCATION_HEIGHT;
+import static Constants.Constants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
+import static Constants.Constants.DEFAULT_LOCATION_HEIGHT;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

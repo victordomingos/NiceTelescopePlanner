@@ -144,7 +144,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cmb_location" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -598,7 +598,7 @@
                           <Component id="jComboBox4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -658,20 +658,6 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cmb_limitingMagnitude">
               <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="10">
-                    <StringItem index="0" value="24&quot; Telescope (30min stacked images)"/>
-                    <StringItem index="1" value="+14.5  Common portable telescopes"/>
-                    <StringItem index="2" value=" +9.5  7x50 Binoculars"/>
-                    <StringItem index="3" value=" +8.0  Extreme naked eye limit"/>
-                    <StringItem index="4" value=" +6.5  Average naked eye limit"/>
-                    <StringItem index="5" value="  0.0  Betelgeuse"/>
-                    <StringItem index="6" value=" -1.4  Sirius"/>
-                    <StringItem index="7" value=" -2.9  Jupiter  "/>
-                    <StringItem index="8" value=" -2.9  Mars"/>
-                    <StringItem index="9" value=" -4.8  Venus"/>
-                  </StringArray>
-                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope."/>
                 <Property name="name" type="java.lang.String" value="cmb_kind" noResource="true"/>
               </Properties>

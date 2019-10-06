@@ -5,7 +5,9 @@
  */
 package gui.panels;
 
+import Constants.LIM_MAGNITUDE;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -19,13 +21,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     public SessionSetupPanel() {
         initComponents();
         
-        
-        
         date_picker.setDate(new Date());
+        DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
+        cmb_limitingMagnitude.setModel(dlm);
 
+        
         // TODO: remove this line after the first MVP release ;)
         subpanel_telescopeAngles.setVisible(false); 
-       
     }
 
     /**
@@ -108,7 +110,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             .addGroup(subpanel_locationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btn_applySessionSettings.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
@@ -296,7 +298,6 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox4.setName("cmb_catalog"); // NOI18N
 
-        cmb_limitingMagnitude.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "24\" Telescope (30min stacked images)", "+14.5  Common portable telescopes", " +9.5  7x50 Binoculars", " +8.0  Extreme naked eye limit", " +6.5  Average naked eye limit", "  0.0  Betelgeuse", " -1.4  Sirius", " -2.9  Jupiter  ", " -2.9  Mars", " -4.8  Venus" }));
         cmb_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
         cmb_limitingMagnitude.setName("cmb_kind"); // NOI18N
         cmb_limitingMagnitude.addActionListener(new java.awt.event.ActionListener() {
@@ -388,7 +389,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -454,7 +455,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmb_limitingMagnitudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_limitingMagnitudeActionPerformed
-        // TODO add your handling code here:
+        String limit = cmb_limitingMagnitude.getSelectedItem().toString();
+        spin_limitingMagnitude.setValue(LIM_MAGNITUDE.get(limit).getLimit());
     }//GEN-LAST:event_cmb_limitingMagnitudeActionPerformed
 
     private void cmb_locationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_locationActionPerformed
@@ -462,7 +464,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cmb_locationActionPerformed
 
     private void spin_limitingMagnitudePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudePropertyChange
-
+        
     }//GEN-LAST:event_spin_limitingMagnitudePropertyChange
 
     private void slider_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_limitingMagnitudeStateChanged
@@ -470,7 +472,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_slider_limitingMagnitudeStateChanged
 
     private void spin_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudeStateChanged
-        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());     
+        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());
+            
 // TODO add your handling code here:    }//GEN-LAST:event_spin_limitingMagnitudeStateChanged
     }
 

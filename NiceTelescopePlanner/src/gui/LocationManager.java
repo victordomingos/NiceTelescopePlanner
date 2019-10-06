@@ -714,10 +714,10 @@ public class LocationManager extends javax.swing.JFrame {
             Location onloc = new Location();
             txt_latitude.setText(onloc.getLatitude().toString());
             txt_longitude.setText(onloc.getLongitude().toString());
-            txt_height.setText(core.Constants.DEFAULT_LOCATION_HEIGHT);
+            txt_height.setText(Constants.Constants.DEFAULT_LOCATION_HEIGHT);
             String msg = "According to IP-API.com, you're near " + onloc.getName()
                     + ".\nPlease keep in mind that GPS coordinates obtained by \n"
-                    + "this process are just (inherently imprecise) estimations.\n"
+                    + "this process are just (inherently imprecise) estimations.\n\n"
                     + "Currently, altitude cannot be determined automatically,\n"
                     + "so we have preset it for you to the median elevation\n"
                     + "inhabited by humans. Please change it if necessary.";
