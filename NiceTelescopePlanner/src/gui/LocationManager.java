@@ -45,7 +45,8 @@ public class LocationManager extends javax.swing.JFrame {
      */
     public LocationManager() {
         initComponents();
-
+        updateTable();
+        
         if (table.getRowCount() == 0) {
             this.centerBottomPanel.setVisible(true);
             this.btn_locationDetails.setSelected(true);
@@ -61,28 +62,51 @@ public class LocationManager extends javax.swing.JFrame {
         this.img_map.setVisible(false);               // Rescheduled to a future release
 
         initCombos();
-        updateTable();
+
     }
 
     private void updateTable() {
+        Double lat_rad, lat_deg, lon_rad, lon_deg;
+        String lat, lon, height;
+        
         // get all locations from the database
         ArrayList<Location> allLocations = mydb.getAllLocations();
         
         //Set columns headers and table Model
-        String columns[] = {"Location name","Latitude","Longitude", "Altitude"};
+        String columns[] = {"ID", "Location name","Latitude","Longitude", "Altitude"};
         DefaultTableModel LocationsTableModel = new DefaultTableModel(columns, 0);                                    
         table.setModel(LocationsTableModel);
         
         // add locations to table
         for (int i = 0; i < allLocations.size(); i++){
+            String id = Integer.toString(allLocations.get(i).getId());
             String name = allLocations.get(i).getName();
-            String lat = allLocations.get(i).getLatitude().toString();
-            String lon = allLocations.get(i).getLongitude().toString();
-            String height = Integer.toString(allLocations.get(i).getHeight());
             
-            Object[] data = {name, lat, lon, height};
+            lat_rad = allLocations.get(i).getLatitude();
+            lat_deg = lat_rad * Constant.RAD_TO_DEG;
+            lat = String.format("%.6f", lat_deg);
+            lat = lat.substring(0, Math.min(lat.length(), 8));
+            
+            lon_rad = allLocations.get(i).getLongitude();
+            lon_deg = lon_rad * Constant.RAD_TO_DEG;
+            lon = String.format("%.6f", lon_deg);
+            lon = lon.substring(0, Math.min(lon.length(), 8));
+
+            height = Integer.toString(allLocations.get(i).getHeight());
+            
+            Object[] data = {id, name, lat, lon, height};
             LocationsTableModel.addRow(data);
-        }   
+        }
+        
+        // Set basic table formatting
+        table.getColumn("ID").setMaxWidth(50);
+        table.getColumn("Latitude").setMaxWidth(160);
+        table.getColumn("Longitude").setMaxWidth(160);
+        table.getColumn("Altitude").setMaxWidth(80);
+        table.getColumn("ID").setPreferredWidth(50);
+        table.getColumn("Latitude").setPreferredWidth(160);
+        table.getColumn("Longitude").setPreferredWidth(160);
+        table.getColumn("Altitude").setPreferredWidth(80);
     }
 
     private void initCombos() {
@@ -190,6 +214,7 @@ public class LocationManager extends javax.swing.JFrame {
         jToolBar1.add(btn_deleteSelectedLocation);
 
         table.setAutoCreateRowSorter(true);
+        table.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -213,10 +238,12 @@ public class LocationManager extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setColumnSelectionAllowed(true);
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
+        table.setRowHeight(25);
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

@@ -5,9 +5,12 @@
  */
 package gui;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JToggleButton;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 /**
  *
@@ -18,14 +21,13 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel();
-    
+
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        
-        
+
         // Update button state when Session Manager window opens/closes --------
         session_manager.addWindowListener(new WindowAdapter() {
             @Override
@@ -33,15 +35,14 @@ public class Main extends javax.swing.JFrame {
                 btn_manageSessions.setSelected(false);
             }
         });
-        
+
         session_manager.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
                 btn_manageSessions.setSelected(true);
             }
         });
-        
-        
+
         // Update button state when Location Manager window opens/closes -------
         location_manager.addWindowListener(new WindowAdapter() {
             @Override
@@ -49,23 +50,21 @@ public class Main extends javax.swing.JFrame {
                 btn_manageLocations.setSelected(false);
             }
         });
-        
+
         location_manager.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
                 btn_manageLocations.setSelected(true);
             }
         });
-        
-        
+
         rightPanel.setVisible(false);
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
-        
+
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
-        
-        
+
     }
 
     /**
@@ -385,7 +384,7 @@ public class Main extends javax.swing.JFrame {
     public JToggleButton getBtn_manageSessions() {
         return btn_manageSessions;
     }
-    
+
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
         this.leftPanel.setVisible(this.btn_leftPanel.isSelected());
@@ -405,7 +404,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_manageSessionsActionPerformed
 
     private void btn_manageLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_manageLocationsActionPerformed
-       this.location_manager.setVisible(this.btn_manageLocations.isSelected());
+        this.location_manager.setVisible(this.btn_manageLocations.isSelected());
     }//GEN-LAST:event_btn_manageLocationsActionPerformed
 
     /**
@@ -424,16 +423,20 @@ public class Main extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException
+                | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName())
+                    .log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+
+        //</editor-fold>
+        // Set alternating row colors for jTable objects.
+        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+        if (defaults.get("Table.alternateRowColor") == null) {
+            defaults.put("Table.alternateRowColor", new Color(247, 247, 247));
+        }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
