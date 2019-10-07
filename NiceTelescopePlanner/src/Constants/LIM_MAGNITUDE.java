@@ -21,9 +21,9 @@ public enum LIM_MAGNITUDE {
     ExtremeNakedEyeLimit(8),
     NakedEyeLimit(7),
     Betelgeuse(0),
-    Sirius(2),
-    JupiterMars(3),
-    Venus(5);
+    Sirius(-2),
+    JupiterMars(-3),
+    Venus(-5);
 
     private final int limit;
 

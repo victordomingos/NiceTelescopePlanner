@@ -3,7 +3,7 @@ A simple cross-platform desktop utility for amateur astronomy hobbyists, written
 
 # Installation and dependencies
 
-This application integrates a few useful libraries that are essential for its operation:
+This application integrates a few useful third-party libraries that are essential for its operation:
 
 - [JPARSEC](http://conga.oan.es/~alonso/doku.php?id=jparsec), a comprehensive astronomy library written in Java, by Tomás Alonso Albi.
 

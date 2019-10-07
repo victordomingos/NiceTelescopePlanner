@@ -83,6 +83,55 @@ public class DbConnection {
         return null;
     }
 
+    public Location getOneLocation(int id) {
+        Connection con = null;
+        Statement st = null;
+        ResultSet r = null;
+        Location loc = null;
+
+        String ssql = "SELECT id, name, address, latitude, longitude, height, timezone "
+                + "FROM location "
+                + "WHERE id=" + id;
+
+        try {
+            con = DriverManager.getConnection(url, user, password);
+            st = con.createStatement();
+            r = st.executeQuery(ssql);
+
+            while (r.next()) {
+                loc = new Location(r.getInt("id"),
+                        r.getString("name"),
+                        r.getString("address"),
+                        r.getDouble("latitude"),
+                        r.getDouble("longitude"),
+                        r.getInt("height"),
+                        r.getDouble("timezone"));
+            }
+
+            return loc;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrorCode());
+        } finally {
+            try {
+                if (r != null) {
+                    r.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrorCode());
+            }
+        }
+        return null;
+    }
+
     /**
      * Inserts a new database record on the location table. If the record
      * already exists, it will be updated with the new data.
@@ -160,6 +209,48 @@ public class DbConnection {
             }
         }
         return r;
+    }
+
+    /**
+     * Inserts a new database record on the location table. If the record
+     * already exists, it will be updated with the new data.
+     *
+     * @param locId
+     * @param name
+     * @param latitude
+     * @param longitude
+     * @param height
+     * @param address
+     * @param timezone
+     * @return
+     */
+    public void deleteLocation(int locId) {
+        String ssql;
+        Connection con = null;
+        PreparedStatement st = null;
+
+        try {
+            con = DriverManager.getConnection(url, user, password);
+            ssql = "DELETE FROM location WHERE id=?";
+            st = con.prepareStatement(ssql);
+            st.setInt(1, locId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrorCode());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrorCode());
+            }
+        }
     }
 
 }
