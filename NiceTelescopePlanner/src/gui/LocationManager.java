@@ -400,7 +400,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(jXPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmb_observatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -485,7 +485,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         btn_saveLocation.setText("Save Location");
@@ -551,10 +551,8 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(jXPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jXPanel2Layout.createSequentialGroup()
-                        .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jXPanel2Layout.createSequentialGroup()
                         .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -578,7 +576,7 @@ public class LocationManager extends javax.swing.JFrame {
                     .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jXPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(img_map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -631,7 +629,14 @@ public class LocationManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_locationDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locationDetailsActionPerformed
-        String btn_text = this.btn_locationDetails.isSelected() ? "Hide Location Details" : "Show Location Details";
+        String btn_text;
+        if (this.btn_locationDetails.isSelected()){
+            btn_text = "Hide Location Details";
+        }
+        else {
+            btn_text = "Show Location Details";            
+        }
+        
         this.centerBottomPanel.setVisible(this.btn_locationDetails.isSelected());
         this.btn_locationDetails.setText(btn_text);
     }//GEN-LAST:event_btn_locationDetailsActionPerformed
@@ -732,12 +737,17 @@ public class LocationManager extends javax.swing.JFrame {
                 }
             }            
 
-            Double lat = realCity.latitude;
-            Double lon = realCity.longitude;
+            Double lat_deg = realCity.latitude;
+            Double lon_deg = realCity.longitude;
             int height = realCity.height;
-            DecimalFormat df = new DecimalFormat("###0.00000");
-            txt_latitude.setText(df.format(lat));
-            txt_longitude.setText(df.format(lon));
+            String lat = lat_deg.toString();
+            lat = lat.substring(0, Math.min(lat.length(), 8));
+           
+            String lon = lon_deg.toString();
+            lon = lon.substring(0, Math.min(lon.length(), 8));
+                        
+            txt_latitude.setText(lat);
+            txt_longitude.setText(lon);
             txt_height.setText(Integer.toString(height));
 
         } catch (JPARSECException e) {
@@ -1098,10 +1108,17 @@ public class LocationManager extends javax.swing.JFrame {
         //txt_address 
         Location loc = mydb.getOneLocation(id);
         lbl_locationName.setText(loc.getName());
-        Double lat = loc.getLatitude() * Constant.RAD_TO_DEG;
-        Double lon = loc.getLongitude() * Constant.RAD_TO_DEG;
-        txt_latitude.setText(lat.toString());
-        txt_longitude.setText(lon.toString());
+
+        Double lat_deg = loc.getLatitude() * Constant.RAD_TO_DEG;
+        String lat = lat_deg.toString();
+        lat = lat.substring(0, Math.min(lat.length(), 8));
+
+        Double lon_deg = loc.getLongitude() * Constant.RAD_TO_DEG;
+        String lon = lon_deg.toString();
+        lon = lon.substring(0, Math.min(lon.length(), 8));
+        
+        txt_latitude.setText(lat);
+        txt_longitude.setText(lon);
         txt_height.setText(Integer.toString(loc.getHeight()));
     }
 }

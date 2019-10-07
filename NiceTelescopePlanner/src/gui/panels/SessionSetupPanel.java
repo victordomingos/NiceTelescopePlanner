@@ -67,9 +67,9 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         subpanel_filterSugestions = new org.jdesktop.swingx.JXPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        cmb_kind = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        cmb_catalog = new javax.swing.JComboBox<>();
         cmb_limitingMagnitude = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         spin_limitingMagnitude = new javax.swing.JSpinner();
@@ -289,14 +289,14 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel19.setText("Kind:");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox5.setName("cmb_kind"); // NOI18N
+        cmb_kind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_kind.setName("cmb_kind"); // NOI18N
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel18.setText("Catalog:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.setName("cmb_catalog"); // NOI18N
+        cmb_catalog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_catalog.setName("cmb_catalog"); // NOI18N
 
         cmb_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
         cmb_limitingMagnitude.setName("cmb_kind"); // NOI18N
@@ -355,8 +355,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmb_catalog, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmb_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addGap(85, 85, 85)
                                 .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -383,11 +383,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addComponent(cmb_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_kind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_catalog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -481,13 +481,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_SetToTwilightTime;
     private javax.swing.JButton btn_SetToTwilightTime1;
     private javax.swing.JButton btn_applySessionSettings;
+    private javax.swing.JComboBox<String> cmb_catalog;
     private javax.swing.JComboBox<String> cmb_endTime;
+    private javax.swing.JComboBox<String> cmb_kind;
     private javax.swing.JComboBox<String> cmb_limitingMagnitude;
     private javax.swing.JComboBox<String> cmb_location;
     private javax.swing.JComboBox<String> cmb_startTime;
     private org.jdesktop.swingx.JXDatePicker date_picker;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
