@@ -333,7 +333,7 @@
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                               <Component id="subpanel_enterAddress" linkSize="15" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jXPanel4" linkSize="15" max="32767" attributes="0"/>
-                              <Component id="jXPanel3" linkSize="15" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="jXPanel3" linkSize="15" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="img_map" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -377,7 +377,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cmb_country" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="11" max="32767" attributes="0"/>
                           <Component id="cmb_city" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cmb_observatory" min="-2" max="-2" attributes="0"/>
@@ -562,7 +562,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txt_address" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="68" max="32767" attributes="0"/>
+                          <EmptySpace pref="84" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

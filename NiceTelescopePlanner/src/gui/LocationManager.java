@@ -87,12 +87,21 @@ public class LocationManager extends javax.swing.JFrame {
         // get all locations from the database
         ArrayList<Location> allLocations = mydb.getAllLocations();
 
-        //Set columns headers and table Model
+        //Set columns headers and table Model - make it non-editable
         String columns[] = {"ID", "Location name", "Latitude", "Longitude", "Altitude"};
-        DefaultTableModel LocationsTableModel = new DefaultTableModel(columns, 0);
+        
+        DefaultTableModel LocationsTableModel = new DefaultTableModel(columns, 0) {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        
         table.setModel(LocationsTableModel);
 
-        // add locations to table
+        
+        // add location records to table
         for (int i = 0; i < allLocations.size(); i++) {
             String id = Integer.toString(allLocations.get(i).getId());
             String name = allLocations.get(i).getName();
@@ -125,7 +134,6 @@ public class LocationManager extends javax.swing.JFrame {
     }
 
     private void initCombos() {
-        System.out.println(cmb_country.getItemCount() );
         if(cmb_country.getItemCount() == 1)
         {
             for (Country.COUNTRY c : Country.COUNTRY.values()) {
