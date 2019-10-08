@@ -158,7 +158,7 @@
                 <Property name="name" type="java.lang.String" value="cmb_location" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmb_locationActionPerformed"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmb_locationItemStateChanged"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;()"/>
@@ -178,6 +178,9 @@
               <Dimension value="[260, 29]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_applySessionSettingsActionPerformed"/>
+          </Events>
         </Component>
         <Container class="org.jdesktop.swingx.JXPanel" name="subpanel_dateTime">
           <Properties>

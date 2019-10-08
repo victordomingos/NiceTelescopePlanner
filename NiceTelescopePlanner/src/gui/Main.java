@@ -5,12 +5,16 @@
  */
 package gui;
 
+import core.Location;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import javax.swing.JToggleButton;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 /**
  *
@@ -20,7 +24,7 @@ public class Main extends javax.swing.JFrame {
 
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
-    private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel();
+    private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
 
     /**
      * Creates new form Main
@@ -57,7 +61,8 @@ public class Main extends javax.swing.JFrame {
                 btn_manageLocations.setSelected(true);
             }
         });
-
+        
+        
         rightPanel.setVisible(false);
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
@@ -385,6 +390,16 @@ public class Main extends javax.swing.JFrame {
         return btn_manageSessions;
     }
 
+    public void applySessionSettings(){
+        // TODO!
+        Location loc = lpanel.getCurSelectedLocation();
+        Double latitude = loc.getLatitude();
+        Double longitude = loc.getLongitude();
+        int height = loc.getHeight();
+        SimpleDateFormat datetime_start = lpanel.getStartDatetime();
+        
+        
+    }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
         this.leftPanel.setVisible(this.btn_leftPanel.isSelected());

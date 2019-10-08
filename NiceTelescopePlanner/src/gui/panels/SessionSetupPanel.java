@@ -6,7 +6,15 @@
 package gui.panels;
 
 import Constants.LIM_MAGNITUDE;
+import core.Location;
+import db.DbConnection;
+import gui.Main;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -14,22 +22,65 @@ import javax.swing.DefaultComboBoxModel;
  * @author victor
  */
 public class SessionSetupPanel extends javax.swing.JPanel {
-    
+    private DbConnection mydb = new DbConnection();
+    private Location curSelectedLocation = null;
+    private Main master;
     /**
      * Creates new form SessionSetupPanel
+     * @param master
      */
-    public SessionSetupPanel() {
+    public SessionSetupPanel(Main master) {
         initComponents();
+        this.master = master;
         
+        // Populate limiting magnitude combobox -----------
         date_picker.setDate(new Date());
         DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
         cmb_limitingMagnitude.setModel(dlm);
+        
+        // Populate locations combobox --------------------
+        ArrayList<Location> locs = mydb.getAllLocations();
+        DefaultComboBoxModel dlocm = new DefaultComboBoxModel();
+        
+        for (Location loc : locs) {
+            dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
+        }
+        cmb_location.setModel(dlocm);
 
         
         // TODO: remove this line after the first MVP release ;)
         subpanel_telescopeAngles.setVisible(false); 
     }
 
+    public SimpleDateFormat getStartDatetime(){
+        // TODO!
+        System.out.println(this.date_picker.getDate());
+        System.out.println(this.date_picker.getDate().toString());
+        SimpleDateFormat date = new SimpleDateFormat(this.date_picker.getDate().toString());
+        System.out.println("DATE1:[" + date + "]");
+        Date d;
+        String time = " " + this.cmb_startTime.getSelectedItem() + ":00";
+        System.out.println(date);
+        System.out.println(time);
+        return date;
+        
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        // replace with your start date string
+//        
+//        try {
+//            d = df.parse(date.toString().replace(" 00:00:00", time));
+//        } catch (ParseException ex) {
+//            System.out.println(ex);
+//        }
+//        
+//        
+//        Long time = d.getTime();
+//        time +=(2*60*60*1000);
+//        Date d2 = new Date(time);
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,9 +141,9 @@ public class SessionSetupPanel extends javax.swing.JPanel {
 
         cmb_location.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select observatory/location" }));
         cmb_location.setName("cmb_location"); // NOI18N
-        cmb_location.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_locationActionPerformed(evt);
+        cmb_location.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_locationItemStateChanged(evt);
             }
         });
 
@@ -117,6 +168,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         btn_applySessionSettings.setText("Apply these settings");
         btn_applySessionSettings.setName("btn_applySessionSettings"); // NOI18N
         btn_applySessionSettings.setPreferredSize(new java.awt.Dimension(260, 29));
+        btn_applySessionSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_applySessionSettingsActionPerformed(evt);
+            }
+        });
 
         subpanel_dateTime.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         subpanel_dateTime.setPreferredSize(new java.awt.Dimension(334, 100));
@@ -459,10 +515,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         spin_limitingMagnitude.setValue(LIM_MAGNITUDE.get(limit).getLimit());
     }//GEN-LAST:event_cmb_limitingMagnitudeActionPerformed
 
-    private void cmb_locationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_locationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmb_locationActionPerformed
+    private void cmb_locationStateChanged(java.awt.event.ActionEvent evt) {                                             
+        
+    }                                            
 
+    
     private void spin_limitingMagnitudePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudePropertyChange
         
     }//GEN-LAST:event_spin_limitingMagnitudePropertyChange
@@ -472,10 +529,21 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_slider_limitingMagnitudeStateChanged
 
     private void spin_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudeStateChanged
-        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());
-            
+        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());        
 // TODO add your handling code here:    }//GEN-LAST:event_spin_limitingMagnitudeStateChanged
     }
+    
+    private void cmb_locationItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_locationItemStateChanged
+        String selectedLocName = cmb_location.getSelectedItem().toString();
+        int sep = selectedLocName.indexOf(" - ");
+        int id = Integer.parseInt(selectedLocName.substring(0, sep));
+        this.setCurSelectedLocation(mydb.getOneLocation(id));
+    }//GEN-LAST:event_cmb_locationItemStateChanged
+
+    private void btn_applySessionSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applySessionSettingsActionPerformed
+        this.master.applySessionSettings();
+    }//GEN-LAST:event_btn_applySessionSettingsActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToTwilightTime;
@@ -514,4 +582,16 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel subpanel_location;
     private org.jdesktop.swingx.JXPanel subpanel_telescopeAngles;
     // End of variables declaration//GEN-END:variables
+
+    public Location getCurSelectedLocation() {
+        return curSelectedLocation;
+    }
+
+    public void setCurSelectedLocation(Location curSelectedLocation) {
+        this.curSelectedLocation = curSelectedLocation;
+    }
+
+    public javax.swing.JButton getBtn_applySessionSettings() {
+        return btn_applySessionSettings;
+    }
 }
