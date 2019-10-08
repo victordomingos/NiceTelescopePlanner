@@ -11,7 +11,9 @@ import db.DbConnection;
 import gui.Main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,13 +61,28 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         // TODO!
         System.out.println(this.date_picker.getDate());
         System.out.println(this.date_picker.getDate().toString());
-        SimpleDateFormat date = new SimpleDateFormat(this.date_picker.getDate().toString());
-        System.out.println("DATE1:[" + date + "]");
-        Date d;
-        String time = " " + this.cmb_startTime.getSelectedItem() + ":00";
-        System.out.println(date);
-        System.out.println(time);
-        return date;
+        
+        Date data = this.date_picker.getDate();
+        String hora = cmb_startTime.getSelectedItem().toString();
+        SimpleDateFormat sdf_data = new SimpleDateFormat("yyyy-MM-dd");
+        String str_data = sdf_data.format(data);
+        str_data += " ";
+        str_data += hora;
+        str_data += ":00";
+        
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Month zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+                
+                
+        
+        System.out.println(str_data);
+        
+        return sdf_data;
         
 //        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //

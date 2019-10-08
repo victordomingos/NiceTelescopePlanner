@@ -397,6 +397,7 @@ public class Main extends javax.swing.JFrame {
         Double latitude = loc.getLatitude();
         Double longitude = loc.getLongitude();
         int height = loc.getHeight();
+        
         SimpleDateFormat datetime_start = lpanel.getStartDatetime();
         
         
