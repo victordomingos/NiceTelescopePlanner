@@ -52,6 +52,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 btn_manageLocations.setSelected(false);
+                lpanel.updateLocationsCombo();
             }
         });
 

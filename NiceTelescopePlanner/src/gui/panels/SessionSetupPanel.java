@@ -38,6 +38,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
         cmb_limitingMagnitude.setModel(dlm);
         
+        
+        // TODO: remove this line after the first MVP release ;)
+        subpanel_telescopeAngles.setVisible(false); 
+        updateLocationsCombo();
+    }
+
+    public void updateLocationsCombo () {
         // Populate locations combobox --------------------
         ArrayList<Location> locs = mydb.getAllLocations();
         DefaultComboBoxModel dlocm = new DefaultComboBoxModel();
@@ -45,13 +52,9 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         for (Location loc : locs) {
             dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
         }
-        cmb_location.setModel(dlocm);
-
-        
-        // TODO: remove this line after the first MVP release ;)
-        subpanel_telescopeAngles.setVisible(false); 
+        this.cmb_location.setModel(dlocm);
     }
-
+    
     public SimpleDateFormat getStartDatetime(){
         // TODO!
         System.out.println(this.date_picker.getDate());

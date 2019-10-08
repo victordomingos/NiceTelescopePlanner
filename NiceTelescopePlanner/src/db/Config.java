@@ -7,10 +7,10 @@ package db;
 
 public class Config {
 
-    private static String dataBase = "";
-    private static String server = "";
-    private static String user = "";
-    private static String password = "";
+    private static String dataBase = "nice_telescope_planner";
+    private static String server = "192.168.23.129";
+    private static String user = "vk";
+    private static String password = "123.Abcç";
 
     public static String getDataBase() {
         return dataBase;
