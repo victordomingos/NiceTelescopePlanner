@@ -44,10 +44,12 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         date_picker.setDate(new Date());
         DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
         cmb_limitingMagnitude.setModel(dlm);
-
-        // TODO: remove this line after the first MVP release ;)
-        subpanel_telescopeAngles.setVisible(false);
         updateLocationsCombo();
+        
+        
+        // TODO: remove theses line after the first MVP release ;)
+        subpanel_telescopeAngles.setVisible(false);
+        btn_SetToTwilightTime.setVisible(false);
     }
 
     public void updateLocationsCombo() {
@@ -59,6 +61,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
         }
         this.cmb_location.setModel(dlocm);
+        this.cmb_location.setSelectedIndex(0);
+        this.setCurSelectedLocation();
     }
 
     /**
@@ -123,7 +127,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         btn_applySessionSettings = new javax.swing.JButton();
         subpanel_dateTime = new org.jdesktop.swingx.JXPanel();
         jLabel20 = new javax.swing.JLabel();
-        btn_SetToTwilightTime1 = new javax.swing.JButton();
+        btn_SetToTwilightTime = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         date_picker = new org.jdesktop.swingx.JXDatePicker();
         jLabel3 = new javax.swing.JLabel();
@@ -140,7 +144,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         spin_azStart = new javax.swing.JSpinner();
         jLabel14 = new javax.swing.JLabel();
         spin_azEnd = new javax.swing.JSpinner();
-        btn_SetToTwilightTime = new javax.swing.JButton();
+        btn_SetToDegreesAboveHorizon = new javax.swing.JButton();
         subpanel_filterSugestions = new org.jdesktop.swingx.JXPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -206,15 +210,15 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel20.setText("Date and time");
 
-        btn_SetToTwilightTime1.setText("Set to astronomical twilight");
-        btn_SetToTwilightTime1.setName("btn_SetToTwilightTime"); // NOI18N
+        btn_SetToTwilightTime.setText("Set to astronomical twilight");
+        btn_SetToTwilightTime.setName("btn_SetToTwilightTime"); // NOI18N
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Date:");
         jLabel2.setMinimumSize(new java.awt.Dimension(105, 16));
         jLabel2.setPreferredSize(new java.awt.Dimension(105, 16));
 
-        date_picker.setToolTipText("The day of the observation being planned. Most likely, it will be during nght time, so please specify the day corresponding to the session start date.");
+        date_picker.setToolTipText("<html>The day of the observation being planned. Most likely, <br>\nit will be during night time, so please specify the day <br>\ncorresponding to the session start date.");
         date_picker.setName("date_picker"); // NOI18N
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -257,7 +261,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cmb_endTime, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(btn_SetToTwilightTime1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_SetToTwilightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28))))
         );
         subpanel_dateTimeLayout.setVerticalGroup(
@@ -276,7 +280,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                     .addComponent(cmb_endTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_SetToTwilightTime1)
+                .addComponent(btn_SetToTwilightTime)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,8 +309,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
 
         spin_azEnd.setName("spin_azEnd"); // NOI18N
 
-        btn_SetToTwilightTime.setText("Set to 5º above the horizon");
-        btn_SetToTwilightTime.setName("btn_SetToTwilightTime"); // NOI18N
+        btn_SetToDegreesAboveHorizon.setText("Set to 5º above the horizon");
+        btn_SetToDegreesAboveHorizon.setName("btn_SetToDegreesAboveHorizon"); // NOI18N
 
         javax.swing.GroupLayout subpanel_telescopeAnglesLayout = new javax.swing.GroupLayout(subpanel_telescopeAngles);
         subpanel_telescopeAngles.setLayout(subpanel_telescopeAnglesLayout);
@@ -337,7 +341,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_telescopeAnglesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_SetToTwilightTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_SetToDegreesAboveHorizon, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
         subpanel_telescopeAnglesLayout.setVerticalGroup(
@@ -358,7 +362,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                     .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_SetToTwilightTime)
+                .addComponent(btn_SetToDegreesAboveHorizon)
                 .addGap(4, 4, 4))
         );
 
@@ -560,10 +564,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     }
 
     private void cmb_locationItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_locationItemStateChanged
-        String selectedLocName = cmb_location.getSelectedItem().toString();
-        int sep = selectedLocName.indexOf(" - ");
-        int id = Integer.parseInt(selectedLocName.substring(0, sep));
-        this.setCurSelectedLocation(mydb.getOneLocation(id));
+        this.setCurSelectedLocation();
     }//GEN-LAST:event_cmb_locationItemStateChanged
 
     private void btn_applySessionSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applySessionSettingsActionPerformed
@@ -572,8 +573,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_SetToDegreesAboveHorizon;
     private javax.swing.JButton btn_SetToTwilightTime;
-    private javax.swing.JButton btn_SetToTwilightTime1;
     private javax.swing.JButton btn_applySessionSettings;
     private javax.swing.JComboBox<String> cmb_catalog;
     private javax.swing.JComboBox<String> cmb_endTime;
@@ -613,11 +614,19 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         return curSelectedLocation;
     }
 
-    public void setCurSelectedLocation(Location curSelectedLocation) {
-        this.curSelectedLocation = curSelectedLocation;
+    public void setCurSelectedLocation() {
+        String selectedLocName = cmb_location.getSelectedItem().toString();
+        int sep = selectedLocName.indexOf(" - ");
+        int id = Integer.parseInt(selectedLocName.substring(0, sep));
+        this.curSelectedLocation = (mydb.getOneLocation(id));
     }
 
     public javax.swing.JButton getBtn_applySessionSettings() {
         return btn_applySessionSettings;
     }
+    
+    public int getLimitingMagnitude(){
+        return Integer.parseInt(this.spin_limitingMagnitude.getValue().toString());
+    }
+           
 }

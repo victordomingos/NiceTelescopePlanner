@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[350, 32767]"/>
@@ -144,7 +144,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cmb_location" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -224,7 +224,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Component id="btn_SetToTwilightTime1" alignment="1" min="-2" pref="210" max="-2" attributes="0"/>
+                                  <Component id="btn_SetToTwilightTime" alignment="1" min="-2" pref="210" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
@@ -250,7 +250,7 @@
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btn_SetToTwilightTime1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_SetToTwilightTime" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -265,7 +265,7 @@
                 <Property name="text" type="java.lang.String" value="Date and time"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_SetToTwilightTime1">
+            <Component class="javax.swing.JButton" name="btn_SetToTwilightTime">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set to astronomical twilight"/>
                 <Property name="name" type="java.lang.String" value="btn_SetToTwilightTime" noResource="true"/>
@@ -285,7 +285,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="date_picker">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="The day of the observation being planned. Most likely, it will be during nght time, so please specify the day corresponding to the session start date."/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;The day of the observation being planned. Most likely, &lt;br&gt;&#xa;it will be during night time, so please specify the day &lt;br&gt;&#xa;corresponding to the session start date."/>
                 <Property name="name" type="java.lang.String" value="date_picker" noResource="true"/>
               </Properties>
               <AuxValues>
@@ -429,7 +429,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btn_SetToTwilightTime" min="-2" pref="210" max="-2" attributes="0"/>
+                      <Component id="btn_SetToDegreesAboveHorizon" min="-2" pref="210" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -454,7 +454,7 @@
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btn_SetToTwilightTime" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_SetToDegreesAboveHorizon" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -514,10 +514,10 @@
                 <Property name="name" type="java.lang.String" value="spin_azEnd" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_SetToTwilightTime">
+            <Component class="javax.swing.JButton" name="btn_SetToDegreesAboveHorizon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set to 5&#xba; above the horizon"/>
-                <Property name="name" type="java.lang.String" value="btn_SetToTwilightTime" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="btn_SetToDegreesAboveHorizon" noResource="true"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -600,7 +600,7 @@
                           <Component id="cmb_catalog" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

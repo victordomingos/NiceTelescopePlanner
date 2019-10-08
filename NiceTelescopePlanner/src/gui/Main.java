@@ -399,9 +399,14 @@ public class Main extends javax.swing.JFrame {
         LocalDateTime datetime_start = lpanel.getStartDatetime();
         LocalDateTime datetime_end = lpanel.getEndDatetime();
         
+        int limMagnitude = lpanel.getLimitingMagnitude();
+        
         System.out.println("START: " + datetime_start);
         System.out.println("END: " + datetime_end);
-        
+        System.out.println("COORDS: LAT " + latitude 
+                + " / LON " + longitude 
+                + " / HEIGHT " + height);
+        System.out.println("LIM.MAGNITUDE: " + limMagnitude);
     }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
