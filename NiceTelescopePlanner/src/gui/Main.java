@@ -9,12 +9,10 @@ import core.Location;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import javax.swing.JToggleButton;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
-import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 /**
  *
@@ -398,8 +396,11 @@ public class Main extends javax.swing.JFrame {
         Double longitude = loc.getLongitude();
         int height = loc.getHeight();
         
-        SimpleDateFormat datetime_start = lpanel.getStartDatetime();
+        LocalDateTime datetime_start = lpanel.getStartDatetime();
+        LocalDateTime datetime_end = lpanel.getEndDatetime();
         
+        System.out.println("START: " + datetime_start);
+        System.out.println("END: " + datetime_end);
         
     }
 

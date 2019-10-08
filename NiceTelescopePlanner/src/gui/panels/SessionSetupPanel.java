@@ -12,6 +12,8 @@ import gui.Main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,83 +26,87 @@ import javax.swing.DefaultComboBoxModel;
  * @author victor
  */
 public class SessionSetupPanel extends javax.swing.JPanel {
+
     private DbConnection mydb = new DbConnection();
     private Location curSelectedLocation = null;
     private Main master;
+
     /**
      * Creates new form SessionSetupPanel
+     *
      * @param master
      */
     public SessionSetupPanel(Main master) {
         initComponents();
         this.master = master;
-        
+
         // Populate limiting magnitude combobox -----------
         date_picker.setDate(new Date());
         DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
         cmb_limitingMagnitude.setModel(dlm);
-        
-        
+
         // TODO: remove this line after the first MVP release ;)
-        subpanel_telescopeAngles.setVisible(false); 
+        subpanel_telescopeAngles.setVisible(false);
         updateLocationsCombo();
     }
 
-    public void updateLocationsCombo () {
+    public void updateLocationsCombo() {
         // Populate locations combobox --------------------
         ArrayList<Location> locs = mydb.getAllLocations();
         DefaultComboBoxModel dlocm = new DefaultComboBoxModel();
-        
+
         for (Location loc : locs) {
             dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
         }
         this.cmb_location.setModel(dlocm);
     }
-    
-    public SimpleDateFormat getStartDatetime(){
-        // TODO!
-        System.out.println(this.date_picker.getDate());
-        System.out.println(this.date_picker.getDate().toString());
+
+    /**
+     * Get the date and time selected in the date picker and start time spinbox.
+     *
+     * @return a LocalDateTime object
+     */
+    public LocalDateTime getStartDatetime() {
+        Date startDate = this.date_picker.getDate();
+        String startHour = cmb_startTime.getSelectedItem().toString();
         
-        Date data = this.date_picker.getDate();
-        String hora = cmb_startTime.getSelectedItem().toString();
-        SimpleDateFormat sdf_data = new SimpleDateFormat("yyyy-MM-dd");
-        String str_data = sdf_data.format(data);
-        str_data += " ";
-        str_data += hora;
-        str_data += ":00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strData = dateFormat.format(startDate);
+        strData = strData + " " + startHour;
         
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1; // Month zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
-        int second = now.get(Calendar.SECOND);
-                
-                
-        
-        System.out.println(str_data);
-        
-        return sdf_data;
-        
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        // replace with your start date string
-//        
-//        try {
-//            d = df.parse(date.toString().replace(" 00:00:00", time));
-//        } catch (ParseException ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        
-//        Long time = d.getTime();
-//        time +=(2*60*60*1000);
-//        Date d2 = new Date(time);
+        DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(strData, dtformatter);
     }
-    
-    
+
+    /**
+     * Get the session end date and time from date picker and end time spinbox.
+     *
+     * If start time is later in the day than the end time, it means the session
+     * end date is in the next day, so the returned calendar it will be set to
+     * the date selected in the date picker date +1 day.
+     *
+     * @return a Calendar object
+     */
+    public LocalDateTime getEndDatetime() {
+        Date endDate = this.date_picker.getDate();
+        String endHour = cmb_endTime.getSelectedItem().toString();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strEndDate = dateFormat.format(endDate);
+        strEndDate = strEndDate + " " + endHour;
+        
+        DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime endDateL = LocalDateTime.parse(strEndDate, dtformatter);
+        
+        endDateL = LocalDateTime.parse(strEndDate, dtformatter);
+        
+        if (endDateL.getHour() <= getStartDatetime().getHour()) {
+            endDateL = endDateL.plusDays(1);
+        }
+
+        return endDateL;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -535,24 +541,24 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         spin_limitingMagnitude.setValue(LIM_MAGNITUDE.get(limit).getLimit());
     }//GEN-LAST:event_cmb_limitingMagnitudeActionPerformed
 
-    private void cmb_locationStateChanged(java.awt.event.ActionEvent evt) {                                             
-        
-    }                                            
+    private void cmb_locationStateChanged(java.awt.event.ActionEvent evt) {
 
-    
+    }
+
+
     private void spin_limitingMagnitudePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudePropertyChange
-        
+
     }//GEN-LAST:event_spin_limitingMagnitudePropertyChange
 
     private void slider_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_limitingMagnitudeStateChanged
-        spin_limitingMagnitude.setValue(slider_limitingMagnitude.getValue()); 
+        spin_limitingMagnitude.setValue(slider_limitingMagnitude.getValue());
     }//GEN-LAST:event_slider_limitingMagnitudeStateChanged
 
     private void spin_limitingMagnitudeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spin_limitingMagnitudeStateChanged
-        this.slider_limitingMagnitude.setValue((int)spin_limitingMagnitude.getValue());        
+        this.slider_limitingMagnitude.setValue((int) spin_limitingMagnitude.getValue());
 // TODO add your handling code here:    }//GEN-LAST:event_spin_limitingMagnitudeStateChanged
     }
-    
+
     private void cmb_locationItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_locationItemStateChanged
         String selectedLocName = cmb_location.getSelectedItem().toString();
         int sep = selectedLocName.indexOf(" - ");
@@ -563,7 +569,7 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private void btn_applySessionSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applySessionSettingsActionPerformed
         this.master.applySessionSettings();
     }//GEN-LAST:event_btn_applySessionSettingsActionPerformed
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToTwilightTime;
