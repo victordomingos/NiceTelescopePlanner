@@ -17,15 +17,17 @@ public final class OnlineLocation {
 
     private String city;
     private String country;
-    private Double lat;
-    private Double lon;
+    private Double lat; // in degrees
+    private Double lon; // in degres
+    private String timezone;
 
     public OnlineLocation(String city, String country, Double latitude, 
-            Double longitude) {
+            Double longitude, String timezone) {
         this.setCity(city);
         this.setCountry(country);
         this.setLatitude(latitude);
         this.setLongitude(longitude);
+        this.setTimezone(timezone);
     }
 
     public String getCity() {
@@ -101,6 +103,14 @@ public final class OnlineLocation {
     public String toString() {
         return "OnlineLocation{" + "city=" + city + ", country=" + country 
                 + ", lat=" + lat + ", lon=" + lon + '}';
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getTimezone() {
+        return timezone;
     }
 
 }

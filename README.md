@@ -1,5 +1,7 @@
 # Nice Telescope Planner
-A simple cross-platform desktop utility for amateur astronomy hobbyists, written in Java. The aim is to provide an easy to use tool to help planning sky observation sessions, suggesting some of the interesting objects you may be able to watch at naked eye, or using amateur equipment (binoculars or small to medium size telescopes) in a given date/time and place. 
+A simple cross-platform desktop utility for amateur astronomy hobbyists, written in Java. The aim is to provide an easy to use tool to help planning sky observation sessions, suggesting some of the interesting objects you may be able to watch at naked eye, or using amateur equipment (binoculars or small to medium size telescopes) in a given date/time and place.
+
+
 
 # Installation and dependencies
 
@@ -7,8 +9,12 @@ This application integrates a few useful third-party libraries that are essentia
 
 - [JPARSEC](http://conga.oan.es/~alonso/doku.php?id=jparsec), a comprehensive astronomy library written in Java, by Tomás Alonso Albi.
 
+- [LatLongToTimezone](https://github.com/drtimcooper/LatLongToTimezone), a latitude/longitude to timezone mapper, by Tim Cooper.
+
+- [Gson](https://github.com/google/gson), a serialization/deserialization library to convert Java Objects into JSON and back.
+
 - MySQL Java Connector
 
 - SwingX, a set of GUI components that extend Swing.
 
-- [Gson](https://github.com/google/gson), a serialization/deserialization library to convert Java Objects into JSON and back.
+The "Detect By IP" feature works by issuing a basic HTTP request to a JSON web API at http://ip-api.com.

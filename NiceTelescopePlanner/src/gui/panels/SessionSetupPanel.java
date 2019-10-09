@@ -9,16 +9,11 @@ import Constants.LIM_MAGNITUDE;
 import core.Location;
 import db.DbConnection;
 import gui.Main;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -61,8 +56,12 @@ public class SessionSetupPanel extends javax.swing.JPanel {
             dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
         }
         this.cmb_location.setModel(dlocm);
-        this.cmb_location.setSelectedIndex(0);
-        this.setCurSelectedLocation();
+        
+        if(dlocm.getSize()>0)
+        {
+            this.cmb_location.setSelectedIndex(0);
+            this.setCurSelectedLocation();
+        }
     }
 
     /**

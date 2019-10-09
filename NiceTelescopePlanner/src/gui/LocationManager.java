@@ -76,31 +76,31 @@ public class LocationManager extends javax.swing.JFrame {
         });
 
         initCombos();
-        
 
     }
 
     private void updateTable() {
-        Double lat_rad, lat_deg, lon_rad, lon_deg;
+        Double lat_rad, lat_deg, lon_rad, lon_deg, timezone;
         String lat, lon, height;
-
+        String tz_formatted = "";
+        
         // get all locations from the database
         ArrayList<Location> allLocations = mydb.getAllLocations();
 
         //Set columns headers and table Model - make it non-editable
-        String columns[] = {"ID", "Location name", "Latitude", "Longitude", "Altitude"};
-        
+        String columns[] = {"ID", "Location name", "Latitude", "Longitude", "Altitude", "Timezone Offset"};
+
         DefaultTableModel LocationsTableModel = new DefaultTableModel(columns, 0) {
             private static final long serialVersionUID = 1L;
+
             @Override
             public boolean isCellEditable(int i, int i1) {
                 return false; //To change body of generated methods, choose Tools | Templates.
             }
         };
-        
+
         table.setModel(LocationsTableModel);
 
-        
         // add location records to table
         for (int i = 0; i < allLocations.size(); i++) {
             String id = Integer.toString(allLocations.get(i).getId());
@@ -118,7 +118,11 @@ public class LocationManager extends javax.swing.JFrame {
 
             height = Integer.toString(allLocations.get(i).getHeight());
 
-            Object[] data = {id, name, lat, lon, height};
+            timezone = allLocations.get(i).getTimeZoneOffset();
+            tz_formatted = String.format("%.6f", timezone);
+            tz_formatted = tz_formatted.substring(0, Math.min(tz_formatted.length(), 6));
+
+            Object[] data = {id, name, lat, lon, height, tz_formatted};
             LocationsTableModel.addRow(data);
         }
 
@@ -127,15 +131,16 @@ public class LocationManager extends javax.swing.JFrame {
         table.getColumn("Latitude").setMaxWidth(160);
         table.getColumn("Longitude").setMaxWidth(160);
         table.getColumn("Altitude").setMaxWidth(80);
+        table.getColumn("Timezone Offset").setMaxWidth(80);
         table.getColumn("ID").setPreferredWidth(50);
         table.getColumn("Latitude").setPreferredWidth(160);
         table.getColumn("Longitude").setPreferredWidth(160);
         table.getColumn("Altitude").setPreferredWidth(80);
+        table.getColumn("Timezone Offset").setPreferredWidth(80);
     }
 
     private void initCombos() {
-        if(cmb_country.getItemCount() == 1)
-        {
+        if (cmb_country.getItemCount() == 1) {
             for (Country.COUNTRY c : Country.COUNTRY.values()) {
                 cmb_country.addItem(c.toString());
             }
@@ -280,14 +285,14 @@ public class LocationManager extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Location name", "Latitude", "Longitude", "Altitude"
+                "Location name", "Latitude", "Longitude", "Altitude", "Timezone"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -298,6 +303,7 @@ public class LocationManager extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.setColumnSelectionAllowed(true);
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.setRowHeight(25);
@@ -630,13 +636,12 @@ public class LocationManager extends javax.swing.JFrame {
 
     private void btn_locationDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locationDetailsActionPerformed
         String btn_text;
-        if (this.btn_locationDetails.isSelected()){
+        if (this.btn_locationDetails.isSelected()) {
             btn_text = "Hide Location Details";
+        } else {
+            btn_text = "Show Location Details";
         }
-        else {
-            btn_text = "Show Location Details";            
-        }
-        
+
         this.centerBottomPanel.setVisible(this.btn_locationDetails.isSelected());
         this.btn_locationDetails.setText(btn_text);
     }//GEN-LAST:event_btn_locationDetailsActionPerformed
@@ -644,7 +649,7 @@ public class LocationManager extends javax.swing.JFrame {
     private void cmb_countryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_countryItemStateChanged
         COUNTRY countryID;
         String selectedCountry;
-        
+
         if (cmb_country.getSelectedIndex() < 1) {
             initCombos();
             return;
@@ -659,10 +664,9 @@ public class LocationManager extends javax.swing.JFrame {
             return;
         }
 
-        
         // Fill cities combo, filtering by country
         try {
-            ArrayList<String> cities_names = new ArrayList<>();            
+            ArrayList<String> cities_names = new ArrayList<>();
             CityElement[] cities = City.getCities(countryID);
             for (CityElement c : cities) {
                 cities_names.add(c.name);
@@ -674,24 +678,21 @@ public class LocationManager extends javax.swing.JFrame {
                 cmb_city.addItem(city);
             }
             cmb_city.setEnabled(true);
-            
+
         } catch (JPARSECException e) {
             System.out.println(e);
-        } 
-        catch (NullPointerException e)
-        {   
+        } catch (NullPointerException e) {
             cmb_city.removeAllItems();
             cmb_city.addItem("[No know cities]");
             cmb_city.setEnabled(false);
         }
-        
-        
+
         // Fill observatories combo, filtering by country
         try {
             ArrayList<String> observatories_names = new ArrayList<>();
             ObservatoryElement[] observatories = Observatory.getObservatoriesByCountry(countryID);
             for (ObservatoryElement o : observatories) {
-                if(!o.name.trim().isEmpty()){
+                if (!o.name.trim().isEmpty()) {
                     observatories_names.add(o.name);
                 }
             }
@@ -702,12 +703,10 @@ public class LocationManager extends javax.swing.JFrame {
                 cmb_observatory.addItem(observatory);
             }
             cmb_observatory.setEnabled(true);
-            
+
         } catch (JPARSECException e) {
             System.out.println(e);
-        }
-        catch (NullPointerException e)
-        {   
+        } catch (NullPointerException e) {
             cmb_observatory.removeAllItems();
             cmb_observatory.addItem("[No know observatories]");
             cmb_observatory.setEnabled(false);
@@ -721,31 +720,31 @@ public class LocationManager extends javax.swing.JFrame {
         }
         CityElement realCity;
         CityElement[] cities;
-        
+
         String selectedCity = cmb_city.getSelectedItem().toString();
 
         try {
             String selectedCountry = cmb_country.getSelectedItem().toString();
             COUNTRY countryID = Country.getID(selectedCountry);
             cities = City.getCities(countryID);
-            
+
             realCity = cities[0];
             // Make sure the city is at least in the same country...
             for (CityElement city : cities) {
                 if (city.name.equalsIgnoreCase(selectedCity)) {
                     realCity = city;
                 }
-            }            
+            }
 
             Double lat_deg = realCity.latitude;
             Double lon_deg = realCity.longitude;
             int height = realCity.height;
             String lat = lat_deg.toString();
             lat = lat.substring(0, Math.min(lat.length(), 8));
-           
+
             String lon = lon_deg.toString();
             lon = lon.substring(0, Math.min(lon.length(), 8));
-                        
+
             txt_latitude.setText(lat);
             txt_longitude.setText(lon);
             txt_height.setText(Integer.toString(height));
@@ -799,7 +798,7 @@ public class LocationManager extends javax.swing.JFrame {
 
         locId = this.curLocationBeingEdited;
 
-        if(locId == -1) {
+        if (locId == -1) {
             msg = "Please enter a new name for this observatory: ";
             do {
                 if (locName.length() > 127) {
@@ -810,14 +809,16 @@ public class LocationManager extends javax.swing.JFrame {
                 }
                 locName = (String) JOptionPane.showInputDialog(null, msg, "Preparing to save Location",
                         JOptionPane.QUESTION_MESSAGE, null, null, locName);
-                
+
             } while (locName.trim().isEmpty() || locName.trim().length() > 128);
             locName = locName.trim();
-        }
-        else {
+        } else {
             locName = lbl_locationName.getText();
         }
-        
+
+        locTz = Location.getTimeZoneOffset(latitude * Constant.RAD_TO_DEG,
+                longitude * Constant.RAD_TO_DEG);
+
         // Save to the database
         int status = mydb.insertOrUpdateLocation(locId, locName, latitude,
                 longitude, height, txt_address.getText(), locTz);
@@ -831,7 +832,7 @@ public class LocationManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(false);
         this.btn_locationDetails.setText("Show Location Details");
         this.updateTable();
-        
+
     }//GEN-LAST:event_btn_saveLocationActionPerformed
 
     private void btn_newLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newLocationActionPerformed
@@ -968,7 +969,7 @@ public class LocationManager extends javax.swing.JFrame {
 
         ObservatoryElement observatory;
         try {
-            
+
             // TODO: 
             // We definitely should add a clear way to choose between multiple 
             // cities in case they happen to have the same name, but for now, 
@@ -979,11 +980,10 @@ public class LocationManager extends javax.swing.JFrame {
                 String selectedCountry = cmb_country.getSelectedItem().toString();
                 COUNTRY countryID = Country.getID(selectedCountry);
                 observatory = Observatory.findObservatorybyName(selectedObservatory, countryID);
-            }
-            else{
+            } else {
                 observatory = Observatory.findObservatorybyName(selectedObservatory);
             }
-           
+
             Double lat = observatory.latitude;
             Double lon = observatory.longitude;
             int height = observatory.height;
@@ -1116,7 +1116,7 @@ public class LocationManager extends javax.swing.JFrame {
         Double lon_deg = loc.getLongitude() * Constant.RAD_TO_DEG;
         String lon = lon_deg.toString();
         lon = lon.substring(0, Math.min(lon.length(), 8));
-        
+
         txt_latitude.setText(lat);
         txt_longitude.setText(lon);
         txt_height.setText(Integer.toString(loc.getHeight()));

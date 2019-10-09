@@ -395,7 +395,8 @@ public class Main extends javax.swing.JFrame {
         Double latitude = loc.getLatitude();
         Double longitude = loc.getLongitude();
         int height = loc.getHeight();
-        
+        Double timezone = loc.getTimeZoneOffset();
+                
         LocalDateTime datetime_start = lpanel.getStartDatetime();
         LocalDateTime datetime_end = lpanel.getEndDatetime();
         
@@ -406,6 +407,8 @@ public class Main extends javax.swing.JFrame {
         System.out.println("COORDS: LAT " + latitude 
                 + " / LON " + longitude 
                 + " / HEIGHT " + height);
+        
+        System.out.println("TIMEZONE: " + timezone);
         System.out.println("LIM.MAGNITUDE: " + limMagnitude);
     }
 
