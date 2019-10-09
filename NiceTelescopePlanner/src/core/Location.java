@@ -135,7 +135,7 @@ public class Location {
     public Double getTimeZoneOffset() {
         System.out.println("getTimeZoneOffset(): " + this.latitude_rad + " - " + this.longitude_rad);
         
-        return Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad) / 1000 / 3600;
+        return Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad);
     }
 
     /**
