@@ -20,11 +20,11 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author victor
  */
-public class SessionSetupPanel extends javax.swing.JPanel {
+public final class SessionSetupPanel extends javax.swing.JPanel {
 
-    private DbConnection mydb = new DbConnection();
+    private final DbConnection mydb = new DbConnection();
     private Location curSelectedLocation = null;
-    private Main master;
+    private final Main master;
 
     /**
      * Creates new form SessionSetupPanel
@@ -45,6 +45,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         // TODO: remove theses line after the first MVP release ;)
         subpanel_telescopeAngles.setVisible(false);
         btn_SetToTwilightTime.setVisible(false);
+        lbl_kind.setVisible(false);
+        cmb_kind.setVisible(false);
+        lbl_catalog.setVisible(false);
+        cmb_catalog.setVisible(false);
+        
     }
 
     public void updateLocationsCombo() {
@@ -146,9 +151,9 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         btn_SetToDegreesAboveHorizon = new javax.swing.JButton();
         subpanel_filterSugestions = new org.jdesktop.swingx.JXPanel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        lbl_kind = new javax.swing.JLabel();
         cmb_kind = new javax.swing.JComboBox<>();
-        jLabel18 = new javax.swing.JLabel();
+        lbl_catalog = new javax.swing.JLabel();
         cmb_catalog = new javax.swing.JComboBox<>();
         cmb_limitingMagnitude = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
@@ -371,14 +376,14 @@ public class SessionSetupPanel extends javax.swing.JPanel {
         jLabel17.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel17.setText("Filter sugestions by");
 
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel19.setText("Kind:");
+        lbl_kind.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_kind.setText("Kind:");
 
         cmb_kind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmb_kind.setName("cmb_kind"); // NOI18N
 
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel18.setText("Catalog:");
+        lbl_catalog.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_catalog.setText("Catalog:");
 
         cmb_catalog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmb_catalog.setName("cmb_catalog"); // NOI18N
@@ -433,8 +438,8 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                             .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(lbl_catalog, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_filterSugestionsLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -469,11 +474,11 @@ public class SessionSetupPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_kind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_catalog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
+                    .addComponent(lbl_catalog))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -589,13 +594,13 @@ public class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lbl_catalog;
+    private javax.swing.JLabel lbl_kind;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private javax.swing.JSlider slider_limitingMagnitude;
     private javax.swing.JSpinner spin_altEnd;
