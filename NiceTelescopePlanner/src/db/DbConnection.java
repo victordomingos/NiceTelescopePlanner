@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import core.Location;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import jparsec.math.Constant;
 
 /**
  *
@@ -93,7 +94,7 @@ public class DbConnection {
         String ssql = "SELECT id, name, address, latitude, longitude, height, timezone "
                 + "FROM location "
                 + "WHERE id=" + id;
-
+        
         try {
             con = DriverManager.getConnection(url, user, password);
             st = con.createStatement();
@@ -107,8 +108,10 @@ public class DbConnection {
                         r.getDouble("longitude"),
                         r.getInt("height"),
                         r.getDouble("timezone"));
+            
+                System.out.println("timezone db: "+r.getDouble("timezone"));
             }
-
+            
             return loc;
 
         } catch (SQLException e) {
@@ -139,21 +142,31 @@ public class DbConnection {
      *
      * @param locId
      * @param name
-     * @param latitude
-     * @param longitude
+     * @param latitude_rad
+     * @param longitude_rad
      * @param height
      * @param address
      * @param timezone
      * @return
      */
-    public int insertOrUpdateLocation(int locId, String name, Double latitude,
-            Double longitude, int height, String address, Double timezone) {
-        String ssql;
+    public int insertOrUpdateLocation(int locId, String name, Double latitude_rad,
+            Double longitude_rad, int height, String address, Double timezone) {
 
         Connection con = null;
         PreparedStatement st = null;
+        String ssql;
         int r = -1;
-
+       
+        
+        System.out.println("=== insertOrUpdateLocation =========================");
+        System.out.println("LAT_RAD: " + latitude_rad);
+        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+        System.out.println("LON_RAD: " + longitude_rad);
+        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
+        System.out.println("LOC_TZ:  " + timezone);
+        System.out.println("== /insertOrUpdateLocation =========================");
+        
+        
         try {
             con = DriverManager.getConnection(url, user, password);
             if (locId == -1) {
@@ -186,8 +199,8 @@ public class DbConnection {
                 st.setInt(7, locId);
             }
             st.setString(1, name);
-            st.setDouble(2, latitude);
-            st.setDouble(3, longitude);
+            st.setDouble(2, latitude_rad);
+            st.setDouble(3, longitude_rad);
             st.setInt(4, height);
             st.setString(5, address);
             st.setDouble(6, timezone);
@@ -197,6 +210,7 @@ public class DbConnection {
             System.out.println(e.getMessage());
             System.out.println(e.getErrorCode());
         } finally {
+            System.out.println("DB TIMEZONE IN: " + timezone);
             try {
                 if (st != null) {
                     st.close();
@@ -213,17 +227,9 @@ public class DbConnection {
     }
 
     /**
-     * Inserts a new database record on the location table. If the record
-     * already exists, it will be updated with the new data.
+     * Deletes a location record from tghe database
      *
      * @param locId
-     * @param name
-     * @param latitude
-     * @param longitude
-     * @param height
-     * @param address
-     * @param timezone
-     * @return
      */
     public void deleteLocation(int locId) {
         String ssql;

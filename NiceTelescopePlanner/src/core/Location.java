@@ -5,7 +5,6 @@
  */
 package core;
 
-
 import static Constants.Constants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
 import static Constants.Constants.DEFAULT_LOCATION_HEIGHT;
 import com.google.gson.Gson;
@@ -29,8 +28,8 @@ public class Location {
     private int id;
     private String name;
     private String address;
-    private Double latitude;
-    private Double longitude;
+    private Double latitude_rad;
+    private Double longitude_rad;
     private int height;         // i.e. Altitude (above sea level).
     private Double timezone;
 
@@ -41,14 +40,14 @@ public class Location {
      * @param id
      * @param name
      * @param address
-     * @param latitude
-     * @param longitude
+     * @param latitude_rad
+     * @param longitude_rad
      * @param height
      * @param timezone
      */
-    public Location(int id, String name, String address, Double latitude, 
-            Double longitude, int height, Double timezone) {
-        this(name, latitude, longitude, height);
+    public Location(int id, String name, String address, Double latitude_rad,
+            Double longitude_rad, int height, Double timezone) {
+        this(name, latitude_rad, longitude_rad, height);
         this.id = id;
         this.address = address;
         this.timezone = timezone;
@@ -58,18 +57,18 @@ public class Location {
      * This is a simpler constructor, which takes just the most essential data.
      *
      * @param name
-     * @param latitude in radians
-     * @param longitude in radians
+     * @param latitude_rad in radians
+     * @param longitude_rad in radians
      * @param height in meters
      */
-    public Location(String name, Double latitude, Double longitude, int height) {
+    public Location(String name, Double latitude_rad, Double longitude_rad, int height) {
         this.id = -1;
         this.name = name;
         this.address = null;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude_rad = latitude_rad;
+        this.longitude_rad = longitude_rad;
         this.height = height;
-        this.timezone = Location.getTimeZoneOffset(latitude, longitude);
+        this.timezone = Location.getTimeZoneOffset(latitude_rad, longitude_rad);
     }
 
     /**
@@ -83,25 +82,23 @@ public class Location {
     public Location() throws MalformedURLException, ProtocolException, IOException {
         OnlineLocation onloc = getOnlineLocation();
         this.id = -1;
-        this.latitude = onloc.getLatitude();
-        this.longitude = onloc.getLongitude();
+        this.latitude_rad = onloc.getLatitude() * Constant.DEG_TO_RAD;
+        this.longitude_rad = onloc.getLongitude() * Constant.DEG_TO_RAD;
         this.address = "";
         this.name = onloc.getCity() + "/" + onloc.getCountry() + " (IP)";
         this.height = Integer.parseInt(DEFAULT_LOCATION_HEIGHT);
-        this.timezone = Location.getTimeZoneOffset(onloc.getLatitude(), onloc.getLongitude());
-                
-                
-        
+        this.timezone = Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad);
+
     }
 
     /**
-     * Gets the current GPS coordinates based on the current outbound IP address 
-     * by parsing a JSON response received from IP-API.com.
+     * Gets the current GPS coordinates (in degrees) based on the current 
+     * outbound IP address by parsing a JSON response received from IP-API.com.
      *
      * @return OnlineLocation
      * @throws MalformedURLException
      * @throws ProtocolException
-     * @throws IOException 
+     * @throws IOException
      */
     public OnlineLocation getOnlineLocation() throws MalformedURLException,
             ProtocolException, IOException {
@@ -124,36 +121,64 @@ public class Location {
         con.disconnect();
 
         Gson gson = new Gson();
-        OnlineLocation loc = gson.fromJson(sb.toString(), OnlineLocation.class);
-        return loc;
+        OnlineLocation onloc = gson.fromJson(sb.toString(), OnlineLocation.class);
+        return onloc;
     }
-    
-    public Double getTimeZoneOffset(){
-        return Location.getTimeZoneOffset(this.latitude, this.longitude) / 1000 / 3600;
+
+    /**
+     * Returns the timezone offset in hours for the current lat/lon in radians
+     * 
+     * @return 
+     */
+    public Double getTimeZoneOffset() {
+        return Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad) / 1000 / 3600;
     }
-    
-    public static Double getTimeZoneOffset(double latitude, double longitude){
+
+    /**
+     * Returns the timezone offset in hours for the specified lat/lon in radians
+     * 
+     * @param latitude_rad in radians
+     * @param longitude_rad in radians
+     * @return 
+     */
+    public static Double getTimeZoneOffset(double latitude_rad, double longitude_rad) {
         String tzone = TimezoneMapper.latLngToTimezoneString(
-                latitude * Constant.RAD_TO_DEG, 
-                longitude * Constant.RAD_TO_DEG);
-        
-        
-        System.out.println(latitude * Constant.RAD_TO_DEG + " - " + longitude * Constant.RAD_TO_DEG);
-        System.out.println("T1:" + tzone);
-        System.out.println("T2:" + TimeZone.getTimeZone(tzone));
-        System.out.println("T3:" + TimeZone.getTimeZone(tzone).getRawOffset()/1000/3600);
-        
+                latitude_rad * Constant.RAD_TO_DEG,
+                longitude_rad * Constant.RAD_TO_DEG);
+
+        System.out.println("=== getTimeZoneOffset =========================");
+        System.out.println("LAT_RAD: " + latitude_rad);
+        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+        System.out.println("LON_RAD: " + longitude_rad);
+        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
+        System.out.println("TZONE:   " + tzone);
+        System.out.println("TMZ MS:  " + TimeZone.getTimeZone(tzone));
+        System.out.println("TMZ HH:  " + TimeZone.getTimeZone(tzone).getRawOffset() / 1000 / 3600);
+        System.out.println("DTMZ HH: " + Double.valueOf(TimeZone.getTimeZone(tzone).getRawOffset()) / 1000 / 3600);
+        System.out.println("== /getTimeZoneOffset =========================");
         
         return Double.valueOf(TimeZone.getTimeZone(tzone).getRawOffset()) / 1000 / 3600;
     }
-    
-    
-    public String getTimeZoneID(){
-        return getTimeZoneID(this.latitude, this.longitude);
+
+    /**
+     * Get a timezone identifier for the current lat/lon in radians 
+     */
+    public String getTimeZoneID() {
+        return getTimeZoneID(this.latitude_rad, this.longitude_rad);
     }
-    
-    public String getTimeZoneID(double latitude, double longitude){
-        String tzone = TimezoneMapper.latLngToTimezoneString(latitude, longitude);
+
+    /**
+     * Get a timezone identifier from lat/lon (in radians)
+     * 
+     * @param latitude_rad in radians
+     * @param longitude_rad in radians
+     * @return 
+     */
+    public String getTimeZoneID(double latitude_rad, double longitude_rad) {
+        String tzone = TimezoneMapper.latLngToTimezoneString(
+                latitude_rad * Constant.RAD_TO_DEG, 
+                longitude_rad * Constant.RAD_TO_DEG);
+        
         System.out.println("TZONE ID: " + tzone);
         return tzone;
     }
@@ -171,24 +196,20 @@ public class Location {
     }
 
     public Double getLatitude() {
-        return latitude;
+        return latitude_rad;
     }
 
     public Double getLongitude() {
-        return longitude;
+        return longitude_rad;
     }
 
     public int getHeight() {
         return height;
     }
 
-  
-
     @Override
     public String toString() {
-        return "Location{" + "id=" + id + ", name=" + name + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + ", height=" + height + ", timezone=" + timezone + '}';
+        return "Location{" + "id=" + id + ", name=" + name + ", address=" + address + ", latitude=" + latitude_rad + ", longitude=" + longitude_rad + ", height=" + height + ", timezone=" + timezone + '}';
     }
-    
-    
 
 }

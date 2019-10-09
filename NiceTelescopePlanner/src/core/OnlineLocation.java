@@ -17,16 +17,16 @@ public final class OnlineLocation {
 
     private String city;
     private String country;
-    private Double lat; // in degrees
-    private Double lon; // in degres
+    private Double latitude_deg; // in degrees
+    private Double longitude_deg; // in degres
     private String timezone;
 
-    public OnlineLocation(String city, String country, Double latitude, 
-            Double longitude, String timezone) {
+    public OnlineLocation(String city, String country, Double latitude_deg, 
+            Double longitude_deg, String timezone) {
         this.setCity(city);
         this.setCountry(country);
-        this.setLatitude(latitude);
-        this.setLongitude(longitude);
+        this.setLatitude(latitude_deg);
+        this.setLongitude(longitude_deg);
         this.setTimezone(timezone);
     }
 
@@ -47,19 +47,19 @@ public final class OnlineLocation {
     }
 
     public Double getLatitude() {
-        return lat;
+        return latitude_deg;
     }
 
     public void setLatitude(Double latitude) {
-        this.lat = latitude;
+        this.latitude_deg = latitude;
     }
 
     public Double getLongitude() {
-        return lon;
+        return longitude_deg;
     }
 
     public void setLongitude(Double longitude) {
-        this.lon = longitude;
+        this.longitude_deg = longitude;
     }
 
     @Override
@@ -67,8 +67,8 @@ public final class OnlineLocation {
         int hash = 7;
         hash = 43 * hash + Objects.hashCode(this.city);
         hash = 43 * hash + Objects.hashCode(this.country);
-        hash = 43 * hash + Objects.hashCode(this.lat);
-        hash = 43 * hash + Objects.hashCode(this.lon);
+        hash = 43 * hash + Objects.hashCode(this.latitude_deg);
+        hash = 43 * hash + Objects.hashCode(this.longitude_deg);
         return hash;
     }
 
@@ -90,10 +90,10 @@ public final class OnlineLocation {
         if (!Objects.equals(this.country, other.country)) {
             return false;
         }
-        if (!Objects.equals(this.lat, other.lat)) {
+        if (!Objects.equals(this.latitude_deg, other.latitude_deg)) {
             return false;
         }
-        if (!Objects.equals(this.lon, other.lon)) {
+        if (!Objects.equals(this.longitude_deg, other.longitude_deg)) {
             return false;
         }
         return true;
@@ -102,7 +102,7 @@ public final class OnlineLocation {
     @Override
     public String toString() {
         return "OnlineLocation{" + "city=" + city + ", country=" + country 
-                + ", lat=" + lat + ", lon=" + lon + '}';
+                + ", lat=" + latitude_deg + ", lon=" + longitude_deg + '}';
     }
 
     public void setTimezone(String timezone) {

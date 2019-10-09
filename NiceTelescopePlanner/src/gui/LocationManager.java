@@ -100,7 +100,7 @@ public class LocationManager extends javax.swing.JFrame {
         };
 
         table.setModel(LocationsTableModel);
-
+        
         // add location records to table
         for (int i = 0; i < allLocations.size(); i++) {
             String id = Integer.toString(allLocations.get(i).getId());
@@ -758,7 +758,7 @@ public class LocationManager extends javax.swing.JFrame {
         Integer locId;
         String locName = "";
         Double locTz = 0.0;
-        Double latitude, longitude;
+        Double latitude_rad, longitude_rad;
         int height;
         String msg;
 
@@ -770,7 +770,7 @@ public class LocationManager extends javax.swing.JFrame {
             txt_latitude.requestFocusInWindow();
             return;
         } else {
-            latitude = Constant.DEG_TO_RAD * Double.parseDouble(
+            latitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
                     txt_latitude.getText().replace(',', '.'));
         }
 
@@ -781,7 +781,7 @@ public class LocationManager extends javax.swing.JFrame {
             txt_longitude.requestFocusInWindow();
             return;
         } else {
-            longitude = Constant.DEG_TO_RAD * Double.parseDouble(
+            longitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
                     txt_longitude.getText().replace(',', '.'));
         }
 
@@ -816,12 +816,23 @@ public class LocationManager extends javax.swing.JFrame {
             locName = lbl_locationName.getText();
         }
 
-        locTz = Location.getTimeZoneOffset(latitude * Constant.RAD_TO_DEG,
-                longitude * Constant.RAD_TO_DEG);
+        locTz = Location.getTimeZoneOffset(latitude_rad * Constant.RAD_TO_DEG,
+                longitude_rad * Constant.RAD_TO_DEG);
 
+        
+        System.out.println("=== BTN_SAVE_LOCATION =========================");
+        System.out.println("LAT_RAD: " + latitude_rad);
+        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+        System.out.println("LON_RAD: " + longitude_rad);
+        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
+        System.out.println("LOC_TZ:  " + locTz);
+        System.out.println("== /BTN_SAVE_LOCATION =========================");
+        
+        
+        
         // Save to the database
-        int status = mydb.insertOrUpdateLocation(locId, locName, latitude,
-                longitude, height, txt_address.getText(), locTz);
+        int status = mydb.insertOrUpdateLocation(locId, locName, latitude_rad,
+                longitude_rad, height, txt_address.getText(), locTz);
 
         // Update the table
         // Present an option to create a new session using this location.
@@ -879,8 +890,11 @@ public class LocationManager extends javax.swing.JFrame {
         try {
             // Get current GPS coordinates from current outbound IP address
             Location onloc = new Location();
-            txt_latitude.setText(onloc.getLatitude().toString());
-            txt_longitude.setText(onloc.getLongitude().toString());
+            Double latitude_deg = onloc.getLatitude() * Constant.RAD_TO_DEG;
+            Double longitude_deg = onloc.getLongitude() * Constant.RAD_TO_DEG;
+            
+            txt_latitude.setText(latitude_deg.toString());
+            txt_longitude.setText(longitude_deg.toString());
             txt_height.setText(Constants.Constants.DEFAULT_LOCATION_HEIGHT);
             String msg = "According to IP-API.com, you're near " + onloc.getName()
                     + ".\nPlease keep in mind that GPS coordinates obtained by \n"
