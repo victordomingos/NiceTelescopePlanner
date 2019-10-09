@@ -14,19 +14,20 @@ import java.util.Objects;
  * @author victordomingos
  */
 public final class OnlineLocation {
-
+    // These names must stay just like this 
+    // for the sake of JSON conversion compatibility:
     private String city;
     private String country;
-    private Double latitude_deg; // in degrees
-    private Double longitude_deg; // in degres
+    private Double lat; // in degrees
+    private Double lon; // in degres
     private String timezone;
 
-    public OnlineLocation(String city, String country, Double latitude_deg, 
-            Double longitude_deg, String timezone) {
+    public OnlineLocation(String city, String country, Double latitude, 
+            Double longitude, String timezone) {
         this.setCity(city);
         this.setCountry(country);
-        this.setLatitude(latitude_deg);
-        this.setLongitude(longitude_deg);
+        this.setLat(latitude);
+        this.setLon(longitude);
         this.setTimezone(timezone);
     }
 
@@ -46,20 +47,20 @@ public final class OnlineLocation {
         this.country = country;
     }
 
-    public Double getLatitude() {
-        return latitude_deg;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude_deg = latitude;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public Double getLongitude() {
-        return longitude_deg;
+    public Double getLon() {
+        return lon;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude_deg = longitude;
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
     @Override
@@ -67,8 +68,8 @@ public final class OnlineLocation {
         int hash = 7;
         hash = 43 * hash + Objects.hashCode(this.city);
         hash = 43 * hash + Objects.hashCode(this.country);
-        hash = 43 * hash + Objects.hashCode(this.latitude_deg);
-        hash = 43 * hash + Objects.hashCode(this.longitude_deg);
+        hash = 43 * hash + Objects.hashCode(this.lat);
+        hash = 43 * hash + Objects.hashCode(this.lon);
         return hash;
     }
 
@@ -90,10 +91,10 @@ public final class OnlineLocation {
         if (!Objects.equals(this.country, other.country)) {
             return false;
         }
-        if (!Objects.equals(this.latitude_deg, other.latitude_deg)) {
+        if (!Objects.equals(this.lat, other.lat)) {
             return false;
         }
-        if (!Objects.equals(this.longitude_deg, other.longitude_deg)) {
+        if (!Objects.equals(this.lon, other.lon)) {
             return false;
         }
         return true;
@@ -102,9 +103,9 @@ public final class OnlineLocation {
     @Override
     public String toString() {
         return "OnlineLocation{" + "city=" + city + ", country=" + country 
-                + ", lat=" + latitude_deg + ", lon=" + longitude_deg + '}';
+                + ", lat=" + lat + "º, lon=" + lon 
+                + "º, timezone=" + timezone +"}";
     }
-
     public void setTimezone(String timezone) {
         this.timezone = timezone;
     }

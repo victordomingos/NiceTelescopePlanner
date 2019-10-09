@@ -43,6 +43,7 @@ public class LocationManager extends javax.swing.JFrame {
     // -1 means form empty or editing a new session; 
     // Any other number means the db ID of an existing location being edited/shown.
     private int curLocationBeingEdited = -1;
+    private Location newLocation;
 
     /**
      * Creates new form Sessions
@@ -106,12 +107,12 @@ public class LocationManager extends javax.swing.JFrame {
             String id = Integer.toString(allLocations.get(i).getId());
             String name = allLocations.get(i).getName();
 
-            lat_rad = allLocations.get(i).getLatitude();
+            lat_rad = allLocations.get(i).getLatitudeRad();
             lat_deg = lat_rad * Constant.RAD_TO_DEG;
             lat = String.format("%.6f", lat_deg);
             lat = lat.substring(0, Math.min(lat.length(), 8));
 
-            lon_rad = allLocations.get(i).getLongitude();
+            lon_rad = allLocations.get(i).getLongitudeRad();
             lon_deg = lon_rad * Constant.RAD_TO_DEG;
             lon = String.format("%.6f", lon_deg);
             lon = lon.substring(0, Math.min(lon.length(), 8));
@@ -119,9 +120,10 @@ public class LocationManager extends javax.swing.JFrame {
             height = Integer.toString(allLocations.get(i).getHeight());
 
             timezone = allLocations.get(i).getTimeZoneOffset();
-            tz_formatted = String.format("%.6f", timezone);
-            tz_formatted = tz_formatted.substring(0, Math.min(tz_formatted.length(), 6));
-
+            //tz_formatted = String.format("%.6f", timezone);
+            //tz_formatted = tz_formatted.substring(0, Math.min(tz_formatted.length(), 6));
+            tz_formatted = timezone.toString();
+            
             Object[] data = {id, name, lat, lon, height, tz_formatted};
             LocationsTableModel.addRow(data);
         }
@@ -816,8 +818,7 @@ public class LocationManager extends javax.swing.JFrame {
             locName = lbl_locationName.getText();
         }
 
-        locTz = Location.getTimeZoneOffset(latitude_rad * Constant.RAD_TO_DEG,
-                longitude_rad * Constant.RAD_TO_DEG);
+        locTz = Location.getTimeZoneOffset(latitude_rad, longitude_rad);
 
         
         System.out.println("=== BTN_SAVE_LOCATION =========================");
@@ -850,6 +851,7 @@ public class LocationManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible((true));
         this.btn_locationDetails.setSelected(true);
         this.btn_locationDetails.setText("Hide Location Details");
+        this.newLocation = null;
 
         if (curLocationBeingEdited > 0) {
             String msg = "You were already editing an existing location. \n"
@@ -889,14 +891,14 @@ public class LocationManager extends javax.swing.JFrame {
 
         try {
             // Get current GPS coordinates from current outbound IP address
-            Location onloc = new Location();
-            Double latitude_deg = onloc.getLatitude() * Constant.RAD_TO_DEG;
-            Double longitude_deg = onloc.getLongitude() * Constant.RAD_TO_DEG;
+            newLocation = new Location();
+            Double latitude_deg = newLocation.getLatitudeRad() * Constant.RAD_TO_DEG;
+            Double longitude_deg = newLocation.getLongitudeRad() * Constant.RAD_TO_DEG;
             
             txt_latitude.setText(latitude_deg.toString());
             txt_longitude.setText(longitude_deg.toString());
             txt_height.setText(Constants.Constants.DEFAULT_LOCATION_HEIGHT);
-            String msg = "According to IP-API.com, you're near " + onloc.getName()
+            String msg = "According to IP-API.com, you're near " + newLocation.getName()
                     + ".\nPlease keep in mind that GPS coordinates obtained by \n"
                     + "this process are just (inherently imprecise) estimations.\n\n"
                     + "Currently, altitude cannot be determined automatically,\n"
@@ -1098,6 +1100,7 @@ public class LocationManager extends javax.swing.JFrame {
         txt_longitude.setText("");
         txt_height.setText("");
         txt_address.setText("");
+        this.newLocation = null;
     }
 
     /**
@@ -1120,19 +1123,19 @@ public class LocationManager extends javax.swing.JFrame {
     private void loadBottomPanel(int id) {
         clearBottomPanel();
         //txt_address 
-        Location loc = mydb.getOneLocation(id);
-        lbl_locationName.setText(loc.getName());
+        this.newLocation = mydb.getOneLocation(id);
+        lbl_locationName.setText(newLocation.getName());
 
-        Double lat_deg = loc.getLatitude() * Constant.RAD_TO_DEG;
+        Double lat_deg = newLocation.getLatitudeRad() * Constant.RAD_TO_DEG;
         String lat = lat_deg.toString();
         lat = lat.substring(0, Math.min(lat.length(), 8));
 
-        Double lon_deg = loc.getLongitude() * Constant.RAD_TO_DEG;
+        Double lon_deg = newLocation.getLongitudeRad() * Constant.RAD_TO_DEG;
         String lon = lon_deg.toString();
         lon = lon.substring(0, Math.min(lon.length(), 8));
 
         txt_latitude.setText(lat);
         txt_longitude.setText(lon);
-        txt_height.setText(Integer.toString(loc.getHeight()));
+        txt_height.setText(Integer.toString(newLocation.getHeight()));
     }
 }

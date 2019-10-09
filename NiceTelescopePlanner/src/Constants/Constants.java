@@ -24,7 +24,7 @@ public class Constants {
     // Source: https://www.pnas.org/content/95/24/14009
     public static final String DEFAULT_LOCATION_HEIGHT = "194";
 
-    public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 3000;
+    public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 5000;
 
     
 }

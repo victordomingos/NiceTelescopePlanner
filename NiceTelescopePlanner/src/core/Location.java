@@ -81,9 +81,10 @@ public class Location {
      */
     public Location() throws MalformedURLException, ProtocolException, IOException {
         OnlineLocation onloc = getOnlineLocation();
+        System.out.println(onloc);
         this.id = -1;
-        this.latitude_rad = onloc.getLatitude() * Constant.DEG_TO_RAD;
-        this.longitude_rad = onloc.getLongitude() * Constant.DEG_TO_RAD;
+        this.latitude_rad = onloc.getLat() * Constant.DEG_TO_RAD;
+        this.longitude_rad = onloc.getLon() * Constant.DEG_TO_RAD;
         this.address = "";
         this.name = onloc.getCity() + "/" + onloc.getCountry() + " (IP)";
         this.height = Integer.parseInt(DEFAULT_LOCATION_HEIGHT);
@@ -122,26 +123,32 @@ public class Location {
 
         Gson gson = new Gson();
         OnlineLocation onloc = gson.fromJson(sb.toString(), OnlineLocation.class);
+        System.out.println(sb.toString());
         return onloc;
     }
 
     /**
-     * Returns the timezone offset in hours for the current lat/lon in radians
+     * Returns the timezone offset in hours, for the current lat/lon in radians
      * 
      * @return 
      */
     public Double getTimeZoneOffset() {
+        System.out.println("getTimeZoneOffset(): " + this.latitude_rad + " - " + this.longitude_rad);
+        
         return Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad) / 1000 / 3600;
     }
 
     /**
-     * Returns the timezone offset in hours for the specified lat/lon in radians
+     * Returns the timezone offset in hours, for the specified lat/lon in radians
      * 
      * @param latitude_rad in radians
      * @param longitude_rad in radians
      * @return 
      */
     public static Double getTimeZoneOffset(double latitude_rad, double longitude_rad) {
+        System.out.println("getTimeZoneOffset(double latitude_rad, double longitude_rad): " 
+                        + latitude_rad + " - " + longitude_rad);
+
         String tzone = TimezoneMapper.latLngToTimezoneString(
                 latitude_rad * Constant.RAD_TO_DEG,
                 longitude_rad * Constant.RAD_TO_DEG);
@@ -195,11 +202,11 @@ public class Location {
         return address;
     }
 
-    public Double getLatitude() {
+    public Double getLatitudeRad() {
         return latitude_rad;
     }
 
-    public Double getLongitude() {
+    public Double getLongitudeRad() {
         return longitude_rad;
     }
 

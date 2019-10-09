@@ -204,6 +204,7 @@ public class DbConnection {
             st.setInt(4, height);
             st.setString(5, address);
             st.setDouble(6, timezone);
+            System.out.println("DB INSERT:" + timezone);
 
             r = st.executeUpdate();
         } catch (SQLException e) {

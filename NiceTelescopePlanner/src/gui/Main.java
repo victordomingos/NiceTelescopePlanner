@@ -392,8 +392,8 @@ public class Main extends javax.swing.JFrame {
     public void applySessionSettings(){
         // TODO!
         Location loc = lpanel.getCurSelectedLocation();
-        Double latitude = loc.getLatitude();
-        Double longitude = loc.getLongitude();
+        Double latitude = loc.getLatitudeRad();
+        Double longitude = loc.getLongitudeRad();
         int height = loc.getHeight();
         Double timezone = loc.getTimeZoneOffset();
                 
