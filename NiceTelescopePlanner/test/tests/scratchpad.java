@@ -21,8 +21,11 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
+import jparsec.ephem.RiseSetTransit;
 import jparsec.ephem.Target;
+import jparsec.ephem.planets.EphemElement;
 import jparsec.observer.ObserverElement;
 import jparsec.time.TimeElement;
 import jparsec.util.JPARSECException;
@@ -33,10 +36,11 @@ import jparsec.util.JPARSECException;
  */
 public class scratchpad {
 
-    public static void main(String[] args) throws ProtocolException, IOException {
+    public static void main(String[] args) throws ProtocolException, IOException, JPARSECException {
         Location loc = null;
         TimeElement timeEl = null;
-        EphemerisElement ephemEl = null;
+        EphemerisElement ephemerisEl = null;
+        EphemElement ephemEl = null;
         
         loc = new Location("India", 0.23741713814878865, 1.3514957062818092, 686);
         
@@ -63,9 +67,23 @@ public class scratchpad {
         
         System.out.println("Total targets: " + Target.getNames().length);
         
-        //ephemEl = new EphemerisElement()
+        try {
+            ephemerisEl = new EphemerisElement(Target.getID("Saturn"),
+                    EphemerisElement.COORDINATES_TYPE.APPARENT,
+                    EphemerisElement.EQUINOX_OF_DATE, true,
+                    EphemerisElement.REDUCTION_METHOD.IAU_2006,
+                    EphemerisElement.FRAME.ICRF);
+        } catch (JPARSECException ex) {
+            System.out.println(ex);
+        }
         
         
+        
+        try {
+            ephemEl = Ephem.getEphemeris("Saturn", timeEl, observer, ephemerisEl, true);
+        } catch (JPARSECException ex) {
+            System.out.println(ex);
+        }
         
         
         System.out.println("LOCATION: " + loc);
@@ -74,8 +92,18 @@ public class scratchpad {
         System.out.println("");
         System.out.println("TIME-ELEMENT: " + timeEl);
         System.out.println("");
-        System.out.println("EPHEMERIS-ELEMENT: " + ephemEl);
+        System.out.println("EPHEMERIS-ELEMENT: " + ephemerisEl);
+        System.out.println("");
+        System.out.println("EPHEM-ELEMENT: " + ephemEl);
         
+        System.out.println("===========================");
+        
+        EphemElement rise;
+        rise = RiseSetTransit.obtainCurrentOrNextRiseSetTransit(timeEl, 
+                observer, ephemerisEl, ephemEl,
+                RiseSetTransit.TWILIGHT.TWILIGHT_CIVIL);
+        
+        System.out.println();
         
         
         
