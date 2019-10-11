@@ -55,7 +55,6 @@ public class scratchpad {
         showPlanet("Moon", observer, timeEl);
         showPlanet("Jupiter", observer, timeEl);
         showPlanet("Mercury", observer, timeEl);
-        //listAllConstellations();
         
         
         
@@ -75,24 +74,23 @@ public class scratchpad {
         System.out.print("Serpens:");
         System.out.println(constels.getAbbrev("Serpens"));
         
-    }
-
-    public static void listAllConstellations() {
         
-
-    }
-
-    /*
-    
-    public static void listAllConstellations(int objectsPerLine) throws JPARSECException{
-        System.out.println("Available constellations: -----------------------");
+        
+        
+        System.out.println("JPARSEC: Available constellations: -----------------------");
         for (String name : CONSTELLATION_NAMES) {
             System.out.println(name);
+            System.out.println(constels.getAbbrev(name));
         }
         System.out.println("------------------------------------------");
         System.out.println("Total constellations: " + CONSTELLATION_NAMES.length);
+
+        
     }
-     */
+
+    
+    
+    
     public static void listAllTargets(int objectsPerLine) {
         System.out.println("Available targets: -----------------------");
         int i = 0;
