@@ -34,14 +34,20 @@ import jparsec.util.JPARSECException;
  */
 public class SpaceObject {
 
-    private final String planetName;
+    private final String name;
+    private String description;
     private final ObserverElement observer;
     private final TimeElement timeEl;
+    private double ra;                  // right ascension
+    private double dec;                 // declination
+    private double distance;
+    
 
-    public SpaceObject(String planetName, ObserverElement observer,
+
+    public SpaceObject(String name, ObserverElement observer,
             TimeElement timeEl) throws JPARSECException {
 
-        this.planetName = planetName;
+        this.name = name;
         this.timeEl = timeEl;
         this.observer = observer;
 
@@ -74,7 +80,11 @@ public class SpaceObject {
         ConsoleReport.basicEphemReportToConsole(ephemEl);
     }
 
+    
+    
+    
     public boolean isVisible(LocalDateTime ObsStart, LocalDateTime ObsEnd) {
+        return false;
         // if obsStart > rise or ObsEnd < set: return true.
     }
 

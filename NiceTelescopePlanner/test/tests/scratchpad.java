@@ -16,9 +16,11 @@
  */
 package tests;
 
+import Constants.NTPConstellations;
 import core.Location;
 import java.io.IOException;
 import java.net.ProtocolException;
+import static jparsec.astronomy.Constellation.CONSTELLATION_NAMES;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
 import jparsec.ephem.RiseSetTransit;
@@ -38,23 +40,60 @@ import jparsec.util.JPARSECException;
 public class scratchpad {
 
     public static void main(String[] args) throws ProtocolException, IOException, JPARSECException {
+        NTPConstellations constels = new NTPConstellations();
+
         Location loc = new Location("AVV", 42 * DEG_TO_RAD, -8.5 * DEG_TO_RAD, 194);
         TimeElement timeEl = new TimeElement("2019-10-11 00:00:00 UTC ");
-        
+
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
-        
+
         showPlanet("Mars", observer, timeEl);
         showPlanet("Venus", observer, timeEl);
         showPlanet("Saturn", observer, timeEl);
         showPlanet("Moon", observer, timeEl);
         showPlanet("Jupiter", observer, timeEl);
         showPlanet("Mercury", observer, timeEl);
+        //listAllConstellations();
+        
+        
+        
+        System.out.println("Available constellations: -----------------------");
+        for (String abbrev : constels.getAllAbbrevs()) {
+            System.out.println(abbrev + " - " + constels.getLatinName(abbrev));
+        }
+
+        System.out.println("------------------------------------------");
+        System.out.println("Total constellations: " + CONSTELLATION_NAMES.length);
+
+        // From abbrev to latin name:
+        System.out.print("Ser:");
+        System.out.println(constels.getLatinName("Ser"));
+
+        //From latin name to abbrev:
+        System.out.print("Serpens:");
+        System.out.println(constels.getAbbrev("Serpens"));
+        
     }
+
+    public static void listAllConstellations() {
+        
+
+    }
+
+    /*
     
-    
-    public static void listAllTargets(int objectsPerLine){
+    public static void listAllConstellations(int objectsPerLine) throws JPARSECException{
+        System.out.println("Available constellations: -----------------------");
+        for (String name : CONSTELLATION_NAMES) {
+            System.out.println(name);
+        }
+        System.out.println("------------------------------------------");
+        System.out.println("Total constellations: " + CONSTELLATION_NAMES.length);
+    }
+     */
+    public static void listAllTargets(int objectsPerLine) {
         System.out.println("Available targets: -----------------------");
         int i = 0;
         for (String name : Target.getNames()) {
@@ -67,11 +106,10 @@ public class scratchpad {
         System.out.println("------------------------------------------");
         System.out.println("Total targets: " + Target.getNames().length);
     }
-    
-    
-    public static void showPlanet(String planetName, ObserverElement observer, 
-            TimeElement timeEl) throws JPARSECException{
-        
+
+    public static void showPlanet(String planetName, ObserverElement observer,
+            TimeElement timeEl) throws JPARSECException {
+
         EphemerisElement ephemerisEl = new EphemerisElement(Target.getID(planetName),
                 EphemerisElement.COORDINATES_TYPE.APPARENT,
                 EphemerisElement.EQUINOX_OF_DATE,
@@ -81,14 +119,14 @@ public class scratchpad {
                 EphemerisElement.ALGORITHM.MOSHIER);
 
         ephemerisEl.optimizeForSpeed();
-        
-        EphemElement ephemEl = Ephem.getEphemeris(timeEl, observer, 
+
+        EphemElement ephemEl = Ephem.getEphemeris(timeEl, observer,
                 ephemerisEl, true);
-         
+
         EphemElement rise = RiseSetTransit.obtainNextRiseSetTransit(timeEl,
                 observer, ephemerisEl, ephemEl,
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
-        
+
         System.out.println("\n=======> RISE"
                 + "\n  Alt: " + rise.elevation * RAD_TO_DEG
                 + "\n  Az: " + rise.azimuth * RAD_TO_DEG
@@ -99,7 +137,6 @@ public class scratchpad {
         );
         ConsoleReport.basicEphemReportToConsole(ephemEl);
 
-
     }
-            
+
 }
