@@ -228,20 +228,20 @@ public class Main extends javax.swing.JFrame {
         table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Designation", "Kind", "Rise", "Set", "Bookmark", "Seen"
+                "Designation", "Kind", "Rise", "Set", "Constellation", "Bookmark", "Seen"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -252,17 +252,19 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.setColumnSelectionAllowed(true);
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
+        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(30);
             table.getColumnModel().getColumn(1).setMinWidth(20);
             table.getColumnModel().getColumn(2).setPreferredWidth(12);
             table.getColumnModel().getColumn(3).setPreferredWidth(12);
-            table.getColumnModel().getColumn(4).setPreferredWidth(16);
-            table.getColumnModel().getColumn(5).setPreferredWidth(8);
+            table.getColumnModel().getColumn(5).setPreferredWidth(16);
+            table.getColumnModel().getColumn(6).setPreferredWidth(8);
         }
 
         jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -410,6 +412,7 @@ public class Main extends javax.swing.JFrame {
         
         System.out.println("TIMEZONE: " + timezone);
         System.out.println("LIM.MAGNITUDE: " + limMagnitude);
+        
     }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed

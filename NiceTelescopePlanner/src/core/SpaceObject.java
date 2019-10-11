@@ -14,18 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package tests;
+package core;
 
-import core.Location;
-import java.io.IOException;
-import java.net.ProtocolException;
+import java.time.LocalDateTime;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
 import jparsec.ephem.RiseSetTransit;
 import jparsec.ephem.Target;
 import jparsec.ephem.planets.EphemElement;
 import jparsec.io.ConsoleReport;
-import static jparsec.math.Constant.DEG_TO_RAD;
 import static jparsec.math.Constant.RAD_TO_DEG;
 import jparsec.observer.ObserverElement;
 import jparsec.time.TimeElement;
@@ -35,44 +32,21 @@ import jparsec.util.JPARSECException;
  *
  * @author victor
  */
-public class scratchpad {
+public class SpaceObject {
 
-    public static void main(String[] args) throws ProtocolException, IOException, JPARSECException {
-        Location loc = new Location("AVV", 42 * DEG_TO_RAD, -8.5 * DEG_TO_RAD, 194);
-        TimeElement timeEl = new TimeElement("2019-10-11 00:00:00 UTC ");
-        
-        ObserverElement observer = new ObserverElement(loc.getName(),
-                loc.getLongitudeRad(), loc.getLatitudeRad(),
-                loc.getHeight(), loc.getTimezone());
-        
-        showPlanet("Mars", observer, timeEl);
-        showPlanet("Venus", observer, timeEl);
-        showPlanet("Saturn", observer, timeEl);
-        showPlanet("Moon", observer, timeEl);
-        showPlanet("Jupiter", observer, timeEl);
-        showPlanet("Mercury", observer, timeEl);
-    }
-    
-    
-    public static void listAllTargets(int objectsPerLine){
-        System.out.println("Available targets: -----------------------");
-        int i = 0;
-        for (String name : Target.getNames()) {
-            System.out.print(name + ", ");
-            i++;
-            if (i % objectsPerLine == 0) {
-                System.out.println("");
-            }
-        }
-        System.out.println("------------------------------------------");
-        System.out.println("Total targets: " + Target.getNames().length);
-    }
-    
-    
-    public static void showPlanet(String planetName, ObserverElement observer, 
-            TimeElement timeEl) throws JPARSECException{
-        
-        EphemerisElement ephemerisEl = new EphemerisElement(Target.getID(planetName),
+    private final String planetName;
+    private final ObserverElement observer;
+    private final TimeElement timeEl;
+
+    public SpaceObject(String planetName, ObserverElement observer,
+            TimeElement timeEl) throws JPARSECException {
+
+        this.planetName = planetName;
+        this.timeEl = timeEl;
+        this.observer = observer;
+
+        EphemerisElement ephemerisEl = new EphemerisElement(
+                Target.getID(this.planetName),
                 EphemerisElement.COORDINATES_TYPE.APPARENT,
                 EphemerisElement.EQUINOX_OF_DATE,
                 EphemerisElement.TOPOCENTRIC,
@@ -81,14 +55,14 @@ public class scratchpad {
                 EphemerisElement.ALGORITHM.MOSHIER);
 
         ephemerisEl.optimizeForSpeed();
-        
-        EphemElement ephemEl = Ephem.getEphemeris(timeEl, observer, 
+
+        EphemElement ephemEl = Ephem.getEphemeris(this.timeEl, this.observer,
                 ephemerisEl, true);
-         
+
         EphemElement rise = RiseSetTransit.obtainNextRiseSetTransit(timeEl,
                 observer, ephemerisEl, ephemEl,
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
-        
+
         System.out.println("\n=======> RISE"
                 + "\n  Alt: " + rise.elevation * RAD_TO_DEG
                 + "\n  Az: " + rise.azimuth * RAD_TO_DEG
@@ -98,8 +72,10 @@ public class scratchpad {
                 + "\n Phase Angle: " + rise.phaseAngle * RAD_TO_DEG + "˚"
         );
         ConsoleReport.basicEphemReportToConsole(ephemEl);
-
-
     }
-            
+
+    public boolean isVisible(LocalDateTime ObsStart, LocalDateTime ObsEnd) {
+        // if obsStart > rise or ObsEnd < set: return true.
+    }
+
 }

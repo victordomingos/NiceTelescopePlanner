@@ -133,10 +133,9 @@ public class Location {
      * @return 
      */
     public Double getTimeZoneOffset() {
-        System.out.println("getTimeZoneOffset(): " + this.latitude_rad + " - " + this.longitude_rad);
-        
         return Location.getTimeZoneOffset(this.latitude_rad, this.longitude_rad);
     }
+
 
     /**
      * Returns the timezone offset in hours, for the specified lat/lon in radians
@@ -146,25 +145,11 @@ public class Location {
      * @return 
      */
     public static Double getTimeZoneOffset(double latitude_rad, double longitude_rad) {
-        System.out.println("getTimeZoneOffset(double latitude_rad, double longitude_rad): " 
-                        + latitude_rad + " - " + longitude_rad);
-
         String tzone = TimezoneMapper.latLngToTimezoneString(
                 latitude_rad * Constant.RAD_TO_DEG,
                 longitude_rad * Constant.RAD_TO_DEG);
-
-        System.out.println("=== getTimeZoneOffset =========================");
-        System.out.println("LAT_RAD: " + latitude_rad);
-        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
-        System.out.println("LON_RAD: " + longitude_rad);
-        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
-        System.out.println("TZONE:   " + tzone);
-        System.out.println("TMZ MS:  " + TimeZone.getTimeZone(tzone));
-        System.out.println("TMZ HH:  " + TimeZone.getTimeZone(tzone).getRawOffset() / 1000 / 3600);
-        System.out.println("DTMZ HH: " + Double.valueOf(TimeZone.getTimeZone(tzone).getRawOffset()) / 1000 / 3600);
-        System.out.println("== /getTimeZoneOffset =========================");
-        
-        return Double.valueOf(TimeZone.getTimeZone(tzone).getRawOffset()) / 1000 / 3600;
+        Double offs_ms = Double.valueOf(TimeZone.getTimeZone(tzone).getRawOffset());
+        return offs_ms / 1000 / 3600;
     }
 
     /**
@@ -182,12 +167,9 @@ public class Location {
      * @return 
      */
     public String getTimeZoneID(double latitude_rad, double longitude_rad) {
-        String tzone = TimezoneMapper.latLngToTimezoneString(
+        return TimezoneMapper.latLngToTimezoneString(
                 latitude_rad * Constant.RAD_TO_DEG, 
                 longitude_rad * Constant.RAD_TO_DEG);
-        
-        System.out.println("TZONE ID: " + tzone);
-        return tzone;
     }
 
     public int getId() {
@@ -216,7 +198,14 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" + "id=" + id + ", name=" + name + ", address=" + address + ", latitude=" + latitude_rad + ", longitude=" + longitude_rad + ", height=" + height + ", timezone=" + timezone + '}';
+        return "Location{" + "id=" + id + ", name=" + name + ", address=" 
+                + address + ", latitude=" + latitude_rad + ", longitude=" 
+                + longitude_rad + ", height=" + height + ", timezone=" 
+                + timezone + '}';
+    }
+
+    public Double getTimezone() {
+        return timezone;
     }
 
 }
