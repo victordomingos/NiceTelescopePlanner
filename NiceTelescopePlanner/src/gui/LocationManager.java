@@ -897,7 +897,7 @@ public class LocationManager extends javax.swing.JFrame {
             
             txt_latitude.setText(latitude_deg.toString());
             txt_longitude.setText(longitude_deg.toString());
-            txt_height.setText(Constants.Constants.DEFAULT_LOCATION_HEIGHT);
+            txt_height.setText(Constants.NTPConstants.DEFAULT_LOCATION_HEIGHT);
             String msg = "According to IP-API.com, you're near " + newLocation.getName()
                     + ".\nPlease keep in mind that GPS coordinates obtained by \n"
                     + "this process are just (inherently imprecise) estimations.\n\n"

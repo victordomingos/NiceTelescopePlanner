@@ -16,7 +16,7 @@
  */
 package Constants;
 
-import static Constants.Constants.CONSTELATIONS_FULL_LIST_WITH_ABBREVS;
+import static Constants.NTPConstants.CONSTELATIONS_FULL_LIST_WITH_ABBREVS;
 import java.util.ArrayList;
 
 /**

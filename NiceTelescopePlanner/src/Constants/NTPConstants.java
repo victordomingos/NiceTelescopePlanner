@@ -9,7 +9,7 @@ package Constants;
  *
  * @author victor
  */
-public class Constants {
+public class NTPConstants {
 
     public static final String[] OUR_TOP_LIST_DEEPSPACE = {
         "NGC104", "NGC224", "NGC253", "NGC598", "NGC869", "NGC884",
@@ -25,6 +25,23 @@ public class Constants {
 
     public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 5000;
 
+    
+    public static final String[] NTPPlanets = {"Moon", "Mars", "Venus", "Saturn",  "Jupiter", 
+                            "Mercury", "Neptune", "Uranus", "Pluto"};
+    
+    
+    public static final String[] NTPMoons = {
+            "Ganymede", "Io", "Europa",             // Jupiter moons
+            "Amalthea", "Himalia", "Callisto",      // Jupiter moons
+            "Phobos", "Deimos",                     // Mars moons
+            "Triton",                               // Neptunus moon
+            "Janus",                                // Saturn moon
+            // Avoiding a JPARSEC error with Saturn and Uranus moons (why?...)
+            //"Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
+            //"Titan", "Iapetus", "Dione", "Rhea", 
+            //"Thetis", "Mimas", "Hyperion", "Enceladus", 
+        };
+    
     public static final String[] CONSTELATIONS_FULL_LIST_WITH_ABBREVS = {
         "And - Andromeda",       "Ant - Antlia",          "Aps - Apus",
         "Aqr - Aquarius",        "Aql - Aquila",          "Ara - Ara",

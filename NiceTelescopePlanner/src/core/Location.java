@@ -5,8 +5,8 @@
  */
 package core;
 
-import static Constants.Constants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
-import static Constants.Constants.DEFAULT_LOCATION_HEIGHT;
+import static Constants.NTPConstants.DEFAULT_HTTP_CONNECTION_TIMEOUT;
+import static Constants.NTPConstants.DEFAULT_LOCATION_HEIGHT;
 import com.google.gson.Gson;
 import com.skedgo.converter.TimezoneMapper;
 import java.io.BufferedReader;
