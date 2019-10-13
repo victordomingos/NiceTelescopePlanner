@@ -77,6 +77,7 @@ public class scratchpad {
         for (SpaceObject target : targets) {
             target.showTargetDetails();
         }
+        System.out.println("Number of targets: " + targets.size());
         
         
     }
