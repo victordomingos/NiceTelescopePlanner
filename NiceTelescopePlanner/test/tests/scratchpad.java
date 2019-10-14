@@ -45,9 +45,12 @@ public class scratchpad {
 
     public static void main(String[] args) throws ProtocolException, IOException, JPARSECException {
 
-        Location loc = new Location("Braga", 41.6 * DEG_TO_RAD, -8.4 * DEG_TO_RAD, 194);
-        TimeElement timeEl = new TimeElement("2019-10-14 23:00:00 UTC ");
-
+        Location loc = new Location("Braga", 
+                41.6 * DEG_TO_RAD,
+                -8.4 * DEG_TO_RAD,
+                194);
+        TimeElement startTimeEl = new TimeElement("2019-10-14 23:00:00 UTC ");
+        TimeElement endTimeEl = new TimeElement("2019-10-15 3:00:00 UTC ");  
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
@@ -57,7 +60,8 @@ public class scratchpad {
         System.out.println("\nPLANETS ====================== ");
         ArrayList<SpaceObject> planets = new ArrayList<>();
         for (String planet : NTPPlanets) {
-            SpaceObject p = new SpaceObject(planet, observer, timeEl, "planet");
+            SpaceObject p = new SpaceObject(planet, observer, startTimeEl, 
+                    endTimeEl, "planet");
             if(p.isAboveHorizon()) { 
                 planets.add(p); 
                 System.out.println(p.getName());
@@ -74,7 +78,8 @@ public class scratchpad {
         System.out.println("\nMOONS ====================== ");
         ArrayList<SpaceObject> moons = new ArrayList<>();
         for (String moon : NTPConstants.NTPMoons) {
-            SpaceObject m = new SpaceObject(moon, observer, timeEl, "moon");
+            SpaceObject m = new SpaceObject(moon, observer, startTimeEl,
+                    endTimeEl, "moon");
             if(m.isAboveHorizon()){
                 moons.add(m); 
                 System.out.println(m.getName());
@@ -89,7 +94,7 @@ public class scratchpad {
         
         int visible = 0;
         for (SpaceObject target : targets) {
-            if(target.isVisibleNakedEye()) {
+            if(target.isVisibleNakedEye(startTimeEl)) {
                 System.out.println(target.getName());
                 visible++;
                 //target.showTargetDetails();
