@@ -14,8 +14,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JToggleButton;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
@@ -412,7 +410,8 @@ public class Main extends javax.swing.JFrame {
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
-        TimeElement timeEl;
+        
+        TimeElement startTimeEl, endTimeEl;
         
         Double latitude = loc.getLatitudeRad();
         Double longitude = loc.getLongitudeRad();
@@ -422,23 +421,35 @@ public class Main extends javax.swing.JFrame {
         LocalDateTime datetime_start = lpanel.getStartDatetime();
         LocalDateTime datetime_end = lpanel.getEndDatetime();
 
-        int year = datetime_start.getYear();
-        int month = datetime_start.getMonthValue();
-        int day = datetime_start.getDayOfMonth();
-        int hour = datetime_start.getHour();
-        int minute = datetime_start.getMinute();
-        int second = datetime_start.getSecond();
-        AstroDate astrodt = new AstroDate(year, month, day, hour, 
-                minute, second);
-        timeEl = new TimeElement(astrodt, SCALE.LOCAL_TIME);
+      
+        AstroDate astrodtStart = new AstroDate(
+                datetime_start.getYear(),
+                datetime_start.getMonthValue(), 
+                datetime_start.getDayOfMonth(), 
+                datetime_start.getHour(), 
+                datetime_start.getMinute(), 
+                datetime_start.getSecond());
+        startTimeEl = new TimeElement(astrodtStart, SCALE.LOCAL_TIME);
+
+        
+        AstroDate astrodtEnd = new AstroDate(
+                datetime_end.getYear(),
+                datetime_end.getMonthValue(), 
+                datetime_end.getDayOfMonth(), 
+                datetime_end.getHour(), 
+                datetime_end.getMinute(), 
+                datetime_end.getSecond());
+        endTimeEl = new TimeElement(astrodtEnd, SCALE.LOCAL_TIME);
 
         
         int limMagnitude = lpanel.getLimitingMagnitude();
         
         // DEBUG =========================================
-        System.out.println(timeEl.toString());
-        System.out.println("START: " + datetime_start);
-        System.out.println("END: " + datetime_end);
+        
+        System.out.println("START: " + datetime_start + " - " 
+                + startTimeEl.toString());
+        System.out.println("END: " + datetime_end + " - " 
+                + endTimeEl.toString());
         System.out.println("COORDS: LAT " + latitude 
                 + " / LON " + longitude 
                 + " / HEIGHT " + height);
@@ -449,7 +460,8 @@ public class Main extends javax.swing.JFrame {
         
         for (String planet : NTPPlanets) {
             try {
-                SpaceObject p = new SpaceObject(planet, observer, timeEl, "planet");
+                SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
+                        endTimeEl, "planet");
                 if(p.isAboveHorizon()) { 
                     planets.add(p); 
                     System.out.println(p.getName());
@@ -465,7 +477,8 @@ public class Main extends javax.swing.JFrame {
         
         for (String moon : NTPConstants.NTPMoons) {
             try{
-                SpaceObject m = new SpaceObject(moon, observer, timeEl, "moon");
+                SpaceObject m = new SpaceObject(moon, observer,  startTimeEl,
+                        endTimeEl, "moon");
                 if(m.isAboveHorizon()){
                     moons.add(m); 
                     System.out.println(m.getName());
@@ -477,22 +490,6 @@ public class Main extends javax.swing.JFrame {
         }
         System.out.print(moons.size());
         
-        
-        
-        for (String moon : NTPConstants.NTPMoons) {
-            try {
-                SpaceObject m = new SpaceObject(moon, observer, timeEl, "moon");
-                if(m.isAboveHorizon()){
-                    moons.add(m); 
-                    System.out.println(m.getName());
-                }
-            }
-            catch (JPARSECException e) {
-                System.out.println(e);
-            }
-
-        }
-        System.out.print(moons.size());
         
         System.out.println("\n\nDETAILS: ======================");
         
@@ -500,8 +497,9 @@ public class Main extends javax.swing.JFrame {
         targets.addAll(moons);
         
         int visible = 0;
+        // TODO - check this for more times during the session?
         for (SpaceObject target : targets) {
-            if(target.isVisibleNakedEye()) {
+            if(target.isVisibleNakedEye(startTimeEl)) {
                 System.out.println(target.getName());
                 visible++;
                 //target.showTargetDetails();
@@ -511,10 +509,7 @@ public class Main extends javax.swing.JFrame {
                 + " (" + visible + " visible at naked eye).");
         
         
-        
-        
-        
-        
+               
         
     }
 

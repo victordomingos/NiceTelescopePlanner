@@ -17,7 +17,6 @@
 package core;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
@@ -27,7 +26,10 @@ import jparsec.ephem.planets.EphemElement;
 import jparsec.io.ConsoleReport;
 import static jparsec.math.Constant.RAD_TO_DEG;
 import jparsec.observer.ObserverElement;
+import jparsec.time.AstroDate;
 import jparsec.time.TimeElement;
+import jparsec.time.TimeElement.SCALE;
+import jparsec.time.TimeScale;
 import jparsec.util.JPARSECException;
 
 /**
@@ -39,26 +41,24 @@ public class SpaceObject {
 
     private final String name;
     private final ObserverElement observer;
-    private final TimeElement timeEl;
+    private final TimeElement startTimeEl;
+    private final TimeElement endTimeEl;
 
     private EphemerisElement ephemerisEl;
     private EphemElement ephemEl;
     private EphemElement riseEl;
 
-    private double rise;
-    private double transit;
-    private double set;
-    
+    private double[] rises;
+    private double[] transits;
+    private double[] sets;
+
     private double ra;                  // right ascension
     private double dec;                 // declination
     private String constellation;
-    
+
     private double distance;
     private double aparentMagnitude;
     private double angularDiameter;
-    
-    
-    
 
     /**
      * The default constructor for the SpaceObject class
@@ -66,18 +66,21 @@ public class SpaceObject {
      * @param name The main designation of the object
      * @param observer An ObserverElement instance containing user location
      * details
-     * @param timeEl A TimeElement instance containing the time of the
-     * observation
+     * @param startTimeEl A TimeElement instance containing the start time of
+     * the observation session
+     * @param endTimeEl A TimeElement instance containing the end time of the
+     * observation sesison
      * @param category The kind of object (planet, moon, star, comet...)
      * @throws JPARSECException
      */
     public SpaceObject(String name, ObserverElement observer,
-            TimeElement timeEl, String category) throws JPARSECException {
+            TimeElement startTimeEl, TimeElement endTimeEl, String category)
+            throws JPARSECException {
 
         this.name = name;
-        this.timeEl = timeEl;
+        this.startTimeEl = startTimeEl;
+        this.endTimeEl = endTimeEl;
         this.observer = observer;
-        
 
         ephemerisEl = new EphemerisElement(
                 Target.getID(this.name),
@@ -107,20 +110,20 @@ public class SpaceObject {
         }
         ephemerisEl.optimizeForSpeed();
 
-        ephemEl = Ephem.getEphemeris(this.timeEl, this.observer,
+        ephemEl = Ephem.getEphemeris(this.startTimeEl, this.observer,
                 ephemerisEl, true);
 
-        riseEl = RiseSetTransit.obtainNextRiseSetTransit(timeEl,
+        riseEl = RiseSetTransit.obtainNextRiseSetTransit(startTimeEl,
                 observer, ephemerisEl, ephemEl,
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
         this.angularDiameter = riseEl.angularRadius * 2;
         this.aparentMagnitude = riseEl.magnitude;
-        this.rise = riseEl.rise[0];
-        this.set = riseEl.set[0];
-        this.transit = riseEl.transit[0];
+        this.rises = riseEl.rise;
+        this.sets = riseEl.set;
+        this.transits = riseEl.transit;
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
-        
+
         /*
                 
         System.out.println("\n=======> RISE"
@@ -132,7 +135,6 @@ public class SpaceObject {
                 + "\n Phase Angle: " + rise.phaseAngle * RAD_TO_DEG + "˚"
         );
          */
-
     }
 
     /**
@@ -146,11 +148,43 @@ public class SpaceObject {
     }
 
     /**
-     * Determine visibility according to estimated limiting magnitude
+     * Determine if target will be above horizon during the specified interval
      *
      * @return
      */
-    public boolean isVisibleNakedEye() {
+    public boolean willbeAboveHorizon() throws JPARSECException {
+       
+        double jdUT_start = TimeScale.getJD(startTimeEl, observer, ephemerisEl, 
+                SCALE.UNIVERSAL_TIME_UT1);
+        double jdUT_end = TimeScale.getJD(endTimeEl, observer, ephemerisEl, 
+                SCALE.UNIVERSAL_TIME_UT1);
+        
+        if(sets[0]==RiseSetTransit.ALWAYS_BELOW_HORIZON){
+            System.out.println("Never up in the horizon.");
+            return false;
+        }
+        //Is the first rise between start and end?
+        // Or is the last set between start and end?
+        if (jdUT_start < rises[0]  &&  jdUT_end < sets[sets.length - 1] ) {
+            System.out.println("Is the first rise between start and end? " 
+                    + (jdUT_start < rises[0]));
+            System.out.println("Is the last set between start and end?"
+                    + (jdUT_end < sets[sets.length - 1]));
+            
+            return true;
+        }
+        else{
+            System.out.println("Won't be up in the specified interval.");
+            return false;
+        }
+    }
+
+    /**
+     * Determine visibility at a given time according to estimated limiting magnitude
+     *
+     * @return
+     */
+    public boolean isVisibleNakedEye(TimeElement timeEl) {
         boolean visible = false;
         try {
             //===========================
@@ -179,10 +213,6 @@ public class SpaceObject {
         System.out.println("Distance: " + this.distance);
     }
 
-    public boolean isVisible(LocalDateTime ObsStart, LocalDateTime ObsEnd) {
-        return false;
-        // if obsStart > rise or ObsEnd < set: return true.
-    }
 
     public String getName() {
         return name;
