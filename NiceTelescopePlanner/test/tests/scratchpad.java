@@ -46,7 +46,7 @@ public class scratchpad {
     public static void main(String[] args) throws ProtocolException, IOException, JPARSECException {
 
         Location loc = new Location("Braga", 41.6 * DEG_TO_RAD, -8.4 * DEG_TO_RAD, 194);
-        TimeElement timeEl = new TimeElement("2019-10-13 23:00:00 UTC ");
+        TimeElement timeEl = new TimeElement("2019-10-14 23:00:00 UTC ");
 
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),

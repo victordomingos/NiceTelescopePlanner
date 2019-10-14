@@ -5,14 +5,25 @@
  */
 package gui;
 
+import Constants.NTPConstants;
+import static Constants.NTPConstants.NTPPlanets;
 import core.Location;
+import core.SpaceObject;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JToggleButton;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import jparsec.observer.ObserverElement;
+import jparsec.time.AstroDate;
+import jparsec.time.TimeElement;
+import jparsec.time.TimeElement.SCALE;
+import jparsec.util.JPARSECException;
 
 /**
  *
@@ -23,7 +34,10 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
-
+    private ArrayList<SpaceObject> planets = new ArrayList<>();
+    private ArrayList<SpaceObject> moons = new ArrayList<>();
+    private ArrayList<SpaceObject> targets = new ArrayList<>();
+    
     /**
      * Creates new form Main
      */
@@ -394,6 +408,12 @@ public class Main extends javax.swing.JFrame {
     public void applySessionSettings(){
         // TODO!
         Location loc = lpanel.getCurSelectedLocation();
+
+        ObserverElement observer = new ObserverElement(loc.getName(),
+                loc.getLongitudeRad(), loc.getLatitudeRad(),
+                loc.getHeight(), loc.getTimezone());
+        TimeElement timeEl;
+        
         Double latitude = loc.getLatitudeRad();
         Double longitude = loc.getLongitudeRad();
         int height = loc.getHeight();
@@ -401,9 +421,22 @@ public class Main extends javax.swing.JFrame {
                 
         LocalDateTime datetime_start = lpanel.getStartDatetime();
         LocalDateTime datetime_end = lpanel.getEndDatetime();
+
+        int year = datetime_start.getYear();
+        int month = datetime_start.getMonthValue();
+        int day = datetime_start.getDayOfMonth();
+        int hour = datetime_start.getHour();
+        int minute = datetime_start.getMinute();
+        int second = datetime_start.getSecond();
+        AstroDate astrodt = new AstroDate(year, month, day, hour, 
+                minute, second);
+        timeEl = new TimeElement(astrodt, SCALE.LOCAL_TIME);
+
         
         int limMagnitude = lpanel.getLimitingMagnitude();
         
+        // DEBUG =========================================
+        System.out.println(timeEl.toString());
         System.out.println("START: " + datetime_start);
         System.out.println("END: " + datetime_end);
         System.out.println("COORDS: LAT " + latitude 
@@ -412,6 +445,76 @@ public class Main extends javax.swing.JFrame {
         
         System.out.println("TIMEZONE: " + timezone);
         System.out.println("LIM.MAGNITUDE: " + limMagnitude);
+        // ===============================================
+        
+        for (String planet : NTPPlanets) {
+            try {
+                SpaceObject p = new SpaceObject(planet, observer, timeEl, "planet");
+                if(p.isAboveHorizon()) { 
+                    planets.add(p); 
+                    System.out.println(p.getName());
+                    p.showTargetDetails();
+                    System.out.println(".....");
+                }               
+            }
+            catch (JPARSECException e) {
+                System.out.println(e);
+            }
+        }
+        System.out.println(planets.size());
+        
+        for (String moon : NTPConstants.NTPMoons) {
+            try{
+                SpaceObject m = new SpaceObject(moon, observer, timeEl, "moon");
+                if(m.isAboveHorizon()){
+                    moons.add(m); 
+                    System.out.println(m.getName());
+                }
+            }
+            catch (JPARSECException e) {
+                System.out.println(e);
+            }
+        }
+        System.out.print(moons.size());
+        
+        
+        
+        for (String moon : NTPConstants.NTPMoons) {
+            try {
+                SpaceObject m = new SpaceObject(moon, observer, timeEl, "moon");
+                if(m.isAboveHorizon()){
+                    moons.add(m); 
+                    System.out.println(m.getName());
+                }
+            }
+            catch (JPARSECException e) {
+                System.out.println(e);
+            }
+
+        }
+        System.out.print(moons.size());
+        
+        System.out.println("\n\nDETAILS: ======================");
+        
+        targets.addAll(planets);
+        targets.addAll(moons);
+        
+        int visible = 0;
+        for (SpaceObject target : targets) {
+            if(target.isVisibleNakedEye()) {
+                System.out.println(target.getName());
+                visible++;
+                //target.showTargetDetails();
+            }
+        }
+        System.out.println("Number of targets above horizon: " + targets.size()
+                + " (" + visible + " visible at naked eye).");
+        
+        
+        
+        
+        
+        
         
     }
 
