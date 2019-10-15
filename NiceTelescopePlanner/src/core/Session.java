@@ -84,6 +84,7 @@ public class Session {
         
         System.out.println("TIMEZONE: " + timezone);
         System.out.println("LIM.MAGNITUDE: " + limMagnitude);
+        System.out.println("\n\n");
         // ===============================================
         
         
@@ -94,31 +95,32 @@ public class Session {
                         endTimeEl, "planet");
                 if(p.willBeAboveHorizon()) { 
                     planets.add(p); 
-                    System.out.println(p.getName());
-                    p.showTargetDetails();
-                    System.out.println(".....");
+                    //p.showTargetDetails();
+                    System.out.println(p.getName() + ": will be up on the horizon");
                 }               
             }
             catch (JPARSECException e) {
                 System.out.println(e);
             }
         }
-        System.out.println(planets.size()); // DEBUG
+        System.out.println("\n======" + planets.size() + " planets =======\n\n\n"); // DEBUG
         
         for (String moon : NTPConstants.NTPMoons) {
+            
             try{
                 SpaceObject m = new SpaceObject(moon, observer,  startTimeEl,
                         endTimeEl, "moon");
                 if(m.willBeAboveHorizon()){
                     moons.add(m); 
-                    System.out.println(m.getName());  // DEBUG
+                    //m.showTargetDetails();
+                    System.out.println(m.getName() + ": will be up on the horizon");
                 }
             }
             catch (JPARSECException e) {
                 System.out.println(e);
             }
         }
-        System.out.print(moons.size());   // DEBUG
+        System.out.println("\n======" + moons.size() + " moons =======\n\n\n"); // DEBUG
         
         
         targets.addAll(planets);
@@ -133,7 +135,7 @@ public class Session {
                 //target.showTargetDetails();
             }
         }
-        System.out.println("Number of targets above horizon: " + targets.size()
+        System.out.println("\nNumber of targets above horizon: " + targets.size()
                 + " (" + visible + " visible at naked eye).");
         
         

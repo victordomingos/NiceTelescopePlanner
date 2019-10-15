@@ -20,6 +20,9 @@ import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
 import jparsec.ephem.RiseSetTransit;
+import static jparsec.ephem.RiseSetTransit.ALWAYS_BELOW_HORIZON;
+import static jparsec.ephem.RiseSetTransit.CIRCUMPOLAR;
+import static jparsec.ephem.RiseSetTransit.NO_RISE_SET_TRANSIT;
 import jparsec.ephem.Target;
 import jparsec.ephem.planets.EphemElement;
 import jparsec.io.ConsoleReport;
@@ -126,18 +129,30 @@ public class SpaceObject {
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
 
-        System.out.println("rises:");
+        System.out.println(name + " rises:");
         for (double rise : rises) {
-            System.out.println(new AstroDate(rise).toStringTZ());
+            System.out.println("    " + rise + "  -  " + new AstroDate(rise).toStringTZ());
         }
-        System.out.println("transits:");
+        System.out.println(name + " transits:");
         for (double transit : transits) {
-            System.out.println(new AstroDate(transit).toStringTZ());
+            System.out.println("    " + transit + "  -  " + new AstroDate(transit).toStringTZ());
         }
-        System.out.println("sets:");
+        System.out.println(name + " sets:");
         for (double set : sets) {
-            System.out.println(new AstroDate(set).toStringTZ());
+            System.out.println("    " + set + "  -  " + new AstroDate(set).toStringTZ());
+            if(set==ALWAYS_BELOW_HORIZON){
+                System.out.println("ALWAYS_BELOW_HORIZON");
+            } else if (set == CIRCUMPOLAR){
+                System.out.println("CIRCUMPOLAR");
+            } else if (set == NO_RISE_SET_TRANSIT){
+                System.out.println("NO_RISE_SET_TRANSIT");
+            } else{
+                System.out.println("ELSE ---- ?");
+            }
+           
         }
+        
+        
 
         /*
                 
@@ -174,19 +189,24 @@ public class SpaceObject {
         double jdUT_end = TimeScale.getJD(endTimeEl, observer, ephemerisEl, 
                 SCALE.UNIVERSAL_TIME_UT1);
         
+        System.out.println(name + " - Sets:     " + sets.length);
+        System.out.println(name + " - Rises:    " + sets.length);
+        System.out.println(name + " - Transits: " + sets.length);
+        
         if(sets[0]==RiseSetTransit.ALWAYS_BELOW_HORIZON){
-            System.out.println("Never up in the horizon.");
+            System.out.println(name + ": Never up in the horizon.");
             return false;
         }
+               
         
         //Is the first rise between start and end?
         // Or is the last set between start and end?
         for (double rise : rises) {
             if (jdUT_start < rise  &&  rise < jdUT_end) {
-                System.out.println("Is the first rise between start and end? " 
+                System.out.println("\n\n" + name + ": Is the first rise between start and end? " 
                         + (jdUT_start < rises[0]));
-                System.out.println("Is the last rise between start and end?"
-                        + (jdUT_end < sets[sets.length - 1]));
+                System.out.println(name +": Is the last rise between start and end?  "
+                        + (jdUT_end < rises[rises.length - 1]));
                 return true;
             }
         }
@@ -194,9 +214,9 @@ public class SpaceObject {
         
         for (double set : sets) {
             if (jdUT_start < set  &&  set < jdUT_end ) {
-                System.out.println("Is the first set between start and end? " 
-                        + (jdUT_start < rises[0]));
-                System.out.println("Is the last set between start and end?"
+                System.out.println(name + ": Is the first set between start and end? " 
+                        + (jdUT_start < transits[0]));
+                System.out.println(name + ": Is the last set between start and end?  "
                         + (jdUT_end < sets[sets.length - 1]));
                 return true;
             }
@@ -204,14 +224,15 @@ public class SpaceObject {
         
         for (double transit : transits) {
             if (jdUT_start < transit  &&  transit < jdUT_end ) {
-                System.out.println("Is the first transit between start and end? " 
-                        + (jdUT_start < rises[0]));
-                System.out.println("Is the last transit between start and end?"
-                        + (jdUT_end < sets[sets.length - 1]));
+                System.out.println(name + ": Is the first transit between start and end? " 
+                        + (jdUT_start < transits[0]));
+                System.out.println(name + ": Is the last transit between start and end?  "
+                        + (jdUT_end < transits[transits.length - 1]));
                 return true;
             }
         }        
         
+        System.out.println("\n" + name + ": wont be up on the horizon.\n\n\n");
         return false;
     }
 
@@ -242,11 +263,11 @@ public class SpaceObject {
 
     public void showTargetDetails() throws JPARSECException {
         ConsoleReport.basicEphemReportToConsole(ephemEl);
-        System.out.println("Ang. Diameter:  " + this.angularDiameter);
-        System.out.println("App. Magnitude: " + this.aparentMagnitude);
-        System.out.println("RA: " + this.ra);
-        System.out.println("Dec: " + this.dec);
-        System.out.println("Distance: " + this.distance);
+        System.out.println(name + ": Ang. Diameter:  " + this.angularDiameter);
+        System.out.println(name + ": App. Magnitude: " + this.aparentMagnitude);
+        System.out.println(name + ": RA: " + this.ra);
+        System.out.println(name + ": Dec: " + this.dec);
+        System.out.println(name + ": Distance: " + this.distance);
     }
 
 
