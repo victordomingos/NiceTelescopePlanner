@@ -34,7 +34,8 @@ public class Session {
     
     public Session(Location loc, LocalDateTime datetime_start, 
             LocalDateTime datetime_end, int limMagnitude){
-        // TODO!
+        
+        // Gather and convert session configuration parameters --------------
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
@@ -66,15 +67,17 @@ public class Session {
                 datetime_end.getSecond());
         endTimeEl = new TimeElement(astrodtEnd, TimeElement.SCALE.UNIVERSAL_TIME_UT1);
 
-        System.out.println(startTimeEl + "  -  A: " + astrodtStart.toStringTZ());
-        System.out.println(endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
                 
         // DEBUG =========================================
         
         System.out.println("START: " + datetime_start + " - " 
                 + startTimeEl.toString());
+        System.out.println(startTimeEl + "  -  A: " + astrodtStart.toStringTZ());
+
         System.out.println("END: " + datetime_end + " - " 
                 + endTimeEl.toString());
+        System.out.println(endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
+
         System.out.println("COORDS: LAT " + latitude 
                 + " / LON " + longitude 
                 + " / HEIGHT " + height);
@@ -83,11 +86,13 @@ public class Session {
         System.out.println("LIM.MAGNITUDE: " + limMagnitude);
         // ===============================================
         
+        
+        // Assemble an ArrayList of SpaceObjects targets, one kind at a time -------
         for (String planet : NTPPlanets) {
             try {
                 SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
                         endTimeEl, "planet");
-                if(p.isAboveHorizon()) { 
+                if(p.willBeAboveHorizon()) { 
                     planets.add(p); 
                     System.out.println(p.getName());
                     p.showTargetDetails();
@@ -98,25 +103,23 @@ public class Session {
                 System.out.println(e);
             }
         }
-        System.out.println(planets.size());
+        System.out.println(planets.size()); // DEBUG
         
         for (String moon : NTPConstants.NTPMoons) {
             try{
                 SpaceObject m = new SpaceObject(moon, observer,  startTimeEl,
                         endTimeEl, "moon");
-                if(m.isAboveHorizon()){
+                if(m.willBeAboveHorizon()){
                     moons.add(m); 
-                    System.out.println(m.getName());
+                    System.out.println(m.getName());  // DEBUG
                 }
             }
             catch (JPARSECException e) {
                 System.out.println(e);
             }
         }
-        System.out.print(moons.size());
+        System.out.print(moons.size());   // DEBUG
         
-        
-        System.out.println("\n\nDETAILS: ======================");
         
         targets.addAll(planets);
         targets.addAll(moons);

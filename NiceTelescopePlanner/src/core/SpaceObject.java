@@ -167,7 +167,7 @@ public class SpaceObject {
      *
      * @return
      */
-    public boolean willbeAboveHorizon() throws JPARSECException {
+    public boolean willBeAboveHorizon() throws JPARSECException {
        
         double jdUT_start = TimeScale.getJD(startTimeEl, observer, ephemerisEl, 
                 SCALE.UNIVERSAL_TIME_UT1);
@@ -178,20 +178,41 @@ public class SpaceObject {
             System.out.println("Never up in the horizon.");
             return false;
         }
+        
         //Is the first rise between start and end?
         // Or is the last set between start and end?
-        if (jdUT_start < rises[0]  &&  jdUT_end < sets[sets.length - 1] ) {
-            System.out.println("Is the first rise between start and end? " 
-                    + (jdUT_start < rises[0]));
-            System.out.println("Is the last set between start and end?"
-                    + (jdUT_end < sets[sets.length - 1]));
-            
-            return true;
+        for (double rise : rises) {
+            if (jdUT_start < rise  &&  rise < jdUT_end) {
+                System.out.println("Is the first rise between start and end? " 
+                        + (jdUT_start < rises[0]));
+                System.out.println("Is the last rise between start and end?"
+                        + (jdUT_end < sets[sets.length - 1]));
+                return true;
+            }
         }
-        else{
-            System.out.println("Won't be up in the specified interval.");
-            return false;
+        
+        
+        for (double set : sets) {
+            if (jdUT_start < set  &&  set < jdUT_end ) {
+                System.out.println("Is the first set between start and end? " 
+                        + (jdUT_start < rises[0]));
+                System.out.println("Is the last set between start and end?"
+                        + (jdUT_end < sets[sets.length - 1]));
+                return true;
+            }
         }
+        
+        for (double transit : transits) {
+            if (jdUT_start < transit  &&  transit < jdUT_end ) {
+                System.out.println("Is the first transit between start and end? " 
+                        + (jdUT_start < rises[0]));
+                System.out.println("Is the last transit between start and end?"
+                        + (jdUT_end < sets[sets.length - 1]));
+                return true;
+            }
+        }        
+        
+        return false;
     }
 
     /**

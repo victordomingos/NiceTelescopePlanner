@@ -398,7 +398,6 @@ public class Main extends javax.swing.JFrame {
         String designation, kind, rise, set, constellation;
         Boolean bookmark, seen;
         
-        
         // get all targets 
         this.current_session = new Session(lpanel.getCurSelectedLocation(), 
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
@@ -417,9 +416,7 @@ public class Main extends javax.swing.JFrame {
             }
         };
 
-        
         table.setModel(SessionTableModel);
-        
         
         // add location records to table
         String y, M, d, h, m;
@@ -463,15 +460,6 @@ public class Main extends javax.swing.JFrame {
             Object[] data = {designation, kind, rise, set, constellation, bookmark, seen};
             SessionTableModel.addRow(data);
         }
-
-        // Set basic table formatting
-//        table.getColumn("Designation").setMaxWidth(160);
-//        table.getColumn("Kind").setMaxWidth(160);
-//        table.getColumn("Rise").setMaxWidth(80);
-//        table.getColumn("Set").setMaxWidth(80);
-//        table.getColumn("Constellation").setPreferredWidth(50);
-//        table.getColumn("Bookmark").setPreferredWidth(160);
-//        table.getColumn("Seen").setPreferredWidth(160);
     }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
