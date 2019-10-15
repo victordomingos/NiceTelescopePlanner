@@ -16,7 +16,6 @@
  */
 package core;
 
-import java.time.LocalDateTime;
 import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
@@ -40,6 +39,7 @@ import jparsec.util.JPARSECException;
 public class SpaceObject {
 
     private final String name;
+    private final String kind;
     private final ObserverElement observer;
     private final TimeElement startTimeEl;
     private final TimeElement endTimeEl;
@@ -81,6 +81,8 @@ public class SpaceObject {
         this.startTimeEl = startTimeEl;
         this.endTimeEl = endTimeEl;
         this.observer = observer;
+        this.kind = category.substring(0, 1).toUpperCase() 
+                + category.substring(1);
 
         ephemerisEl = new EphemerisElement(
                 Target.getID(this.name),
@@ -91,7 +93,7 @@ public class SpaceObject {
                 EphemerisElement.FRAME.ICRF,
                 EphemerisElement.ALGORITHM.MOSHIER);
 
-        switch (category) {
+        switch (category.toLowerCase()) {
             case "moon":
                 ephemerisEl.algorithm = EphemerisElement.ALGORITHM.NATURAL_SATELLITE;
                 break;
@@ -123,6 +125,19 @@ public class SpaceObject {
         this.transits = riseEl.transit;
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
+
+        System.out.println("rises:");
+        for (double rise : rises) {
+            System.out.println(new AstroDate(rise).toStringTZ());
+        }
+        System.out.println("transits:");
+        for (double transit : transits) {
+            System.out.println(new AstroDate(transit).toStringTZ());
+        }
+        System.out.println("sets:");
+        for (double set : sets) {
+            System.out.println(new AstroDate(set).toStringTZ());
+        }
 
         /*
                 
@@ -216,6 +231,22 @@ public class SpaceObject {
 
     public String getName() {
         return name;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public double[] getRises() {
+        return rises;
+    }
+
+    public double[] getSets() {
+        return sets;
+    }
+
+    public String getConstellation() {
+        return constellation;
     }
 
 }

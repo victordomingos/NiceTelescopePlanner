@@ -14,22 +14,14 @@ import jparsec.observer.City;
 import jparsec.observer.CityElement;
 import jparsec.observer.Country;
 import jparsec.observer.Country.COUNTRY;
-import jparsec.observer.LocationElement;
 import jparsec.util.JPARSECException;
 
 import javax.swing.JOptionPane;
 
 import core.Location;
-import core.OnlineLocation;
-import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
-import java.net.ProtocolException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import jparsec.observer.Observatory;
 import jparsec.observer.ObservatoryElement;
 

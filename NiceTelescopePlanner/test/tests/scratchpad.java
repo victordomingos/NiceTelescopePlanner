@@ -24,6 +24,7 @@ import core.SpaceObject;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import javax.xml.stream.events.EndElement;
 import static jparsec.astronomy.Constellation.CONSTELLATION_NAMES;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
@@ -49,13 +50,14 @@ public class scratchpad {
                 41.6 * DEG_TO_RAD,
                 -8.4 * DEG_TO_RAD,
                 194);
-        TimeElement startTimeEl = new TimeElement("2019-10-14 23:00:00 UTC ");
+        TimeElement startTimeEl = new TimeElement("2019-10-14 22:00:00 UTC ");
         TimeElement endTimeEl = new TimeElement("2019-10-15 3:00:00 UTC ");  
         ObserverElement observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
-
         
+        System.out.println(startTimeEl);
+        System.out.println(endTimeEl);
         // Testing retrieval of data about planets: ==================
         System.out.println("\nPLANETS ====================== ");
         ArrayList<SpaceObject> planets = new ArrayList<>();

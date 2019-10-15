@@ -381,7 +381,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cmb_country" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <EmptySpace pref="27" max="32767" attributes="0"/>
                           <Component id="cmb_city" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cmb_observatory" min="-2" max="-2" attributes="0"/>
@@ -566,7 +566,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txt_address" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="84" max="32767" attributes="0"/>
+                          <EmptySpace pref="100" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

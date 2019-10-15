@@ -5,22 +5,16 @@
  */
 package gui;
 
-import Constants.NTPConstants;
-import static Constants.NTPConstants.NTPPlanets;
-import core.Location;
+import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.swing.JToggleButton;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import jparsec.observer.ObserverElement;
+import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
-import jparsec.time.TimeElement;
-import jparsec.time.TimeElement.SCALE;
 import jparsec.util.JPARSECException;
 
 /**
@@ -32,9 +26,7 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
-    private ArrayList<SpaceObject> planets = new ArrayList<>();
-    private ArrayList<SpaceObject> moons = new ArrayList<>();
-    private ArrayList<SpaceObject> targets = new ArrayList<>();
+    private Session current_session;
     
     /**
      * Creates new form Main
@@ -238,12 +230,10 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(btn_rightPanel);
 
         table.setAutoCreateRowSorter(true);
+        table.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Designation", "Kind", "Rise", "Set", "Constellation", "Bookmark", "Seen"
@@ -267,17 +257,10 @@ public class Main extends javax.swing.JFrame {
         table.setColumnSelectionAllowed(true);
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
+        table.setRowHeight(32);
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMinWidth(30);
-            table.getColumnModel().getColumn(1).setMinWidth(20);
-            table.getColumnModel().getColumn(2).setPreferredWidth(12);
-            table.getColumnModel().getColumn(3).setPreferredWidth(12);
-            table.getColumnModel().getColumn(5).setPreferredWidth(16);
-            table.getColumnModel().getColumn(6).setPreferredWidth(8);
-        }
 
         jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         jLabel21.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -404,117 +387,90 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void applySessionSettings(){
-        // TODO!
-        Location loc = lpanel.getCurSelectedLocation();
+        updateTable();        
+    }
+    
+    
+    private void updateTable() {
+        String designation, kind, rise, set, constellation;
+        Boolean bookmark, seen;
+        
+        // get all targets 
+        this.current_session = new Session(lpanel.getCurSelectedLocation(), 
+                lpanel.getStartDatetime(), lpanel.getEndDatetime(),
+                lpanel.getLimitingMagnitude());
+        
+        //Set columns headers and table Model - make it non-editable
+        String columns[] = {"Designation", "Kind", "Rise", "Set", 
+                "Constellation", "Bookmark", "Seen"};
 
-        ObserverElement observer = new ObserverElement(loc.getName(),
-                loc.getLongitudeRad(), loc.getLatitudeRad(),
-                loc.getHeight(), loc.getTimezone());
-        
-        TimeElement startTimeEl, endTimeEl;
-        
-        Double latitude = loc.getLatitudeRad();
-        Double longitude = loc.getLongitudeRad();
-        int height = loc.getHeight();
-        Double timezone = loc.getTimeZoneOffset();
-                
-        LocalDateTime datetime_start = lpanel.getStartDatetime();
-        LocalDateTime datetime_end = lpanel.getEndDatetime();
+        DefaultTableModel SessionTableModel = new DefaultTableModel(columns, 0) {
+            private static final long serialVersionUID = 1L;
 
-      
-        AstroDate astrodtStart = new AstroDate(
-                datetime_start.getYear(),
-                datetime_start.getMonthValue(), 
-                datetime_start.getDayOfMonth(), 
-                datetime_start.getHour(), 
-                datetime_start.getMinute(), 
-                datetime_start.getSecond());
-        startTimeEl = new TimeElement(astrodtStart, SCALE.LOCAL_TIME);
-
-        
-        AstroDate astrodtEnd = new AstroDate(
-                datetime_end.getYear(),
-                datetime_end.getMonthValue(), 
-                datetime_end.getDayOfMonth(), 
-                datetime_end.getHour(), 
-                datetime_end.getMinute(), 
-                datetime_end.getSecond());
-        endTimeEl = new TimeElement(astrodtEnd, SCALE.LOCAL_TIME);
-
-        
-        int limMagnitude = lpanel.getLimitingMagnitude();
-        
-        // DEBUG =========================================
-        
-        System.out.println("START: " + datetime_start + " - " 
-                + startTimeEl.toString());
-        System.out.println("END: " + datetime_end + " - " 
-                + endTimeEl.toString());
-        System.out.println("COORDS: LAT " + latitude 
-                + " / LON " + longitude 
-                + " / HEIGHT " + height);
-        
-        System.out.println("TIMEZONE: " + timezone);
-        System.out.println("LIM.MAGNITUDE: " + limMagnitude);
-        // ===============================================
-        
-        for (String planet : NTPPlanets) {
-            try {
-                SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
-                        endTimeEl, "planet");
-                if(p.isAboveHorizon()) { 
-                    planets.add(p); 
-                    System.out.println(p.getName());
-                    p.showTargetDetails();
-                    System.out.println(".....");
-                }               
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
             }
-            catch (JPARSECException e) {
-                System.out.println(e);
-            }
-        }
-        System.out.println(planets.size());
+        };
+
         
-        for (String moon : NTPConstants.NTPMoons) {
+        table.setModel(SessionTableModel);
+        
+        // add location records to table
+        String y, M, d, h, m;
+        for (SpaceObject t : current_session.getTargets()) {
+            designation = t.getName();
+            kind = t.getKind();
+            
             try{
-                SpaceObject m = new SpaceObject(moon, observer,  startTimeEl,
-                        endTimeEl, "moon");
-                if(m.isAboveHorizon()){
-                    moons.add(m); 
-                    System.out.println(m.getName());
-                }
+                AstroDate rdt = new AstroDate(t.getRises()[0]);
+                //y = Integer.toString(rdt.getYear());
+                M = Integer.toString(rdt.getMonth());
+                d = Integer.toString(rdt.getDay());
+                h = Integer.toString(rdt.getHour());
+                m = Integer.toString(rdt.getRoundedMinute());
+                //rise = y + "/" + M + "/" + d + " " + h + ":" + m;
+                rise = M + "/" + d + " " + h + "h" + m;
             }
-            catch (JPARSECException e) {
-                System.out.println(e);
+            catch (JPARSECException e){
+                rise = "N/A";
             }
+                              
+            try{
+                AstroDate sdt = new AstroDate(t.getSets()[0]);
+                //y = Integer.toString(sdt.getYear());
+                M = Integer.toString(sdt.getMonth());
+                d = Integer.toString(sdt.getDay());
+                h = Integer.toString(sdt.getHour());
+                m = Integer.toString(sdt.getRoundedMinute());
+                //set = y + "/" + M + "/" + d + " " + h + ":" + m;
+                set = M + "/" + d + " " + h + "h" + m;
+            }
+            catch (JPARSECException e){
+                set = "N/A";
+            }
+            
+            constellation = t.getConstellation();
+        
+            bookmark = false;   // TODO
+            seen = false;       // TODO
+
+            Object[] data = {designation, kind, rise, set, constellation, bookmark, seen};
+            SessionTableModel.addRow(data);
         }
-        System.out.print(moons.size());
-        
-        
-        System.out.println("\n\nDETAILS: ======================");
-        
-        targets.addAll(planets);
-        targets.addAll(moons);
-        
-        int visible = 0;
-        // TODO - check this for more times during the session?
-        for (SpaceObject target : targets) {
-            if(target.isVisibleNakedEye(startTimeEl)) {
-                System.out.println(target.getName());
-                visible++;
-                //target.showTargetDetails();
-            }
-        }
-        System.out.println("Number of targets above horizon: " + targets.size()
-                + " (" + visible + " visible at naked eye).");
-        
-        
-               
-        
+
+        // Set basic table formatting
+//        table.getColumn("Designation").setMaxWidth(160);
+//        table.getColumn("Kind").setMaxWidth(160);
+//        table.getColumn("Rise").setMaxWidth(80);
+//        table.getColumn("Set").setMaxWidth(80);
+//        table.getColumn("Constellation").setPreferredWidth(50);
+//        table.getColumn("Bookmark").setPreferredWidth(160);
+//        table.getColumn("Seen").setPreferredWidth(160);
     }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
-        this.leftPanel.setVisible(this.btn_leftPanel.isSelected());
+        this.lpanel.setVisible(this.btn_leftPanel.isSelected());
     }//GEN-LAST:event_btn_leftPanelActionPerformed
 
     private void btn_rightPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rightPanelActionPerformed
