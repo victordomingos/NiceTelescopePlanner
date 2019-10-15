@@ -44,7 +44,8 @@ public class DbConnection {
         ArrayList<Location> locations = new ArrayList<>();
 
         String ssql = "SELECT id, name, address, latitude, longitude, height, timezone "
-                + "FROM location";
+                + "FROM location "
+                + "ORDER BY id DESC";
 
         try {
             con = DriverManager.getConnection(url, user, password);

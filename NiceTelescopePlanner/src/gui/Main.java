@@ -8,9 +8,12 @@ package gui;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 import javax.swing.JToggleButton;
+import javax.swing.SwingWorker;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -387,13 +390,14 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void applySessionSettings(){
-        updateTable();        
+        this.updateTable();        
     }
     
     
     private void updateTable() {
         String designation, kind, rise, set, constellation;
         Boolean bookmark, seen;
+        
         
         // get all targets 
         this.current_session = new Session(lpanel.getCurSelectedLocation(), 
@@ -416,6 +420,7 @@ public class Main extends javax.swing.JFrame {
         
         table.setModel(SessionTableModel);
         
+        
         // add location records to table
         String y, M, d, h, m;
         for (SpaceObject t : current_session.getTargets()) {
@@ -425,10 +430,10 @@ public class Main extends javax.swing.JFrame {
             try{
                 AstroDate rdt = new AstroDate(t.getRises()[0]);
                 //y = Integer.toString(rdt.getYear());
-                M = Integer.toString(rdt.getMonth());
-                d = Integer.toString(rdt.getDay());
-                h = Integer.toString(rdt.getHour());
-                m = Integer.toString(rdt.getRoundedMinute());
+                M = new DecimalFormat("00").format(rdt.getMonth());
+                d = new DecimalFormat("00").format(rdt.getDay());
+                h = new DecimalFormat("00").format(rdt.getHour());
+                m = new DecimalFormat("00").format(rdt.getRoundedMinute());
                 //rise = y + "/" + M + "/" + d + " " + h + ":" + m;
                 rise = M + "/" + d + " " + h + "h" + m;
             }
@@ -439,10 +444,10 @@ public class Main extends javax.swing.JFrame {
             try{
                 AstroDate sdt = new AstroDate(t.getSets()[0]);
                 //y = Integer.toString(sdt.getYear());
-                M = Integer.toString(sdt.getMonth());
-                d = Integer.toString(sdt.getDay());
-                h = Integer.toString(sdt.getHour());
-                m = Integer.toString(sdt.getRoundedMinute());
+                M = new DecimalFormat("00").format(sdt.getMonth());
+                d = new DecimalFormat("00").format(sdt.getDay());
+                h = new DecimalFormat("00").format(sdt.getHour());
+                m = new DecimalFormat("00").format(sdt.getRoundedMinute());
                 //set = y + "/" + M + "/" + d + " " + h + ":" + m;
                 set = M + "/" + d + " " + h + "h" + m;
             }
