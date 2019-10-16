@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2019 victor
+ * Copyright (C) 2019 victor domingos 
+ * https://no-title.victordomingos.com
+ * https://github.com/victordomingos
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +18,7 @@
  */
 package core;
 
+import java.util.ArrayList;
 import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
@@ -51,9 +54,9 @@ public class SpaceObject {
     private EphemElement ephemEl;
     private EphemElement riseEl;
 
-    private double[] rises;
-    private double[] transits;
-    private double[] sets;
+    private ArrayList<Double> rises = new ArrayList<>();
+    private ArrayList<Double> transits = new ArrayList<>();
+    private ArrayList<Double> sets = new ArrayList<>();
 
     private double ra;                  // right ascension
     private double dec;                 // declination
@@ -84,7 +87,7 @@ public class SpaceObject {
         this.startTimeEl = startTimeEl;
         this.endTimeEl = endTimeEl;
         this.observer = observer;
-        this.kind = category.substring(0, 1).toUpperCase() 
+        this.kind = category.substring(0, 1).toUpperCase()
                 + category.substring(1);
 
         ephemerisEl = new EphemerisElement(
@@ -123,48 +126,57 @@ public class SpaceObject {
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
         this.angularDiameter = riseEl.angularRadius * 2;
         this.aparentMagnitude = riseEl.magnitude;
-        this.rises = riseEl.rise;
-        this.sets = riseEl.set;
-        this.transits = riseEl.transit;
+                
+        cleanRiseSetTransitListFromArray(riseEl.rise, rises);
+        cleanRiseSetTransitListFromArray(riseEl.set, sets);
+        cleanRiseSetTransitListFromArray(riseEl.transit, transits);
+        
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
 
+        showRisesSetsTransits(); // DEBUG
+
+    }
+
+    
+    /**
+     * Convert each array[double](rise, transit, set) to an ArrayList[Double]
+     * but excluding any invalid values, like ALWAYS_BELOW_HORIZON, CIRCUMPOLAR, 
+     * or NO_RISE_SET_TRANSIT.
+     * 
+     * @param source an array of doubles for rise/set/transit from EphemElelement
+     * @param destination an ArrayList of Doubles without invalid values
+     */
+    private void cleanRiseSetTransitListFromArray(double[] source, 
+            ArrayList<Double> destination)
+    {
+        for (double d : source) {
+            if (d != ALWAYS_BELOW_HORIZON
+                    && d != CIRCUMPOLAR
+                    && d != NO_RISE_SET_TRANSIT) {
+                // DEBUG: check what hapens with Polaris and Sigma Octans 
+                // - will they return CIRCUMPOLAR or what?
+                destination.add((Double) d);
+            }
+        }
+
+    }
+    
+    public void showRisesSetsTransits() throws JPARSECException {
         System.out.println(name + " rises:");
         for (double rise : rises) {
             System.out.println("    " + rise + "  -  " + new AstroDate(rise).toStringTZ());
         }
+
         System.out.println(name + " transits:");
         for (double transit : transits) {
             System.out.println("    " + transit + "  -  " + new AstroDate(transit).toStringTZ());
         }
-        System.out.println(name + " sets:");
-        for (double set : sets) {
-            System.out.println("    " + set + "  -  " + new AstroDate(set).toStringTZ());
-            if(set==ALWAYS_BELOW_HORIZON){
-                System.out.println("ALWAYS_BELOW_HORIZON");
-            } else if (set == CIRCUMPOLAR){
-                System.out.println("CIRCUMPOLAR");
-            } else if (set == NO_RISE_SET_TRANSIT){
-                System.out.println("NO_RISE_SET_TRANSIT");
-            } else{
-                System.out.println("ELSE ---- ?");
-            }
-           
-        }
-        
-        
 
-        /*
-                
-        System.out.println("\n=======> RISE"
-                + "\n  Alt: " + rise.elevation * RAD_TO_DEG
-                + "\n  Az: " + rise.azimuth * RAD_TO_DEG
-                + "\n Constellation: " + rise.constellation
-                + "\n Magnitude: " + rise.magnitude
-                + "\n Phase: " + rise.phase * 100 + "%"
-                + "\n Phase Angle: " + rise.phaseAngle * RAD_TO_DEG + "˚"
-        );
-         */
+        System.out.println(name + " sets:");
+        for (Double s : sets) {
+            System.out.println("    " + s + "  -  " + new AstroDate(s).toStringTZ());
+        }
     }
 
     /**
@@ -183,61 +195,60 @@ public class SpaceObject {
      * @return
      */
     public boolean willBeAboveHorizon() throws JPARSECException {
-       
-        double jdUT_start = TimeScale.getJD(startTimeEl, observer, ephemerisEl, 
+
+        double jdUT_start = TimeScale.getJD(startTimeEl, observer, ephemerisEl,
                 SCALE.UNIVERSAL_TIME_UT1);
-        double jdUT_end = TimeScale.getJD(endTimeEl, observer, ephemerisEl, 
+        double jdUT_end = TimeScale.getJD(endTimeEl, observer, ephemerisEl,
                 SCALE.UNIVERSAL_TIME_UT1);
+
+        System.out.println(name + " - Rises:    " + rises.size());
+        System.out.println(name + " - Transits: " + transits.size());
+        System.out.println(name + " - Sets:     " + sets.size());
         
-        System.out.println(name + " - Sets:     " + sets.length);
-        System.out.println(name + " - Rises:    " + sets.length);
-        System.out.println(name + " - Transits: " + sets.length);
-        
-        if(sets[0]==RiseSetTransit.ALWAYS_BELOW_HORIZON){
+        if (sets.get(0) == RiseSetTransit.ALWAYS_BELOW_HORIZON) {
             System.out.println(name + ": Never up in the horizon.");
             return false;
         }
-               
-        
+
         //Is the first rise between start and end?
         // Or is the last set between start and end?
         for (double rise : rises) {
-            if (jdUT_start < rise  &&  rise < jdUT_end) {
-                System.out.println("\n\n" + name + ": Is the first rise between start and end? " 
-                        + (jdUT_start < rises[0]));
-                System.out.println(name +": Is the last rise between start and end?  "
-                        + (jdUT_end < rises[rises.length - 1]));
+            if (jdUT_start < rise && rise < jdUT_end) {
+                System.out.println("\n\n" + name + ": Is the first rise between start and end? "
+                        + (jdUT_start < rises.get(0)));
+                System.out.println(name + ": Is the last rise between start and end?  "
+                        + (jdUT_end < rises.get(rises.size() - 1)));
                 return true;
             }
         }
-        
-        
+
         for (double set : sets) {
-            if (jdUT_start < set  &&  set < jdUT_end ) {
-                System.out.println(name + ": Is the first set between start and end? " 
-                        + (jdUT_start < transits[0]));
+            if (jdUT_start < set && set < jdUT_end) {
+                System.out.println(name + ": Is the first set between start and end? "
+                        + (jdUT_start < sets.get(0)));
                 System.out.println(name + ": Is the last set between start and end?  "
-                        + (jdUT_end < sets[sets.length - 1]));
+                        + (jdUT_end < sets.get(sets.size() - 1)));
                 return true;
             }
         }
-        
+
         for (double transit : transits) {
-            if (jdUT_start < transit  &&  transit < jdUT_end ) {
-                System.out.println(name + ": Is the first transit between start and end? " 
-                        + (jdUT_start < transits[0]));
+            if (jdUT_start < transit && transit < jdUT_end) {
+                System.out.println(name + ": Is the first transit between start and end? "
+                        + (jdUT_start < transits.get(0)));
                 System.out.println(name + ": Is the last transit between start and end?  "
-                        + (jdUT_end < transits[transits.length - 1]));
+                        + (jdUT_end < transits.get(transits.size() - 1)));
                 return true;
             }
-        }        
-        
+        }
+
         System.out.println("\n" + name + ": wont be up on the horizon.\n\n\n");
         return false;
     }
 
     /**
-     * Determine visibility at a given time according to estimated limiting magnitude
+     * Determine visibility at a given time according to estimated limiting
+     * magnitude
      *
      * @return
      */
@@ -268,8 +279,16 @@ public class SpaceObject {
         System.out.println(name + ": RA: " + this.ra);
         System.out.println(name + ": Dec: " + this.dec);
         System.out.println(name + ": Distance: " + this.distance);
-    }
 
+        System.out.println("\n=======> RISE"
+                + "\n  Alt: " + riseEl.elevation * RAD_TO_DEG
+                + "\n  Az: " + riseEl.azimuth * RAD_TO_DEG
+                + "\n Constellation: " + riseEl.constellation
+                + "\n Magnitude: " + riseEl.magnitude
+                + "\n Phase: " + riseEl.phase * 100 + "%"
+                + "\n Phase Angle: " + riseEl.phaseAngle * RAD_TO_DEG + "˚"
+        );
+    }
 
     public String getName() {
         return name;
@@ -279,11 +298,11 @@ public class SpaceObject {
         return kind;
     }
 
-    public double[] getRises() {
+    public ArrayList<Double> getRises() {
         return rises;
     }
 
-    public double[] getSets() {
+    public ArrayList<Double> getSets() {
         return sets;
     }
 

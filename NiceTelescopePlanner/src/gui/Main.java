@@ -1,7 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2019 victor domingos 
+ * https://no-title.victordomingos.com
+ * https://github.com/victordomingos
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gui;
 
@@ -425,7 +438,7 @@ public class Main extends javax.swing.JFrame {
             kind = t.getKind();
             
             try{
-                AstroDate rdt = new AstroDate(t.getRises()[0]);
+                AstroDate rdt = new AstroDate(t.getRises().get(0));
                 //y = Integer.toString(rdt.getYear());
                 M = new DecimalFormat("00").format(rdt.getMonth());
                 d = new DecimalFormat("00").format(rdt.getDay());
@@ -439,7 +452,7 @@ public class Main extends javax.swing.JFrame {
             }
                               
             try{
-                AstroDate sdt = new AstroDate(t.getSets()[0]);
+                AstroDate sdt = new AstroDate(t.getSets().get(0));
                 //y = Integer.toString(sdt.getYear());
                 M = new DecimalFormat("00").format(sdt.getMonth());
                 d = new DecimalFormat("00").format(sdt.getDay());
