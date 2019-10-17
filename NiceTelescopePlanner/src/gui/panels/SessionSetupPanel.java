@@ -6,6 +6,7 @@
 package gui.panels;
 
 import Constants.LIM_MAGNITUDE;
+import Constants.NTPConstellations;
 import core.Location;
 import db.DbConnection;
 import gui.Main;
@@ -41,15 +42,15 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         cmb_limitingMagnitude.setModel(dlm);
         updateLocationsCombo();
         
+        NTPConstellations constellations = new NTPConstellations();
+        cmb_atConstellation.addItem("All constellations");
+        for (String constellation : constellations.getAllLatinNames()) {
+            cmb_atConstellation.addItem(constellation);
+        }
         
         // TODO: remove theses line after the first MVP release ;)
         subpanel_telescopeAngles.setVisible(false);
         btn_SetToTwilightTime.setVisible(false);
-        lbl_kind.setVisible(false);
-        cmb_kind.setVisible(false);
-        lbl_catalog.setVisible(false);
-        cmb_catalog.setVisible(false);
-        
     }
 
     public void updateLocationsCombo() {
@@ -153,8 +154,8 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         lbl_kind = new javax.swing.JLabel();
         cmb_kind = new javax.swing.JComboBox<>();
-        lbl_catalog = new javax.swing.JLabel();
-        cmb_catalog = new javax.swing.JComboBox<>();
+        lbl_atConstellation = new javax.swing.JLabel();
+        cmb_atConstellation = new javax.swing.JComboBox<>();
         cmb_limitingMagnitude = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         spin_limitingMagnitude = new javax.swing.JSpinner();
@@ -379,14 +380,13 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         lbl_kind.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_kind.setText("Kind:");
 
-        cmb_kind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_kind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All kinds", "Planet", "Moon" }));
         cmb_kind.setName("cmb_kind"); // NOI18N
 
-        lbl_catalog.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_catalog.setText("Catalog:");
+        lbl_atConstellation.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_atConstellation.setText("At constellation:");
 
-        cmb_catalog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmb_catalog.setName("cmb_catalog"); // NOI18N
+        cmb_atConstellation.setName("cmb_atConstellation"); // NOI18N
 
         cmb_limitingMagnitude.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
         cmb_limitingMagnitude.setName("cmb_kind"); // NOI18N
@@ -432,32 +432,35 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         subpanel_filterSugestionsLayout.setHorizontalGroup(
             subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
-                        .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_catalog, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbl_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_filterSugestionsLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmb_catalog, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmb_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addComponent(spin_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_filterSugestionsLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(198, 198, 198))
                     .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(cmb_limitingMagnitude, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_filterSugestionsLayout.createSequentialGroup()
+                                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_atConstellation, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmb_kind, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmb_atConstellation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel17)
+                                .addComponent(cmb_limitingMagnitude, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(15, 15, 15))
         );
+
+        subpanel_filterSugestionsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmb_atConstellation, cmb_kind});
+
         subpanel_filterSugestionsLayout.setVerticalGroup(
             subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subpanel_filterSugestionsLayout.createSequentialGroup()
@@ -471,14 +474,14 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
                 .addComponent(slider_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmb_limitingMagnitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_kind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_kind, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmb_catalog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_catalog))
+                    .addComponent(cmb_atConstellation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_atConstellation))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -580,7 +583,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_SetToDegreesAboveHorizon;
     private javax.swing.JButton btn_SetToTwilightTime;
     private javax.swing.JButton btn_applySessionSettings;
-    private javax.swing.JComboBox<String> cmb_catalog;
+    private javax.swing.JComboBox<String> cmb_atConstellation;
     private javax.swing.JComboBox<String> cmb_endTime;
     private javax.swing.JComboBox<String> cmb_kind;
     private javax.swing.JComboBox<String> cmb_limitingMagnitude;
@@ -599,7 +602,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel lbl_catalog;
+    private javax.swing.JLabel lbl_atConstellation;
     private javax.swing.JLabel lbl_kind;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private javax.swing.JSlider slider_limitingMagnitude;
@@ -632,5 +635,13 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     public int getLimitingMagnitude(){
         return Integer.parseInt(this.spin_limitingMagnitude.getValue().toString());
     }
-           
+    
+    
+    public String getAtConstellation(){
+        return this.cmb_atConstellation.getSelectedItem().toString();
+    }
+    
+    public String getOnlyKind(){
+        return this.cmb_kind.getSelectedItem().toString();
+    }
 }

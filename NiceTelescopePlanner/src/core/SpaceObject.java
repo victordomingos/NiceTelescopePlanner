@@ -306,11 +306,11 @@ public class SpaceObject {
         return sets;
     }
 
-    public String getConstellation() {
+    public String getConstell() {
         return constellation;
     }
 
-    public double getAparentMagnitude() {
+    public double getAparentMag() {
         return aparentMagnitude;
     }
 

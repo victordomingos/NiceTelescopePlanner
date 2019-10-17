@@ -414,7 +414,7 @@ public class Main extends javax.swing.JFrame {
         // get all targets 
         this.current_session = new Session(lpanel.getCurSelectedLocation(), 
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
-                lpanel.getLimitingMagnitude());
+                lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(), lpanel.getOnlyKind());
         
         //Set columns headers and table Model - make it non-editable
         String columns[] = {"Designation", "Kind", "Rise", "Set", 
@@ -465,7 +465,7 @@ public class Main extends javax.swing.JFrame {
                 set = "N/A";
             }
             
-            constellation = t.getConstellation();
+            constellation = t.getConstell();
         
             bookmark = false;   // TODO
             seen = false;       // TODO
@@ -476,7 +476,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
-        this.lpanel.setVisible(this.btn_leftPanel.isSelected());
+        this.leftPanel.setVisible(this.btn_leftPanel.isSelected());
     }//GEN-LAST:event_btn_leftPanelActionPerformed
 
     private void btn_rightPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rightPanelActionPerformed
