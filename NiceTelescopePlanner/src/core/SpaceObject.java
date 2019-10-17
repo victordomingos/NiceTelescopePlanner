@@ -99,7 +99,7 @@ public class SpaceObject {
                 EphemerisElement.FRAME.ICRF,
                 EphemerisElement.ALGORITHM.MOSHIER);
 
-        switch (category.toLowerCase()) {
+        switch (this.kind.toLowerCase()) {
             case "moon":
                 ephemerisEl.algorithm = EphemerisElement.ALGORITHM.NATURAL_SATELLITE;
                 break;
@@ -116,6 +116,7 @@ public class SpaceObject {
                 ephemerisEl.algorithm = EphemerisElement.ALGORITHM.MOSHIER;
 
         }
+
         ephemerisEl.optimizeForSpeed();
 
         ephemEl = Ephem.getEphemeris(this.startTimeEl, this.observer,
@@ -126,11 +127,11 @@ public class SpaceObject {
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
         this.angularDiameter = riseEl.angularRadius * 2;
         this.aparentMagnitude = riseEl.magnitude;
-                
+
         cleanRiseSetTransitListFromArray(riseEl.rise, rises);
         cleanRiseSetTransitListFromArray(riseEl.set, sets);
         cleanRiseSetTransitListFromArray(riseEl.transit, transits);
-        
+
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
 
@@ -138,18 +139,17 @@ public class SpaceObject {
 
     }
 
-    
     /**
      * Convert each array[double](rise, transit, set) to an ArrayList[Double]
-     * but excluding any invalid values, like ALWAYS_BELOW_HORIZON, CIRCUMPOLAR, 
+     * but excluding any invalid values, like ALWAYS_BELOW_HORIZON, CIRCUMPOLAR,
      * or NO_RISE_SET_TRANSIT.
-     * 
-     * @param source an array of doubles for rise/set/transit from EphemElelement
+     *
+     * @param source an array of doubles for rise/set/transit from
+     * EphemElelement
      * @param destination an ArrayList of Doubles without invalid values
      */
-    private void cleanRiseSetTransitListFromArray(double[] source, 
-            ArrayList<Double> destination)
-    {
+    private void cleanRiseSetTransitListFromArray(double[] source,
+            ArrayList<Double> destination) {
         for (double d : source) {
             if (d != ALWAYS_BELOW_HORIZON
                     && d != CIRCUMPOLAR
@@ -161,7 +161,7 @@ public class SpaceObject {
         }
 
     }
-    
+
     public void showRisesSetsTransits() throws JPARSECException {
         System.out.println(name + " rises:");
         for (double rise : rises) {
@@ -192,9 +192,75 @@ public class SpaceObject {
     /**
      * Determine if target will be above horizon during the specified interval
      *
+     * This methods starts by getting a list of session hours and then iterates
+     * on them. If it finds a time when the object is sbove the horizon, it
+     * returns true.
+     *
      * @return
      */
     public boolean willBeAboveHorizon() throws JPARSECException {
+        for (TimeElement t : getHourlyTimeElements()) {
+            ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
+            //get object elevation for specified time
+            if (ephemEl.elevation * RAD_TO_DEG > 0) { //not rise here.
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Generate an ArrayList<TimeElement> for each hour within the session i.e.,
+     * between startTimeEl and endTimeEl.
+     *
+     * @return
+     */
+    public ArrayList<TimeElement> getHourlyTimeElements() {
+        ArrayList<TimeElement> time_interval = new ArrayList<>();
+
+        // we are not taking minutes and seconds into account 
+        // during the session configuration process...
+        int m = 00;
+        double s = 00;
+
+        int y_start = startTimeEl.astroDate.getYear();
+        int M_start = startTimeEl.astroDate.getMonth();
+        int d_start = startTimeEl.astroDate.getDay();
+        int h_start = startTimeEl.astroDate.getHour();
+
+        int y_end = endTimeEl.astroDate.getYear();
+        int M_end = endTimeEl.astroDate.getMonth();
+        int d_end = endTimeEl.astroDate.getDay();
+        int h_end = endTimeEl.astroDate.getHour();
+
+        if (d_start == d_end) {
+            for (int h = h_start; h <= h_end; h++) {
+                //add all hours within the session
+                AstroDate a = new AstroDate(y_start, M_start, d_start, h, m, s);
+                time_interval.add(new TimeElement(a, SCALE.LOCAL_TIME));
+            }
+        } else {
+            // our date selector only allows for a second day, so:
+            for (int h = h_start; h < 24; h++) {
+                //add hours for first day, aftwer session start
+                AstroDate a = new AstroDate(y_start, M_start, d_start, h, m, s);
+                time_interval.add(new TimeElement(a, SCALE.LOCAL_TIME));
+            }
+            for (int h = 0; h <= h_end; h++) {
+                //add hours for second day, until session end
+                AstroDate a = new AstroDate(y_end, M_end, d_end, h, m, s);
+                time_interval.add(new TimeElement(a, SCALE.LOCAL_TIME));
+            }
+        }
+        return time_interval;
+    }
+
+    /**
+     * Determine if target will be above horizon during the specified interval
+     *
+     * @return
+     */
+    public boolean willBeAboveHorizon_old() throws JPARSECException {
 
         double jdUT_start = TimeScale.getJD(startTimeEl, observer, ephemerisEl,
                 SCALE.UNIVERSAL_TIME_UT1);
@@ -204,7 +270,7 @@ public class SpaceObject {
         System.out.println(name + " - Rises:    " + rises.size());
         System.out.println(name + " - Transits: " + transits.size());
         System.out.println(name + " - Sets:     " + sets.size());
-        
+
         if (sets.get(0) == RiseSetTransit.ALWAYS_BELOW_HORIZON) {
             System.out.println(name + ": Never up in the horizon.");
             return false;

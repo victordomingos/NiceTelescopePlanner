@@ -16,38 +16,27 @@
  */
 package tests;
 
-import Constants.NTPConstants;
-import static Constants.NTPConstants.NTPPlanets;
 import Constants.NTPConstellations;
 import core.Location;
-import core.SpaceObject;
 import java.io.IOException;
 import java.net.ProtocolException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.stream.events.EndElement;
 import static jparsec.astronomy.Constellation.CONSTELLATION_NAMES;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
+import jparsec.ephem.EphemerisElement.FRAME;
+import jparsec.ephem.Functions;
+
 import jparsec.ephem.RiseSetTransit;
 import jparsec.ephem.Target;
-import jparsec.ephem.Target.TARGET;
 import jparsec.ephem.planets.EphemElement;
-import jparsec.ephem.probes.SDP8_SGP8;
-import jparsec.ephem.probes.SatelliteEphem;
-import static jparsec.ephem.probes.SatelliteEphem.PATH_TO_SATELLITES_FILE;
-import jparsec.ephem.probes.SatelliteEphemElement;
-import jparsec.graph.DataSet;
+import jparsec.ephem.stars.StarElement;
+import jparsec.ephem.stars.StarEphem;
 import jparsec.io.ConsoleReport;
-import jparsec.io.ReadFile;
-
+import jparsec.math.Constant;
 import static jparsec.math.Constant.DEG_TO_RAD;
 import static jparsec.math.Constant.RAD_TO_DEG;
-import jparsec.observer.City;
 import jparsec.observer.ObserverElement;
 import jparsec.time.TimeElement;
-import jparsec.util.Configuration;
 import jparsec.util.JPARSECException;
 
 /**
@@ -120,6 +109,22 @@ public class scratchpad {
                 + " (" + visible + " visible at naked eye).");
         
         */
+        
+       
+        // Star example from jparsec documentation:
+        StarElement star = new StarElement("HD 6755", 
+                Functions.parseRightAscension(1, 9, 42.3), 
+                Functions.parseDeclination("61", 32, 49.5), 
+                139, 
+                0, 
+                (float) (628.42 * 1.0E-3 * Constant.ARCSEC_TO_RAD),
+                (float) (76.65 * 1.0E-3 * Constant.ARCSEC_TO_RAD), 
+                -321.4f, 
+                Constant.J2000, 
+                FRAME.FK5);
+        
+        double uvw[] = StarEphem.getGalacticMotionUVW(star, true);
+        System.out.println(ConsoleReport.doubleArrayReport(new String[] {"u = xxxx.x km/s", "v = xxxx.x km/s", "w = xxxx.x km/s"}, uvw));
         
     }
 
