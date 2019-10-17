@@ -42,6 +42,7 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
+    private final gui.panels.TargetDetailsPanel rpanel = new gui.panels.TargetDetailsPanel(this);
     private Session current_session;
     
     /**
@@ -82,10 +83,13 @@ public class Main extends javax.swing.JFrame {
         });
         
         
-        rightPanel.setVisible(false);
+        rightPanel.add(rpanel);
+        
+        rightPanel.setVisible(true);
+        
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
-
+        
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
 
@@ -117,7 +121,6 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
         rightPanel = new org.jdesktop.swingx.JXPanel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -128,7 +131,6 @@ public class Main extends javax.swing.JFrame {
         setTitle("Nice Telescope Planner");
         setMinimumSize(new java.awt.Dimension(1000, 750));
         setName("mainWindow"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1280, 800));
         setSize(new java.awt.Dimension(1024, 750));
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 204));
@@ -328,11 +330,6 @@ public class Main extends javax.swing.JFrame {
         rightPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         rightPanel.setPreferredSize(new java.awt.Dimension(340, 0));
 
-        jLabel16.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
-        jLabel16.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel16.setText("Target details");
-
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("[There is no target object selected yet.]");
 
@@ -342,19 +339,13 @@ public class Main extends javax.swing.JFrame {
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE))
         );
 
         leftPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -546,7 +537,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_sessionNotes;
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
