@@ -310,4 +310,12 @@ public class SpaceObject {
         return constellation;
     }
 
+    public double getAparentMagnitude() {
+        return aparentMagnitude;
+    }
+
+    public double getAngularDiameter() {
+        return angularDiameter;
+    }
+
 }

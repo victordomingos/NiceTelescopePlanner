@@ -24,18 +24,30 @@ import core.SpaceObject;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.events.EndElement;
 import static jparsec.astronomy.Constellation.CONSTELLATION_NAMES;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
 import jparsec.ephem.RiseSetTransit;
 import jparsec.ephem.Target;
+import jparsec.ephem.Target.TARGET;
 import jparsec.ephem.planets.EphemElement;
+import jparsec.ephem.probes.SDP8_SGP8;
+import jparsec.ephem.probes.SatelliteEphem;
+import static jparsec.ephem.probes.SatelliteEphem.PATH_TO_SATELLITES_FILE;
+import jparsec.ephem.probes.SatelliteEphemElement;
+import jparsec.graph.DataSet;
+import jparsec.io.ConsoleReport;
+import jparsec.io.ReadFile;
 
 import static jparsec.math.Constant.DEG_TO_RAD;
 import static jparsec.math.Constant.RAD_TO_DEG;
+import jparsec.observer.City;
 import jparsec.observer.ObserverElement;
 import jparsec.time.TimeElement;
+import jparsec.util.Configuration;
 import jparsec.util.JPARSECException;
 
 /**
@@ -58,6 +70,8 @@ public class scratchpad {
         
         System.out.println(startTimeEl);
         System.out.println(endTimeEl);
+        
+        /*
         // Testing retrieval of data about planets: ==================
         System.out.println("\nPLANETS ====================== ");
         ArrayList<SpaceObject> planets = new ArrayList<>();
@@ -105,6 +119,7 @@ public class scratchpad {
         System.out.println("Number of targets above horizon: " + targets.size()
                 + " (" + visible + " visible at naked eye).");
         
+        */
         
     }
 
@@ -212,5 +227,6 @@ public class scratchpad {
         System.out.println("Total constellations: " + CONSTELLATION_NAMES.length);
         */
     }
+   
 
 }

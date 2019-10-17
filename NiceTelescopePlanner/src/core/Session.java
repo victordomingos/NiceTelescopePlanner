@@ -93,7 +93,12 @@ public class Session {
             try {
                 SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
                         endTimeEl, "planet");
-                if(p.willBeAboveHorizon()) { 
+                System.out.println(p.getName() 
+                        + " - Mag: " + p.getAparentMagnitude()
+                        + " - Const: " + p.getConstellation());
+                System.out.println("WITHIN LIMIT MAG:" + (p.getAparentMagnitude() < limMagnitude));
+                if((p.getAparentMagnitude() < limMagnitude) 
+                        && p.willBeAboveHorizon()) { 
                     planets.add(p); 
                     //p.showTargetDetails();
                     System.out.println(p.getName() + ": will be up on the horizon");
@@ -110,7 +115,12 @@ public class Session {
             try{
                 SpaceObject m = new SpaceObject(moon, observer,  startTimeEl,
                         endTimeEl, "moon");
-                if(m.willBeAboveHorizon()){
+                System.out.println(m.getName() 
+                        + " - Mag: " + m.getAparentMagnitude()
+                        + " - Const: " + m.getConstellation());
+                System.out.println("WITHIN LIMIT MAG:" + (m.getAparentMagnitude() < limMagnitude));
+                if((m.getAparentMagnitude() < limMagnitude) 
+                        && m.willBeAboveHorizon()){
                     moons.add(m); 
                     //m.showTargetDetails();
                     System.out.println(m.getName() + ": will be up on the horizon");
