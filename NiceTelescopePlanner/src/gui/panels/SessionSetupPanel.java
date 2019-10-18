@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -129,7 +130,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         subpanel_location = new org.jdesktop.swingx.JXPanel();
         cmb_location = new javax.swing.JComboBox<>();
-        btn_StartOver = new javax.swing.JButton();
+        btn_calculate = new javax.swing.JButton();
         subpanel_dateTime = new org.jdesktop.swingx.JXPanel();
         jLabel20 = new javax.swing.JLabel();
         btn_SetToTwilightTime = new javax.swing.JButton();
@@ -161,7 +162,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         spin_limitingMagnitude = new javax.swing.JSpinner();
         slider_limitingMagnitude = new javax.swing.JSlider();
         btn_saveSession = new javax.swing.JButton();
-        btn_applySessionSettings1 = new javax.swing.JButton();
+        btn_clearSessionSetup = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(350, 32767));
         setPreferredSize(new java.awt.Dimension(350, 700));
@@ -198,16 +199,16 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
             .addGroup(subpanel_locationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmb_location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btn_StartOver.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        btn_StartOver.setText("Calculate");
-        btn_StartOver.setName("btn_StartOver"); // NOI18N
-        btn_StartOver.setPreferredSize(new java.awt.Dimension(260, 29));
-        btn_StartOver.addActionListener(new java.awt.event.ActionListener() {
+        btn_calculate.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        btn_calculate.setText("Calculate");
+        btn_calculate.setName("btn_calculate"); // NOI18N
+        btn_calculate.setPreferredSize(new java.awt.Dimension(260, 29));
+        btn_calculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_StartOverActionPerformed(evt);
+                btn_calculateActionPerformed(evt);
             }
         });
 
@@ -484,7 +485,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
                 .addGroup(subpanel_filterSugestionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_atConstellation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_atConstellation))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btn_saveSession.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
@@ -497,13 +498,13 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
             }
         });
 
-        btn_applySessionSettings1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        btn_applySessionSettings1.setText("Start over");
-        btn_applySessionSettings1.setName("btn_applySessionSettings"); // NOI18N
-        btn_applySessionSettings1.setPreferredSize(new java.awt.Dimension(260, 29));
-        btn_applySessionSettings1.addActionListener(new java.awt.event.ActionListener() {
+        btn_clearSessionSetup.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        btn_clearSessionSetup.setText("Start over");
+        btn_clearSessionSetup.setName("btn_applySessionSettings"); // NOI18N
+        btn_clearSessionSetup.setPreferredSize(new java.awt.Dimension(260, 29));
+        btn_clearSessionSetup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_applySessionSettings1ActionPerformed(evt);
+                btn_clearSessionSetupActionPerformed(evt);
             }
         });
 
@@ -517,32 +518,25 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(subpanel_location, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(leftPanelLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(leftPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(leftPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(subpanel_dateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(leftPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(subpanel_telescopeAngles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(leftPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(subpanel_filterSugestions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(subpanel_dateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(subpanel_telescopeAngles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(subpanel_filterSugestions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 4, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_applySessionSettings1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_StartOver, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(btn_clearSessionSetup, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_calculate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_saveSession, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        leftPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_StartOver, btn_applySessionSettings1, btn_saveSession});
+        leftPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_calculate, btn_clearSessionSetup, btn_saveSession});
 
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,13 +553,13 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
                 .addComponent(subpanel_filterSugestions, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_StartOver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_calculate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_saveSession, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_applySessionSettings1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_clearSessionSetup, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
-        leftPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_StartOver, btn_applySessionSettings1, btn_saveSession});
+        leftPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_calculate, btn_clearSessionSetup, btn_saveSession});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -608,24 +602,36 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         this.setCurSelectedLocation();
     }//GEN-LAST:event_cmb_locationItemStateChanged
 
-    private void btn_StartOverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StartOverActionPerformed
+    private void btn_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calculateActionPerformed
         this.master.applySessionSettings();
-    }//GEN-LAST:event_btn_StartOverActionPerformed
+    }//GEN-LAST:event_btn_calculateActionPerformed
 
     private void btn_saveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveSessionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_saveSessionActionPerformed
 
-    private void btn_applySessionSettings1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applySessionSettings1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_applySessionSettings1ActionPerformed
+    private void btn_clearSessionSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearSessionSetupActionPerformed
+        cmb_location.setSelectedIndex(0);
+        date_picker.setDate(new Date());
+        cmb_startTime.setSelectedIndex(22);
+        cmb_endTime.setSelectedIndex(3);
+        spin_limitingMagnitude.setValue(15);
+        cmb_limitingMagnitude.setSelectedIndex(0);
+        cmb_kind.setSelectedIndex(0);
+        cmb_atConstellation.setSelectedIndex(0);
+        spin_altStart.setValue(5);
+        spin_altEnd.setValue(90);
+        spin_azStart.setValue(0);
+        spin_azEnd.setValue(360);
+    }//GEN-LAST:event_btn_clearSessionSetupActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToDegreesAboveHorizon;
     private javax.swing.JButton btn_SetToTwilightTime;
-    private javax.swing.JButton btn_StartOver;
-    private javax.swing.JButton btn_applySessionSettings1;
+    private javax.swing.JButton btn_calculate;
+    private javax.swing.JButton btn_clearSessionSetup;
     private javax.swing.JButton btn_saveSession;
     private javax.swing.JComboBox<String> cmb_atConstellation;
     private javax.swing.JComboBox<String> cmb_endTime;
@@ -673,7 +679,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     }
 
     public javax.swing.JButton getBtn_applySessionSettings() {
-        return btn_StartOver;
+        return btn_calculate;
     }
     
     public int getLimitingMagnitude(){

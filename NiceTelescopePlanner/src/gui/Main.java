@@ -470,14 +470,14 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "R/S/T", "Time"
+                "Rise/Set/Transit", "Date", "Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -488,6 +488,7 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_riseSetTransit.setColumnSelectionAllowed(true);
         table_riseSetTransit.setMaximumSize(new java.awt.Dimension(320, 640));
         table_riseSetTransit.setMinimumSize(new java.awt.Dimension(110, 32));
         table_riseSetTransit.setRowHeight(32);
@@ -532,7 +533,7 @@ public class Main extends javax.swing.JFrame {
             table_positions.getColumnModel().getColumn(2).setHeaderValue("Azimuth");
         }
 
-        tabp_details.addTab("Positions during session", jScrollPane3);
+        tabp_details.addTab("Positions", jScrollPane3);
 
         subpanel_graph_sky2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         subpanel_graph_sky2.setPreferredSize(new java.awt.Dimension(334, 153));
@@ -571,7 +572,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(slider_sky_graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
