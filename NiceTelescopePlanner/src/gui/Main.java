@@ -42,7 +42,6 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
-    private final gui.panels.TargetDetailsPanel rpanel = new gui.panels.TargetDetailsPanel(this);
     private Session current_session;
     
     /**
@@ -83,7 +82,6 @@ public class Main extends javax.swing.JFrame {
         });
         
         
-        rightPanel.add(rpanel);
         
         rightPanel.setVisible(false);
         
@@ -123,6 +121,23 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
         rightPanel = new org.jdesktop.swingx.JXPanel();
+        lbl_target_details_name = new javax.swing.JLabel();
+        subpanel_photo = new org.jdesktop.swingx.JXPanel();
+        lbl_photo = new javax.swing.JLabel();
+        lbl_photo1 = new javax.swing.JLabel();
+        lbl_photo2 = new javax.swing.JLabel();
+        lbl_photo3 = new javax.swing.JLabel();
+        lbl_photo4 = new javax.swing.JLabel();
+        tabp_details = new javax.swing.JTabbedPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        table_riseSetTransit1 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        table_riseSetTransit = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        table_positions = new javax.swing.JTable();
+        subpanel_graph_sky2 = new org.jdesktop.swingx.JXPanel();
+        jLabel19 = new javax.swing.JLabel();
+        slider_sky_graph2 = new javax.swing.JSlider();
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -280,6 +295,13 @@ public class Main extends javax.swing.JFrame {
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(2).setHeaderValue("Azimuth");
+            table.getColumnModel().getColumn(3).setHeaderValue("Set");
+            table.getColumnModel().getColumn(4).setHeaderValue("Constellation");
+            table.getColumnModel().getColumn(5).setHeaderValue("Bookmark");
+            table.getColumnModel().getColumn(6).setHeaderValue("Seen");
+        }
 
         jLabel21.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         jLabel21.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -322,7 +344,7 @@ public class Main extends javax.swing.JFrame {
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(centerBottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -331,15 +353,263 @@ public class Main extends javax.swing.JFrame {
         rightPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         rightPanel.setPreferredSize(new java.awt.Dimension(340, 0));
 
+        lbl_target_details_name.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
+        lbl_target_details_name.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lbl_target_details_name.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_target_details_name.setText("Target details");
+
+        subpanel_photo.setBackground(new java.awt.Color(0, 0, 0));
+        subpanel_photo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subpanel_photo.setPreferredSize(new java.awt.Dimension(334, 100));
+
+        lbl_photo.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_photo.setText("[No picture available.]");
+
+        lbl_photo1.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo1.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_photo1.setText("Dec.: -16:42:58");
+
+        lbl_photo2.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo2.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo2.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_photo2.setText("RA:  20:00:00");
+
+        lbl_photo3.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo3.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_photo3.setText("Mag.: 3.0");
+
+        lbl_photo4.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo4.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo4.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_photo4.setText("Angular Radius: 2\"");
+
+        javax.swing.GroupLayout subpanel_photoLayout = new javax.swing.GroupLayout(subpanel_photo);
+        subpanel_photo.setLayout(subpanel_photoLayout);
+        subpanel_photoLayout.setHorizontalGroup(
+            subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_photoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_photoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_photo3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_photo4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
+        );
+        subpanel_photoLayout.setVerticalGroup(
+            subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_photoLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(lbl_photo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(67, 67, 67)
+                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_photo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(570, 570, 570))
+        );
+
+        tabp_details.setToolTipText("");
+        tabp_details.setMaximumSize(new java.awt.Dimension(350, 32767));
+        tabp_details.setPreferredSize(new java.awt.Dimension(350, 429));
+
+        table_riseSetTransit1.setAutoCreateRowSorter(true);
+        table_riseSetTransit1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        table_riseSetTransit1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Characteristic", "Value"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_riseSetTransit1.setMaximumSize(new java.awt.Dimension(2147483647, 640));
+        table_riseSetTransit1.setMinimumSize(new java.awt.Dimension(110, 32));
+        table_riseSetTransit1.setRowHeight(32);
+        table_riseSetTransit1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(table_riseSetTransit1);
+        table_riseSetTransit1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        tabp_details.addTab("Info", jScrollPane5);
+
+        table_riseSetTransit.setAutoCreateRowSorter(true);
+        table_riseSetTransit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        table_riseSetTransit.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "R/S/T", "Time"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_riseSetTransit.setMaximumSize(new java.awt.Dimension(320, 640));
+        table_riseSetTransit.setMinimumSize(new java.awt.Dimension(110, 32));
+        table_riseSetTransit.setRowHeight(32);
+        table_riseSetTransit.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(table_riseSetTransit);
+        table_riseSetTransit.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        tabp_details.addTab("Rise/Set/Transit", jScrollPane4);
+
+        table_positions.setAutoCreateRowSorter(true);
+        table_positions.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        table_positions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Time", "Altitude", "Azimuth"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_positions.setMaximumSize(new java.awt.Dimension(2147483647, 640));
+        table_positions.setMinimumSize(new java.awt.Dimension(110, 32));
+        table_positions.setRowHeight(32);
+        table_positions.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(table_positions);
+        table_positions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (table_positions.getColumnModel().getColumnCount() > 0) {
+            table_positions.getColumnModel().getColumn(2).setHeaderValue("Azimuth");
+        }
+
+        tabp_details.addTab("Positions during session", jScrollPane3);
+
+        subpanel_graph_sky2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        subpanel_graph_sky2.setPreferredSize(new java.awt.Dimension(334, 153));
+
+        jLabel19.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel19.setText("Graph");
+
+        slider_sky_graph2.setMajorTickSpacing(6);
+        slider_sky_graph2.setMaximum(12);
+        slider_sky_graph2.setMinorTickSpacing(1);
+        slider_sky_graph2.setPaintTicks(true);
+        slider_sky_graph2.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
+        slider_sky_graph2.setValue(0);
+        slider_sky_graph2.setName("slider_sky_graph"); // NOI18N
+        slider_sky_graph2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_sky_graph2StateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout subpanel_graph_sky2Layout = new javax.swing.GroupLayout(subpanel_graph_sky2);
+        subpanel_graph_sky2.setLayout(subpanel_graph_sky2Layout);
+        subpanel_graph_sky2Layout.setHorizontalGroup(
+            subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(slider_sky_graph2, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        subpanel_graph_sky2Layout.setVerticalGroup(
+            subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addComponent(slider_sky_graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(lbl_target_details_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(386, 386, 386))
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tabp_details, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addComponent(subpanel_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(169, 169, 169))
         );
+
+        rightPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {subpanel_graph_sky2, tabp_details});
+
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 763, Short.MAX_VALUE)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_target_details_name, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subpanel_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tabp_details, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         leftPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -372,8 +642,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
-                    .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)))
+                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+                    .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -481,6 +751,10 @@ public class Main extends javax.swing.JFrame {
         this.location_manager.setVisible(this.btn_manageLocations.isSelected());
     }//GEN-LAST:event_btn_manageLocationsActionPerformed
 
+    private void slider_sky_graph2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_sky_graph2StateChanged
+
+    }//GEN-LAST:event_slider_sky_graph2StateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -531,16 +805,33 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_sessionNotes;
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JToolBar jToolBar1;
     private org.jdesktop.swingx.JXTextArea jXTextArea1;
+    private javax.swing.JLabel lbl_photo;
+    private javax.swing.JLabel lbl_photo1;
+    private javax.swing.JLabel lbl_photo2;
+    private javax.swing.JLabel lbl_photo3;
+    private javax.swing.JLabel lbl_photo4;
+    private javax.swing.JLabel lbl_target_details_name;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private org.jdesktop.swingx.JXPanel rightPanel;
+    private javax.swing.JSlider slider_sky_graph2;
+    private org.jdesktop.swingx.JXPanel subpanel_graph_sky2;
+    private org.jdesktop.swingx.JXPanel subpanel_photo;
     private javax.swing.JTable table;
+    private javax.swing.JTable table_positions;
+    private javax.swing.JTable table_riseSetTransit;
+    private javax.swing.JTable table_riseSetTransit1;
+    private javax.swing.JTabbedPane tabp_details;
     // End of variables declaration//GEN-END:variables
 }
