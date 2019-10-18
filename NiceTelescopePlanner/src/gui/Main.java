@@ -161,6 +161,12 @@ public class Main extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem9 = new javax.swing.JMenuItem();
 
@@ -712,6 +718,23 @@ public class Main extends javax.swing.JFrame {
 
         jMenuItem7.setText("Visit the author's website");
         jMenu2.add(jMenuItem7);
+        jMenu2.add(jSeparator4);
+
+        jMenu6.setText("Useful Wikipedia pages");
+
+        jMenuItem17.setText("Solar System");
+        jMenu6.add(jMenuItem17);
+
+        jMenuItem18.setText("Constellations");
+        jMenu6.add(jMenuItem18);
+
+        jMenuItem15.setText("Limiting magnitude");
+        jMenu6.add(jMenuItem15);
+
+        jMenuItem16.setText("Coordinate systems");
+        jMenu6.add(jMenuItem16);
+
+        jMenu2.add(jMenu6);
         jMenu2.add(jSeparator3);
 
         jMenuItem9.setText("About Nice Telescope Planner");
@@ -921,6 +944,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
@@ -929,6 +953,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -945,6 +973,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
     private org.jdesktop.swingx.JXTextArea jXTextArea1;
     private javax.swing.JLabel lbl_photo;
