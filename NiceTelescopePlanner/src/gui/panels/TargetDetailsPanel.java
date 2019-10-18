@@ -16,7 +16,6 @@
  */
 package gui.panels;
 
-import core.Location;
 import db.DbConnection;
 import gui.Main;
 

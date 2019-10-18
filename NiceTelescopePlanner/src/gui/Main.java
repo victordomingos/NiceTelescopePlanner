@@ -85,9 +85,11 @@ public class Main extends javax.swing.JFrame {
         
         rightPanel.add(rpanel);
         
-        rightPanel.setVisible(true);
+        rightPanel.setVisible(false);
         
         leftPanel.add(lpanel);
+        
+        
         btn_rightPanel.setSelected(false);
         
         centerBottomPanel.setVisible(false);
@@ -121,7 +123,6 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
         rightPanel = new org.jdesktop.swingx.JXPanel();
-        jLabel5 = new javax.swing.JLabel();
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -330,22 +331,15 @@ public class Main extends javax.swing.JFrame {
         rightPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
         rightPanel.setPreferredSize(new java.awt.Dimension(340, 0));
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("[There is no target object selected yet.]");
-
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+            .addGap(0, 340, Short.MAX_VALUE)
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE))
+            .addGap(0, 763, Short.MAX_VALUE)
         );
 
         leftPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
@@ -538,7 +532,6 @@ public class Main extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
