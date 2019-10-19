@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/Main.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/panels/SessionSetupPanel.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/db/DbConnection.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/core/Session.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/test/tests/scratchpad.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/Constants/NTPConstellations.java</file>
-            <file>file:/C:/Users/EFA/NiceTelescopePlanner/NiceTelescopePlanner/src/core/SpaceObject.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/core/SpaceObject.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/panels/SessionSetupPanel.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/test/tests/simpletime.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/LocationManager.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/core/Location.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/core/Session.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/test/tests/scratchpad.java</file>
+            <file>file:/Users/victor/Dropbox/dev/Curso_EFAProg2019/NiceTelescopePlanner/NiceTelescopePlanner/src/gui/Main.java</file>
         </group>
     </open-files>
 </project-private>
