@@ -151,6 +151,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -680,6 +681,10 @@ public class Main extends javax.swing.JFrame {
 
         jMenu5.setText("View");
 
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Session Manager");
+        jMenu5.add(jCheckBoxMenuItem1);
+
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.META_MASK));
         jMenuItem5.setText("Session Manager");
         jMenu5.add(jMenuItem5);
@@ -937,6 +942,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_sessionNotes;
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JMenu jMenu1;
