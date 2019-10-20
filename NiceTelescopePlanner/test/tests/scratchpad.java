@@ -18,12 +18,13 @@ package tests;
 
 import Constants.NTPConstellations;
 import core.Location;
+import core.SpaceObject;
 import java.io.IOException;
 import java.net.ProtocolException;
 import static jparsec.astronomy.Constellation.CONSTELLATION_NAMES;
 import jparsec.ephem.Ephem;
+import jparsec.observer.LocationElement;
 import jparsec.ephem.EphemerisElement;
-import jparsec.ephem.EphemerisElement.FRAME;
 import jparsec.ephem.Functions;
 
 import jparsec.ephem.RiseSetTransit;
@@ -38,6 +39,7 @@ import static jparsec.math.Constant.RAD_TO_DEG;
 import jparsec.observer.ObserverElement;
 import jparsec.time.TimeElement;
 import jparsec.util.JPARSECException;
+import jparsec.ephem.EphemerisElement.FRAME;
 
 /**
  *
@@ -59,6 +61,8 @@ public class scratchpad {
         
         System.out.println(startTimeEl);
         System.out.println(endTimeEl);
+        
+        
         
         /*
         // Testing retrieval of data about planets: ==================
@@ -126,6 +130,22 @@ public class scratchpad {
         double uvw[] = StarEphem.getGalacticMotionUVW(star, true);
         System.out.println(ConsoleReport.doubleArrayReport(new String[] {"u = xxxx.x km/s", "v = xxxx.x km/s", "w = xxxx.x km/s"}, uvw));
         
+//        
+//        // Another star example from jparsec documentation
+//        // Read BSC5 or SKYMASTER 2000 catalog
+//        ReadFile rf = new ReadFile();
+//        rf.setPath(StarEphem.PATH_TO_SkyMaster2000_JPARSEC_FILE);
+//        rf.setFormat(ReadFile.FORMAT.BSC5);
+//        rf.readFileOfStars();
+//
+//        // Choose a star.
+//        int my_star = rf.searchByName("Alp UMi");
+//        StarElement star2 = (StarElement) rf.READ_ELEMENTS.elementAt(my_star);
+//
+//        // Calc ephemeris.
+//        StarEphemElement star_ephem = StarEphem.StarEphemeris(startTimeEl, observer, eph, star2, true);
+//       
+
     }
 
     

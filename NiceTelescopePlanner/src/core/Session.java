@@ -125,21 +125,31 @@ public class Session {
         }
 
 
-        int visible = 0;
-        // TODO - check this for more times during the session?
-        for (SpaceObject target : targets) {
-            if (target.isVisibleNakedEye(startTimeEl)) {
-                System.out.println(target.getName());
-                visible++;
-                //target.showTargetDetails();
-            }
-        }
-        System.out.println("\nNumber of targets above horizon: " + targets.size()
-                + " (" + visible + " visible at naked eye).");
+//        
+//        int visible = 0;
+//        // TODO - check this for more times during the session?
+//        for (SpaceObject target : targets) {
+//            if (target.isVisibleNakedEye(startTimeEl)) {
+//                System.out.println(target.getName());
+//                visible++;
+//                //target.showTargetDetails();
+//            }
+//        }
+//        System.out.println("\nNumber of targets above horizon: " + targets.size()
+//                + " (" + visible + " visible at naked eye).");
 
     }
 
     public ArrayList<SpaceObject> getTargets() {
         return targets;
+    }
+    
+    public SpaceObject getTarget(String name){
+        for (SpaceObject target : targets) {
+            if(target.getName() == name){
+                return target;
+            }
+        }
+        return null;
     }
 }

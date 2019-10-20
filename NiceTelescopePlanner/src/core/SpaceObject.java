@@ -19,6 +19,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
@@ -135,14 +136,14 @@ public class SpaceObject {
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
 
-        showRisesSetsTransits(); // DEBUG
+        ///showRisesSetsTransits(); // DEBUG
 
     }
-
+    
     /**
      * Convert each array[double](rise, transit, set) to an ArrayList[Double]
-     * but excluding any invalid values, like ALWAYS_BELOW_HORIZON, CIRCUMPOLAR,
-     * or NO_RISE_SET_TRANSIT.
+     * but excluding any duplicates and invalid values, like 
+     * ALWAYS_BELOW_HORIZON, CIRCUMPOLAR or NO_RISE_SET_TRANSIT.
      *
      * @param source an array of doubles for rise/set/transit from
      * EphemElelement
@@ -156,7 +157,9 @@ public class SpaceObject {
                     && d != NO_RISE_SET_TRANSIT) {
                 // DEBUG: check what hapens with Polaris and Sigma Octans 
                 // - will they return CIRCUMPOLAR or what?
-                destination.add((Double) d);
+                if (!destination.contains((Double) d)){
+                    destination.add((Double) d);
+                }
             }
         }
 
@@ -326,6 +329,10 @@ public class SpaceObject {
 
     public double getAngularDiameter() {
         return angularDiameter;
+    }
+
+    public ArrayList<Double> getTransits() {
+        return transits;
     }
 
 }

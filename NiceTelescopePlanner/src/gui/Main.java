@@ -25,13 +25,32 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
 import jparsec.util.JPARSECException;
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+ 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -43,7 +62,8 @@ public class Main extends javax.swing.JFrame {
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
     private Session current_session;
-    
+    private String curSelectedTarget = "";
+    private String curSelectedKind = "";
     /**
      * Creates new form Main
      */
@@ -83,13 +103,33 @@ public class Main extends javax.swing.JFrame {
         
         
         
-        rightPanel.setVisible(false);
         
+        
+        ListSelectionModel cellSelectionModel = table.getSelectionModel();
+        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        
+        cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int[] selectedRows = table.getSelectedRows();
+                if(selectedRows.length > 0){
+                    curSelectedTarget = (String)table.getValueAt(selectedRows[0],0);
+                    curSelectedKind = (String)table.getValueAt(selectedRows[0],1);
+                    if(curSelectedTarget.length()>0){
+                        fillDetailsPanel(curSelectedTarget, curSelectedKind);
+                    }                    
+                }                    
+            }
+        });
+        
+        
+          
+       
+
+        rightPanel.setVisible(true);
         leftPanel.add(lpanel);
-        
-        
         btn_rightPanel.setSelected(false);
-        
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
 
@@ -133,7 +173,7 @@ public class Main extends javax.swing.JFrame {
         lbl_photo4 = new javax.swing.JLabel();
         tabp_details = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        table_riseSetTransit1 = new javax.swing.JTable();
+        table_info = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         table_riseSetTransit = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -455,9 +495,9 @@ public class Main extends javax.swing.JFrame {
         tabp_details.setMaximumSize(new java.awt.Dimension(350, 32767));
         tabp_details.setPreferredSize(new java.awt.Dimension(350, 429));
 
-        table_riseSetTransit1.setAutoCreateRowSorter(true);
-        table_riseSetTransit1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        table_riseSetTransit1.setModel(new javax.swing.table.DefaultTableModel(
+        table_info.setAutoCreateRowSorter(true);
+        table_info.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        table_info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -480,30 +520,29 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table_riseSetTransit1.setMaximumSize(new java.awt.Dimension(2147483647, 640));
-        table_riseSetTransit1.setMinimumSize(new java.awt.Dimension(110, 32));
-        table_riseSetTransit1.setRowHeight(32);
-        table_riseSetTransit1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(table_riseSetTransit1);
-        table_riseSetTransit1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        table_info.setMaximumSize(new java.awt.Dimension(2147483647, 640));
+        table_info.setMinimumSize(new java.awt.Dimension(110, 32));
+        table_info.setRowHeight(32);
+        table_info.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(table_info);
+        table_info.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         tabp_details.addTab("Info", jScrollPane5);
 
         table_riseSetTransit.setAutoCreateRowSorter(true);
-        table_riseSetTransit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         table_riseSetTransit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Rise/Set/Transit", "Date", "Time"
+                "Event", "Date/Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -517,10 +556,13 @@ public class Main extends javax.swing.JFrame {
         table_riseSetTransit.setColumnSelectionAllowed(true);
         table_riseSetTransit.setMaximumSize(new java.awt.Dimension(320, 640));
         table_riseSetTransit.setMinimumSize(new java.awt.Dimension(110, 32));
-        table_riseSetTransit.setRowHeight(32);
         table_riseSetTransit.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(table_riseSetTransit);
         table_riseSetTransit.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (table_riseSetTransit.getColumnModel().getColumnCount() > 0) {
+            table_riseSetTransit.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table_riseSetTransit.getColumnModel().getColumn(1).setPreferredWidth(200);
+        }
 
         tabp_details.addTab("Rise/Set/Transit", jScrollPane4);
 
@@ -770,6 +812,64 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    private void fillDetailsPanel(String target, String kind){
+        SpaceObject obj = this.current_session.getTarget(target);
+        
+        //Set columns headers and table Model for rise/set/transit - make it non-editable
+        String cols[] = {"Event", "Date/time"};
+        DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        table_riseSetTransit.setModel(RSTTableModel);
+        
+        for (Double rise : obj.getRises()) {
+            try {
+                String dt = (new AstroDate(rise))
+                        .toString(-1)
+                        .replace(" ", "   ");
+                Object[] data = {"Rise", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+        for (Double set : obj.getSets()) {
+            try {
+                String dt = (new AstroDate(set))
+                        .toString(-1)
+                        .replace(" ", "   ");;
+                Object[] data = {"Set", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+        for (Double transit : obj.getTransits()) {
+            try {
+                String dt = (new AstroDate(transit))
+                        .toString(-1)
+                        .replace(" ", "   ");;
+                Object[] data = {"Transit", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel)table_riseSetTransit.getModel());
+        table_riseSetTransit.setRowSorter(sorter);
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+        sorter.sort();
+    }
+    
     public JToggleButton getBtn_manageLocations() {
         return btn_manageLocations;
     }
@@ -778,23 +878,22 @@ public class Main extends javax.swing.JFrame {
         return btn_manageSessions;
     }
 
-    public void applySessionSettings(){
-        this.updateTable();        
+    public void applySessionSettings() {
+        this.updateTable();
     }
-    
-    
+
     private void updateTable() {
         String designation, kind, rise, set, constellation;
         Boolean bookmark, seen;
-        
+
         // get all targets 
-        this.current_session = new Session(lpanel.getCurSelectedLocation(), 
+        this.current_session = new Session(lpanel.getCurSelectedLocation(),
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
                 lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(), lpanel.getOnlyKind());
-        
+
         //Set columns headers and table Model - make it non-editable
-        String columns[] = {"Designation", "Kind", "Rise", "Set", 
-                "Constellation", "Bookmark", "Seen"};
+        String columns[] = {"Designation", "Kind", "Rise", "Set",
+            "Constellation", "Bookmark", "Seen"};
 
         DefaultTableModel SessionTableModel = new DefaultTableModel(columns, 0) {
             private static final long serialVersionUID = 1L;
@@ -806,14 +905,14 @@ public class Main extends javax.swing.JFrame {
         };
 
         table.setModel(SessionTableModel);
-        
+
         // add location records to table
         String y, M, d, h, m;
         for (SpaceObject t : current_session.getTargets()) {
             designation = t.getName();
             kind = t.getKind();
-            
-            try{
+
+            try {
                 AstroDate rdt = new AstroDate(t.getRises().get(0));
                 //y = Integer.toString(rdt.getYear());
                 M = new DecimalFormat("00").format(rdt.getMonth());
@@ -822,12 +921,11 @@ public class Main extends javax.swing.JFrame {
                 m = new DecimalFormat("00").format(rdt.getRoundedMinute());
                 //rise = y + "/" + M + "/" + d + " " + h + ":" + m;
                 rise = M + "/" + d + " " + h + "h" + m;
-            }
-            catch (JPARSECException e){
+            } catch (JPARSECException e) {
                 rise = "N/A";
             }
-                              
-            try{
+
+            try {
                 AstroDate sdt = new AstroDate(t.getSets().get(0));
                 //y = Integer.toString(sdt.getYear());
                 M = new DecimalFormat("00").format(sdt.getMonth());
@@ -836,13 +934,12 @@ public class Main extends javax.swing.JFrame {
                 m = new DecimalFormat("00").format(sdt.getRoundedMinute());
                 //set = y + "/" + M + "/" + d + " " + h + ":" + m;
                 set = M + "/" + d + " " + h + "h" + m;
-            }
-            catch (JPARSECException e){
+            } catch (JPARSECException e) {
                 set = "N/A";
             }
-            
+
             constellation = t.getConstell();
-        
+
             bookmark = false;   // TODO
             seen = false;       // TODO
 
@@ -989,9 +1086,9 @@ public class Main extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel subpanel_graph_sky2;
     private org.jdesktop.swingx.JXPanel subpanel_photo;
     private javax.swing.JTable table;
+    private javax.swing.JTable table_info;
     private javax.swing.JTable table_positions;
     private javax.swing.JTable table_riseSetTransit;
-    private javax.swing.JTable table_riseSetTransit1;
     private javax.swing.JTabbedPane tabp_details;
     // End of variables declaration//GEN-END:variables
 }
