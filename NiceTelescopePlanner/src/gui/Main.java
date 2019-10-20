@@ -40,15 +40,18 @@ import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
 import jparsec.util.JPARSECException;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
- 
+import javax.swing.BorderFactory;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -64,6 +67,7 @@ public class Main extends javax.swing.JFrame {
     private Session current_session;
     private String curSelectedTarget = "";
     private String curSelectedKind = "";
+
     /**
      * Creates new form Main
      */
@@ -100,32 +104,36 @@ public class Main extends javax.swing.JFrame {
                 btn_manageLocations.setSelected(true);
             }
         });
-        
-        
-        
-        
-        
+
         ListSelectionModel cellSelectionModel = table.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        
         cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int[] selectedRows = table.getSelectedRows();
-                if(selectedRows.length > 0){
-                    curSelectedTarget = (String)table.getValueAt(selectedRows[0],0);
-                    curSelectedKind = (String)table.getValueAt(selectedRows[0],1);
-                    if(curSelectedTarget.length()>0){
+                if (selectedRows.length > 0) {
+                    curSelectedTarget = (String) table.getValueAt(selectedRows[0], 0);
+                    curSelectedKind = (String) table.getValueAt(selectedRows[0], 1);
+                    if (curSelectedTarget.length() > 0) {
                         fillDetailsPanel(curSelectedTarget, curSelectedKind);
-                    }                    
-                }                    
+                    }
+                }
             }
         });
         
+        class SecondaryTableCellRenderer extends DefaultTableCellRenderer {
+
+            private static final long serialVersionUID = 1L;
+
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+                setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+                return this;
+            }
+        }
         
-          
-       
+        table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
 
         rightPanel.setVisible(true);
         leftPanel.add(lpanel);
@@ -556,6 +564,7 @@ public class Main extends javax.swing.JFrame {
         table_riseSetTransit.setColumnSelectionAllowed(true);
         table_riseSetTransit.setMaximumSize(new java.awt.Dimension(320, 640));
         table_riseSetTransit.setMinimumSize(new java.awt.Dimension(110, 32));
+        table_riseSetTransit.setRowHeight(20);
         table_riseSetTransit.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(table_riseSetTransit);
         table_riseSetTransit.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -812,11 +821,9 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-    private void fillDetailsPanel(String target, String kind){
+    private void fillDetailsPanel(String target, String kind) {
         SpaceObject obj = this.current_session.getTarget(target);
-        
+
         //Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};
         DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
@@ -828,7 +835,7 @@ public class Main extends javax.swing.JFrame {
             }
         };
         table_riseSetTransit.setModel(RSTTableModel);
-        
+
         for (Double rise : obj.getRises()) {
             try {
                 String dt = (new AstroDate(rise))
@@ -862,14 +869,14 @@ public class Main extends javax.swing.JFrame {
                 System.out.println(ex);
             }
         }
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel)table_riseSetTransit.getModel());
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) table_riseSetTransit.getModel());
         table_riseSetTransit.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
         sorter.setSortKeys(sortKeys);
         sorter.sort();
     }
-    
+
     public JToggleButton getBtn_manageLocations() {
         return btn_manageLocations;
     }
@@ -905,6 +912,18 @@ public class Main extends javax.swing.JFrame {
         };
 
         table.setModel(SessionTableModel);
+        class MainTableCellRenderer extends DefaultTableCellRenderer {
+
+            private static final long serialVersionUID = 1L;
+
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+                setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+                return this;
+            }
+        }
+        
+        table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
 
         // add location records to table
         String y, M, d, h, m;
