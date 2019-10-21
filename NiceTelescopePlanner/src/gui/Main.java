@@ -933,6 +933,10 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 AstroDate rdt = new AstroDate(t.getRises().get(0));
+                System.out.println("ASTRO RISE: " + rdt);   
+                // PORTO 21/10 - 22h00 rise list DEBUG!!! timezone?
+                
+                
                 //y = Integer.toString(rdt.getYear());
                 M = new DecimalFormat("00").format(rdt.getMonth());
                 d = new DecimalFormat("00").format(rdt.getDay());
@@ -942,10 +946,14 @@ public class Main extends javax.swing.JFrame {
                 rise = M + "/" + d + " " + h + "h" + m;
             } catch (JPARSECException e) {
                 rise = "N/A";
+            } catch (java.lang.IndexOutOfBoundsException e){
+                rise = "N/A";
             }
+            
 
             try {
                 AstroDate sdt = new AstroDate(t.getSets().get(0));
+                System.out.println("ASTRO SET: " + sdt);
                 //y = Integer.toString(sdt.getYear());
                 M = new DecimalFormat("00").format(sdt.getMonth());
                 d = new DecimalFormat("00").format(sdt.getDay());
@@ -954,6 +962,8 @@ public class Main extends javax.swing.JFrame {
                 //set = y + "/" + M + "/" + d + " " + h + ":" + m;
                 set = M + "/" + d + " " + h + "h" + m;
             } catch (JPARSECException e) {
+                set = "N/A";
+            } catch (java.lang.IndexOutOfBoundsException e){
                 set = "N/A";
             }
 
