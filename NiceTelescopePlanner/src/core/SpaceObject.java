@@ -19,10 +19,10 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import jparsec.astronomy.VisualLimit;
 import jparsec.ephem.Ephem;
 import jparsec.ephem.EphemerisElement;
+import static jparsec.ephem.Functions.formatAngle;
 import jparsec.ephem.RiseSetTransit;
 import static jparsec.ephem.RiseSetTransit.ALWAYS_BELOW_HORIZON;
 import static jparsec.ephem.RiseSetTransit.CIRCUMPOLAR;
@@ -35,7 +35,6 @@ import jparsec.observer.ObserverElement;
 import jparsec.time.AstroDate;
 import jparsec.time.TimeElement;
 import jparsec.time.TimeElement.SCALE;
-import jparsec.time.TimeScale;
 import jparsec.util.JPARSECException;
 
 /**
@@ -53,7 +52,7 @@ public class SpaceObject {
 
     private EphemerisElement ephemerisEl;
     private EphemElement ephemEl;
-    private EphemElement riseEl;
+    private final EphemElement riseEl;
 
     private ArrayList<Double> rises = new ArrayList<>();
     private ArrayList<Double> transits = new ArrayList<>();
@@ -61,11 +60,11 @@ public class SpaceObject {
 
     private double ra;                  // right ascension
     private double dec;                 // declination
-    private String constellation;
+    private final String constellation;
 
-    private double distance;
-    private double aparentMagnitude;
-    private double angularDiameter;
+    private final double distance;
+    private final double aparentMagnitude;
+    private final double angularDiameter;
 
     /**
      * The default constructor for the SpaceObject class
@@ -123,9 +122,12 @@ public class SpaceObject {
         ephemEl = Ephem.getEphemeris(this.startTimeEl, this.observer,
                 ephemerisEl, true);
 
-        riseEl = RiseSetTransit.obtainNextRiseSetTransit(startTimeEl,
+        riseEl = RiseSetTransit.obtainCurrentOrNextRiseSetTransit(startTimeEl,
                 observer, ephemerisEl, ephemEl,
                 RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
+//        riseEl = RiseSetTransit.obtainNextRiseSetTransit(startTimeEl,
+//                observer, ephemerisEl, ephemEl,
+//                RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
         this.angularDiameter = riseEl.angularRadius * 2;
         this.aparentMagnitude = riseEl.magnitude;
 
@@ -136,13 +138,12 @@ public class SpaceObject {
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
 
-        ///showRisesSetsTransits(); // DEBUG
-
+        showRisesSetsTransits(); // DEBUG
     }
-    
+
     /**
      * Convert each array[double](rise, transit, set) to an ArrayList[Double]
-     * but excluding any duplicates and invalid values, like 
+     * but excluding any duplicates and invalid values, like
      * ALWAYS_BELOW_HORIZON, CIRCUMPOLAR or NO_RISE_SET_TRANSIT.
      *
      * @param source an array of doubles for rise/set/transit from
@@ -151,13 +152,14 @@ public class SpaceObject {
      */
     private void cleanRiseSetTransitListFromArray(double[] source,
             ArrayList<Double> destination) {
+
         for (double d : source) {
             if (d != ALWAYS_BELOW_HORIZON
                     && d != CIRCUMPOLAR
                     && d != NO_RISE_SET_TRANSIT) {
                 // DEBUG: check what hapens with Polaris and Sigma Octans 
                 // - will they return CIRCUMPOLAR or what?
-                if (!destination.contains((Double) d)){
+                if (!destination.contains((Double) d)) {
                     destination.add((Double) d);
                 }
             }
@@ -205,7 +207,7 @@ public class SpaceObject {
         for (TimeElement t : getHourlyTimeElements()) {
             ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
             //get object elevation for specified instant
-            if (ephemEl.elevation * RAD_TO_DEG > 0) { 
+            if (ephemEl.elevation * RAD_TO_DEG > 0) {
                 return true;
             }
         }
@@ -213,8 +215,8 @@ public class SpaceObject {
     }
 
     /**
-     * Generate an ArrayList<TimeElement> for each hour within the session i.e.,
-     * between startTimeEl and endTimeEl.
+     * Generate an ArrayList of TimeElement objects for each hour within the
+     * session i.e., between startTimeEl and endTimeEl.
      *
      * @return
      */
@@ -258,11 +260,11 @@ public class SpaceObject {
         return time_interval;
     }
 
-
     /**
      * Determine visibility at a given time according to estimated limiting
      * magnitude
      *
+     * @param timeEl
      * @return
      */
     public boolean isVisibleNakedEye(TimeElement timeEl) {
@@ -303,6 +305,16 @@ public class SpaceObject {
         );
     }
 
+    public String getAlt(TimeElement t) throws JPARSECException {
+        ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
+        return formatAngle(ephemEl.elevation, 0);
+    }
+
+    public String getAz(TimeElement t) throws JPARSECException {
+        ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
+        return formatAngle(ephemEl.azimuth, 0);
+    }
+
     public String getName() {
         return name;
     }
@@ -312,11 +324,11 @@ public class SpaceObject {
     }
 
     public ArrayList<Double> getRises() {
-        return rises;
+        return new ArrayList<>(rises);
     }
 
     public ArrayList<Double> getSets() {
-        return sets;
+        return new ArrayList<>(sets);
     }
 
     public String getConstell() {
@@ -332,7 +344,7 @@ public class SpaceObject {
     }
 
     public ArrayList<Double> getTransits() {
-        return transits;
+        return new ArrayList<>(transits);
     }
 
 }

@@ -838,9 +838,6 @@
                 <Component class="javax.swing.JTable" name="table_info">
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Lucida Grande" size="14" style="0"/>
-                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="2" rowCount="0">
                         <Column editable="false" title="Characteristic" type="java.lang.String"/>
@@ -867,7 +864,7 @@
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[110, 32]"/>
                     </Property>
-                    <Property name="rowHeight" type="int" value="32"/>
+                    <Property name="rowHeight" type="int" value="20"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>
@@ -944,9 +941,6 @@
                 <Component class="javax.swing.JTable" name="table_positions">
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Lucida Grande" size="14" style="0"/>
-                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="0">
                         <Column editable="false" title="Time" type="java.lang.String"/>
@@ -979,7 +973,7 @@
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[110, 32]"/>
                     </Property>
-                    <Property name="rowHeight" type="int" value="32"/>
+                    <Property name="rowHeight" type="int" value="20"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>
@@ -1022,7 +1016,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="132" max="32767" attributes="0"/>
+                      <EmptySpace pref="123" max="32767" attributes="0"/>
                       <Component id="slider_sky_graph2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

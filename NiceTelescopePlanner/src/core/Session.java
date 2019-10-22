@@ -29,6 +29,7 @@ public class Session {
     int seen_targets = 0;
     String description = "";
     String notes = "";
+    private ObserverElement observer;
     private ArrayList<SpaceObject> planets = new ArrayList<>();
     private ArrayList<SpaceObject> moons = new ArrayList<>();
     private ArrayList<SpaceObject> targets = new ArrayList<>();
@@ -42,7 +43,7 @@ public class Session {
             LocalDateTime datetime_end, int limMag, String constellation, String kind) {
 
         // Gather and convert session configuration parameters --------------
-        ObserverElement observer = new ObserverElement(loc.getName(),
+        observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
 
@@ -151,5 +152,9 @@ public class Session {
             }
         }
         return null;
+    }
+
+    public ObserverElement getObserver() {
+        return this.observer;
     }
 }

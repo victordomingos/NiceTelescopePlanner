@@ -21,39 +21,29 @@ package gui;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.SwingWorker;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
 import jparsec.util.JPARSECException;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SortOrder;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import jparsec.time.TimeElement;
 
 /**
  *
@@ -121,7 +111,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         class SecondaryTableCellRenderer extends DefaultTableCellRenderer {
 
             private static final long serialVersionUID = 1L;
@@ -132,7 +122,7 @@ public class Main extends javax.swing.JFrame {
                 return this;
             }
         }
-        
+
         table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
 
         rightPanel.setVisible(true);
@@ -504,7 +494,6 @@ public class Main extends javax.swing.JFrame {
         tabp_details.setPreferredSize(new java.awt.Dimension(350, 429));
 
         table_info.setAutoCreateRowSorter(true);
-        table_info.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         table_info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -530,7 +519,7 @@ public class Main extends javax.swing.JFrame {
         });
         table_info.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table_info.setMinimumSize(new java.awt.Dimension(110, 32));
-        table_info.setRowHeight(32);
+        table_info.setRowHeight(20);
         table_info.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(table_info);
         table_info.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -576,7 +565,6 @@ public class Main extends javax.swing.JFrame {
         tabp_details.addTab("Rise/Set/Transit", jScrollPane4);
 
         table_positions.setAutoCreateRowSorter(true);
-        table_positions.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         table_positions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -602,7 +590,7 @@ public class Main extends javax.swing.JFrame {
         });
         table_positions.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table_positions.setMinimumSize(new java.awt.Dimension(110, 32));
-        table_positions.setRowHeight(32);
+        table_positions.setRowHeight(20);
         table_positions.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(table_positions);
         table_positions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -824,7 +812,14 @@ public class Main extends javax.swing.JFrame {
     private void fillDetailsPanel(String target, String kind) {
         SpaceObject obj = this.current_session.getTarget(target);
 
-        //Set columns headers and table Model for rise/set/transit - make it non-editable
+        // Populate the Info panel
+        //
+        //
+        //
+        //
+        //
+        // Populate the Rise/Set/transit table =================
+        // Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};
         DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
@@ -851,7 +846,7 @@ public class Main extends javax.swing.JFrame {
             try {
                 String dt = (new AstroDate(set))
                         .toString(-1)
-                        .replace(" ", "   ");;
+                        .replace(" ", "   ");
                 Object[] data = {"Set", dt};
                 RSTTableModel.addRow(data);
             } catch (JPARSECException ex) {
@@ -862,7 +857,7 @@ public class Main extends javax.swing.JFrame {
             try {
                 String dt = (new AstroDate(transit))
                         .toString(-1)
-                        .replace(" ", "   ");;
+                        .replace(" ", "   ");
                 Object[] data = {"Transit", dt};
                 RSTTableModel.addRow(data);
             } catch (JPARSECException ex) {
@@ -875,6 +870,27 @@ public class Main extends javax.swing.JFrame {
         sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
         sorter.setSortKeys(sortKeys);
         sorter.sort();
+
+        // Populate the Positions table
+        String cols_pos[] = {"Time", "Altitude", "Azimuth"};
+        DefaultTableModel PositionsTableModel = new DefaultTableModel(cols_pos, 0) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        table_positions.setModel(PositionsTableModel);
+        for (TimeElement t : obj.getHourlyTimeElements()) {
+            try {
+                String dt = t.astroDate.toStringTZ().substring(11, 16);
+                Object[] data = {dt, obj.getAlt(t), obj.getAz(t)};
+                PositionsTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
     }
 
     public JToggleButton getBtn_manageLocations() {
@@ -922,7 +938,7 @@ public class Main extends javax.swing.JFrame {
                 return this;
             }
         }
-        
+
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
 
         // add location records to table
@@ -933,10 +949,9 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 AstroDate rdt = new AstroDate(t.getRises().get(0));
-                System.out.println("ASTRO RISE: " + rdt);   
+                System.out.println("ASTRO RISE: " + rdt);
+
                 // PORTO 21/10 - 22h00 rise list DEBUG!!! timezone?
-                
-                
                 //y = Integer.toString(rdt.getYear());
                 M = new DecimalFormat("00").format(rdt.getMonth());
                 d = new DecimalFormat("00").format(rdt.getDay());
@@ -946,14 +961,14 @@ public class Main extends javax.swing.JFrame {
                 rise = M + "/" + d + " " + h + "h" + m;
             } catch (JPARSECException e) {
                 rise = "N/A";
-            } catch (java.lang.IndexOutOfBoundsException e){
+            } catch (java.lang.IndexOutOfBoundsException e) {
                 rise = "N/A";
             }
-            
 
             try {
                 AstroDate sdt = new AstroDate(t.getSets().get(0));
                 System.out.println("ASTRO SET: " + sdt);
+
                 //y = Integer.toString(sdt.getYear());
                 M = new DecimalFormat("00").format(sdt.getMonth());
                 d = new DecimalFormat("00").format(sdt.getDay());
@@ -963,7 +978,7 @@ public class Main extends javax.swing.JFrame {
                 set = M + "/" + d + " " + h + "h" + m;
             } catch (JPARSECException e) {
                 set = "N/A";
-            } catch (java.lang.IndexOutOfBoundsException e){
+            } catch (java.lang.IndexOutOfBoundsException e) {
                 set = "N/A";
             }
 

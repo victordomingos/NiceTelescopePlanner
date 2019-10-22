@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -86,6 +85,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         
         DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(strData, dtformatter);
+        
     }
 
     /**

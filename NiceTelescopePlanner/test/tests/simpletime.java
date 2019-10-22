@@ -37,9 +37,9 @@ import jparsec.util.JPARSECException;
 public class simpletime {
 
     public static void main(String[] args) throws JPARSECException {
-        AstroDate astro = new AstroDate(2006, AstroDate.JANUARY, 1, 0, 0, 0);
-        TimeElement time = new TimeElement(astro, TimeElement.SCALE.BARYCENTRIC_DYNAMICAL_TIME);
-        CityElement city = City.findCity("Madrid");
+        AstroDate astro = new AstroDate(2019, AstroDate.OCTOBER, 21, 10, 22, 0);
+        TimeElement time = new TimeElement(astro, TimeElement.SCALE.LOCAL_TIME);
+        CityElement city = City.findCity("Porto");
         ObserverElement observer = ObserverElement.parseCity(city);
         EphemerisElement eph = new EphemerisElement();
         eph.optimizeForSpeed();
@@ -52,7 +52,7 @@ public class simpletime {
         double jd_LT = TimeScale.getJD(time, observer, eph, TimeElement.SCALE.LOCAL_TIME);
 
         //=====================================
-        EphemerisElement eph2 = new EphemerisElement(TARGET.SATURN, EphemerisElement.COORDINATES_TYPE.APPARENT,
+        EphemerisElement eph2 = new EphemerisElement(TARGET.Moon, EphemerisElement.COORDINATES_TYPE.APPARENT,
                 EphemerisElement.EQUINOX_OF_DATE, EphemerisElement.TOPOCENTRIC, EphemerisElement.REDUCTION_METHOD.IAU_2006,
                 EphemerisElement.FRAME.DYNAMICAL_EQUINOX_J2000, EphemerisElement.ALGORITHM.MOSHIER);
         eph2.optimizeForSpeed();
