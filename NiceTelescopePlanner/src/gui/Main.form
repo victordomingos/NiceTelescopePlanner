@@ -642,7 +642,7 @@
                   </Group>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="subpanel_photo" pref="0" max="32767" attributes="0"/>
+                  <Component id="subpanel_photo" pref="340" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -696,11 +696,6 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="lbl_photo" min="-2" pref="324" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -714,14 +709,18 @@
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lbl_photo" min="-2" pref="336" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-                      <Component id="lbl_photo" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="lbl_photo" min="-2" pref="160" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_photo2" alignment="3" max="32767" attributes="0"/>
                           <Component id="lbl_photo3" alignment="3" max="32767" attributes="0"/>
@@ -1016,7 +1015,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="123" max="32767" attributes="0"/>
+                      <EmptySpace pref="132" max="32767" attributes="0"/>
                       <Component id="slider_sky_graph2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

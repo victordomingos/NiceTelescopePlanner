@@ -37,6 +37,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 
 import javax.swing.JTable;
 import javax.swing.SortOrder;
@@ -122,6 +123,7 @@ public class Main extends javax.swing.JFrame {
                 return this;
             }
         }
+        
 
         table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
 
@@ -458,10 +460,6 @@ public class Main extends javax.swing.JFrame {
         subpanel_photo.setLayout(subpanel_photoLayout);
         subpanel_photoLayout.setHorizontalGroup(
             subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(subpanel_photoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_photoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,13 +470,16 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbl_photo1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
+            .addGroup(subpanel_photoLayout.createSequentialGroup()
+                .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         subpanel_photoLayout.setVerticalGroup(
             subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subpanel_photoLayout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(lbl_photo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(67, 67, 67)
+                .addGap(16, 16, 16)
+                .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbl_photo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -637,7 +638,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(slider_sky_graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -658,7 +659,7 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addComponent(subpanel_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addGap(169, 169, 169))
         );
 
@@ -812,6 +813,17 @@ public class Main extends javax.swing.JFrame {
     private void fillDetailsPanel(String target, String kind) {
         SpaceObject obj = this.current_session.getTarget(target);
 
+        
+        Icon img = gui.ImageLoader.getScaledSpaceImage(target, lbl_photo);
+        if(img != null) {
+            lbl_photo.setIcon(img);
+            lbl_photo.setText("");
+        }
+        else
+        {
+            lbl_photo.setText("[No picture available.]");
+            lbl_photo.setIcon(null);
+        }
         // Populate the Info panel
         //
         //
