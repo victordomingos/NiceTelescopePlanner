@@ -167,8 +167,8 @@ public class Main extends javax.swing.JFrame {
         lbl_target_details_name = new javax.swing.JLabel();
         subpanel_photo = new org.jdesktop.swingx.JXPanel();
         lbl_photo = new javax.swing.JLabel();
-        lbl_photo1 = new javax.swing.JLabel();
-        lbl_photo2 = new javax.swing.JLabel();
+        lbl_photo_declination = new javax.swing.JLabel();
+        lbl_photo_ra = new javax.swing.JLabel();
         lbl_photo3 = new javax.swing.JLabel();
         lbl_photo4 = new javax.swing.JLabel();
         tabp_details = new javax.swing.JTabbedPane();
@@ -432,29 +432,29 @@ public class Main extends javax.swing.JFrame {
         lbl_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_photo.setText("[No picture available.]");
 
-        lbl_photo1.setBackground(new java.awt.Color(0, 0, 0));
-        lbl_photo1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        lbl_photo1.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_photo1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_photo1.setText("Dec.: -16:42:58");
+        lbl_photo_declination.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo_declination.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo_declination.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo_declination.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_photo_declination.setText("Dec.: ");
 
-        lbl_photo2.setBackground(new java.awt.Color(0, 0, 0));
-        lbl_photo2.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        lbl_photo2.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_photo2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_photo2.setText("RA:  20:00:00");
+        lbl_photo_ra.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo_ra.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo_ra.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo_ra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_photo_ra.setText("RA: ");
 
         lbl_photo3.setBackground(new java.awt.Color(0, 0, 0));
         lbl_photo3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         lbl_photo3.setForeground(new java.awt.Color(255, 255, 255));
         lbl_photo3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_photo3.setText("Mag.: 3.0");
+        lbl_photo3.setText("Mag.: ");
 
         lbl_photo4.setBackground(new java.awt.Color(0, 0, 0));
         lbl_photo4.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         lbl_photo4.setForeground(new java.awt.Color(255, 255, 255));
         lbl_photo4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_photo4.setText("Angular Radius: 2\"");
+        lbl_photo4.setText("Angular Radius: ");
 
         javax.swing.GroupLayout subpanel_photoLayout = new javax.swing.GroupLayout(subpanel_photo);
         subpanel_photo.setLayout(subpanel_photoLayout);
@@ -467,8 +467,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(lbl_photo4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_photo1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo_declination, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
             .addGroup(subpanel_photoLayout.createSequentialGroup()
                 .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -481,14 +481,16 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_photo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbl_photo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_photo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo_declination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbl_photo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(570, 570, 570))
         );
+
+        lbl_photo3.getAccessibleContext().setAccessibleName("Mag.: ");
 
         tabp_details.setToolTipText("");
         tabp_details.setMaximumSize(new java.awt.Dimension(350, 32767));
@@ -810,10 +812,19 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Populate the Details panel
+     * 
+     * @param target
+     * @param kind 
+     */
     private void fillDetailsPanel(String target, String kind) {
         SpaceObject obj = this.current_session.getTarget(target);
-
         
+        // Populate the image section ========================================
+        
+        // Images must have the right proportions (330x160), 
+        // since we are not doing proportional resizing here.
         Icon img = gui.ImageLoader.getScaledSpaceImage(target, lbl_photo);
         if(img != null) {
             lbl_photo.setIcon(img);
@@ -824,13 +835,19 @@ public class Main extends javax.swing.JFrame {
             lbl_photo.setText("[No picture available.]");
             lbl_photo.setIcon(null);
         }
-        // Populate the Info panel
-        //
-        //
-        //
-        //
-        //
-        // Populate the Rise/Set/transit table =================
+        
+        
+        // Populate white labels below image 
+        
+        
+        
+        
+        
+        // Populate the Info panel ==========================================
+        
+                
+        
+        // Populate the Rise/Set/transit table ==============================
         // Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};
         DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
@@ -883,7 +900,7 @@ public class Main extends javax.swing.JFrame {
         sorter.setSortKeys(sortKeys);
         sorter.sort();
 
-        // Populate the Positions table
+        // Populate the Positions table =====================================
         String cols_pos[] = {"Time", "Altitude", "Azimuth"};
         DefaultTableModel PositionsTableModel = new DefaultTableModel(cols_pos, 0) {
             private static final long serialVersionUID = 1L;
@@ -1131,10 +1148,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private org.jdesktop.swingx.JXTextArea jXTextArea1;
     private javax.swing.JLabel lbl_photo;
-    private javax.swing.JLabel lbl_photo1;
-    private javax.swing.JLabel lbl_photo2;
     private javax.swing.JLabel lbl_photo3;
     private javax.swing.JLabel lbl_photo4;
+    private javax.swing.JLabel lbl_photo_declination;
+    private javax.swing.JLabel lbl_photo_ra;
     private javax.swing.JLabel lbl_target_details_name;
     private org.jdesktop.swingx.JXPanel leftPanel;
     private org.jdesktop.swingx.JXPanel rightPanel;

@@ -34,7 +34,7 @@ public class NTPConstants {
             "Ganymede", "Io", "Europa",             // Jupiter moons
             "Amalthea", "Himalia", "Callisto",      // Jupiter moons
             "Phobos", "Deimos",                     // Mars moons
-            "Triton",                               // Neptunus moon
+            "Triton",                               // Neptune moon
             "Janus",                                // Saturn moon
             // Avoiding a JPARSEC error with Saturn and Uranus moons (why?...)
             //"Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons

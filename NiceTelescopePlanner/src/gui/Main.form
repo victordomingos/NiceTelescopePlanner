@@ -704,8 +704,8 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lbl_photo2" max="32767" attributes="0"/>
-                          <Component id="lbl_photo1" min="-2" pref="93" max="-2" attributes="0"/>
+                          <Component id="lbl_photo_ra" max="32767" attributes="0"/>
+                          <Component id="lbl_photo_declination" min="-2" pref="93" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
@@ -722,12 +722,12 @@
                       <Component id="lbl_photo" min="-2" pref="160" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_photo2" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lbl_photo_ra" alignment="3" max="32767" attributes="0"/>
                           <Component id="lbl_photo3" alignment="3" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_photo1" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lbl_photo_declination" alignment="3" max="32767" attributes="0"/>
                           <Component id="lbl_photo4" alignment="3" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="570" max="-2" attributes="0"/>
@@ -745,7 +745,7 @@
                 <Property name="text" type="java.lang.String" value="[No picture available.]"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lbl_photo1">
+            <Component class="javax.swing.JLabel" name="lbl_photo_declination">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
@@ -757,10 +757,10 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Dec.: -16:42:58"/>
+                <Property name="text" type="java.lang.String" value="Dec.: "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lbl_photo2">
+            <Component class="javax.swing.JLabel" name="lbl_photo_ra">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
@@ -772,7 +772,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="RA:  20:00:00"/>
+                <Property name="text" type="java.lang.String" value="RA: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_photo3">
@@ -787,8 +787,11 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Mag.: 3.0"/>
+                <Property name="text" type="java.lang.String" value="Mag.: "/>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Mag.: "/>
+              </AccessibilityProperties>
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_photo4">
               <Properties>
@@ -802,7 +805,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Angular Radius: 2&quot;"/>
+                <Property name="text" type="java.lang.String" value="Angular Radius: "/>
               </Properties>
             </Component>
           </SubComponents>

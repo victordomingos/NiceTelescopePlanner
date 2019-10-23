@@ -17,11 +17,9 @@
 package gui;
 
 import java.awt.Image;
-import java.awt.Label;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -43,16 +41,16 @@ public class ImageLoader {
                 .toAbsolutePath().toString();
         System.out.println(path);
         BufferedImage buffImg;
-        
+
         try {
             buffImg = ImageIO.read(new File(path));
             img = buffImg.getScaledInstance(label.getWidth(), label.getHeight(),
                     Image.SCALE_SMOOTH);
             return new ImageIcon(img);
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("Don't panic! It's ok. " + e);
         }
-        
+
         return null;
     }
 }
