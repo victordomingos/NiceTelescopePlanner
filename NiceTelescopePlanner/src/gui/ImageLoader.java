@@ -39,7 +39,7 @@ public class ImageLoader {
     public static ImageIcon getScaledSpaceImage(String objectName, JLabel label) {
         String path = Paths.get("src/images/" + objectName + ".jpg")
                 .toAbsolutePath().toString();
-        System.out.println(path);
+        //System.out.println(path);
         BufferedImage buffImg;
 
         try {

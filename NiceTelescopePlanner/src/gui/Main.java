@@ -117,17 +117,19 @@ public class Main extends javax.swing.JFrame {
 
             private static final long serialVersionUID = 1L;
 
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+            public Component getTableCellRendererComponent(JTable table,
+                    Object value, boolean isSelected, boolean hasFocus,
+                    int row, int col) {
+                super.getTableCellRendererComponent(table, value, isSelected, 
+                        hasFocus, row, col);
                 setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
                 return this;
             }
         }
-        
 
         table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
 
-        rightPanel.setVisible(true);
+        rightPanel.setVisible(false);
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
         centerBottomPanel.setVisible(false);
@@ -814,39 +816,32 @@ public class Main extends javax.swing.JFrame {
 
     /**
      * Populate the Details panel
-     * 
+     *
      * @param target
-     * @param kind 
+     * @param kind
      */
     private void fillDetailsPanel(String target, String kind) {
+        if(!rightPanel.isVisible()){
+            rightPanel.setVisible(true);
+            this.btn_rightPanel.setSelected(true);
+        }
+        
         SpaceObject obj = this.current_session.getTarget(target);
-        
+
         // Populate the image section ========================================
-        
         // Images must have the right proportions (330x160), 
         // since we are not doing proportional resizing here.
         Icon img = gui.ImageLoader.getScaledSpaceImage(target, lbl_photo);
-        if(img != null) {
+        if (img != null) {
             lbl_photo.setIcon(img);
             lbl_photo.setText("");
-        }
-        else
-        {
+        } else {
             lbl_photo.setText("[No picture available.]");
             lbl_photo.setIcon(null);
         }
-        
-        
+
         // Populate white labels below image 
-        
-        
-        
-        
-        
         // Populate the Info panel ==========================================
-        
-                
-        
         // Populate the Rise/Set/transit table ==============================
         // Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};
