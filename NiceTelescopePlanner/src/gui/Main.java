@@ -34,6 +34,8 @@ import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
 import jparsec.util.JPARSECException;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -120,7 +122,7 @@ public class Main extends javax.swing.JFrame {
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
                     int row, int col) {
-                super.getTableCellRendererComponent(table, value, isSelected, 
+                super.getTableCellRendererComponent(table, value, isSelected,
                         hasFocus, row, col);
                 setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
                 return this;
@@ -128,6 +130,17 @@ public class Main extends javax.swing.JFrame {
         }
 
         table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
+
+        
+        // Maximize window at start if the screen isn't too big.
+        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double w = scrSize.getWidth();
+        double h = scrSize.getHeight();
+        if (w < 1920 && h < 1080) {
+            this.setExtendedState(this.MAXIMIZED_BOTH);
+        } else {
+            this.setSize(1600, 980);
+        }
 
         rightPanel.setVisible(false);
         leftPanel.add(lpanel);
@@ -821,11 +834,11 @@ public class Main extends javax.swing.JFrame {
      * @param kind
      */
     private void fillDetailsPanel(String target, String kind) {
-        if(!rightPanel.isVisible()){
+        if (!rightPanel.isVisible()) {
             rightPanel.setVisible(true);
             this.btn_rightPanel.setSelected(true);
         }
-        
+
         SpaceObject obj = this.current_session.getTarget(target);
 
         // Populate the image section ========================================
