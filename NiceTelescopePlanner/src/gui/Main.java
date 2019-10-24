@@ -131,7 +131,6 @@ public class Main extends javax.swing.JFrame {
 
         table_riseSetTransit.setDefaultRenderer(Object.class, new SecondaryTableCellRenderer());
 
-        
         // Maximize window at start if the screen isn't too big.
         Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
         double w = scrSize.getWidth();
@@ -141,7 +140,7 @@ public class Main extends javax.swing.JFrame {
         } else {
             this.setSize(1600, 980);
         }
-
+        
         rightPanel.setVisible(false);
         leftPanel.add(lpanel);
         btn_rightPanel.setSelected(false);
@@ -376,10 +375,10 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setColumnSelectionAllowed(true);
         table.setMaximumSize(new java.awt.Dimension(2147483647, 640));
         table.setMinimumSize(new java.awt.Dimension(110, 32));
         table.setRowHeight(32);
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -504,8 +503,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(lbl_photo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(570, 570, 570))
         );
-
-        lbl_photo3.getAccessibleContext().setAccessibleName("Mag.: ");
 
         tabp_details.setToolTipText("");
         tabp_details.setMaximumSize(new java.awt.Dimension(350, 32767));
@@ -655,7 +652,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(slider_sky_graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -676,7 +673,7 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addGap(169, 169, 169))
         );
 
@@ -940,6 +937,9 @@ public class Main extends javax.swing.JFrame {
 
     public void applySessionSettings() {
         this.updateTable();
+        if(table.getRowCount()>0){
+            table.setRowSelectionInterval(0, 0);
+        }
     }
 
     private void updateTable() {
@@ -949,83 +949,69 @@ public class Main extends javax.swing.JFrame {
         // get all targets 
         this.current_session = new Session(lpanel.getCurSelectedLocation(),
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
-                lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(), lpanel.getOnlyKind());
+                lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(),
+                lpanel.getOnlyKind());
 
         //Set columns headers and table Model - make it non-editable
-        String columns[] = {"Designation", "Kind", "Rise", "Set",
+        String cols[] = {"Designation", "Kind", "Rise", "Set",
             "Constellation", "Bookmark", "Seen"};
 
-        DefaultTableModel SessionTableModel = new DefaultTableModel(columns, 0) {
+        DefaultTableModel SessionTableModel = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean isCellEditable(int i, int i1) {
-                return false; //To change body of generated methods, choose Tools | Templates.
+            public Class getColumnClass(int col) {
+                return (col == 5 || col == 6) ? Boolean.class : String.class;
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return (col == 5 || col == 6) ? true : false;
             }
         };
 
         table.setModel(SessionTableModel);
-        class MainTableCellRenderer extends DefaultTableCellRenderer {
-
-            private static final long serialVersionUID = 1L;
-
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-                setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-                return this;
-            }
-        }
-
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
+        table.setRowSelectionAllowed(true);
 
         // add location records to table
-        String y, M, d, h, m;
         for (SpaceObject t : current_session.getTargets()) {
             designation = t.getName();
             kind = t.getKind();
-
-            try {
-                AstroDate rdt = new AstroDate(t.getRises().get(0));
-                System.out.println("ASTRO RISE: " + rdt);
-
-                // PORTO 21/10 - 22h00 rise list DEBUG!!! timezone?
-                //y = Integer.toString(rdt.getYear());
-                M = new DecimalFormat("00").format(rdt.getMonth());
-                d = new DecimalFormat("00").format(rdt.getDay());
-                h = new DecimalFormat("00").format(rdt.getHour());
-                m = new DecimalFormat("00").format(rdt.getRoundedMinute());
-                //rise = y + "/" + M + "/" + d + " " + h + ":" + m;
-                rise = M + "/" + d + " " + h + "h" + m;
-            } catch (JPARSECException e) {
-                rise = "N/A";
-            } catch (java.lang.IndexOutOfBoundsException e) {
-                rise = "N/A";
-            }
-
-            try {
-                AstroDate sdt = new AstroDate(t.getSets().get(0));
-                System.out.println("ASTRO SET: " + sdt);
-
-                //y = Integer.toString(sdt.getYear());
-                M = new DecimalFormat("00").format(sdt.getMonth());
-                d = new DecimalFormat("00").format(sdt.getDay());
-                h = new DecimalFormat("00").format(sdt.getHour());
-                m = new DecimalFormat("00").format(sdt.getRoundedMinute());
-                //set = y + "/" + M + "/" + d + " " + h + ":" + m;
-                set = M + "/" + d + " " + h + "h" + m;
-            } catch (JPARSECException e) {
-                set = "N/A";
-            } catch (java.lang.IndexOutOfBoundsException e) {
-                set = "N/A";
-            }
-
+            rise = makeDateTimeString(t.getRises().get(0));
+            set = makeDateTimeString(t.getSets().get(0));
             constellation = t.getConstell();
-
+            
             bookmark = false;   // TODO
             seen = false;       // TODO
-
-            Object[] data = {designation, kind, rise, set, constellation, bookmark, seen};
+            
+            Object[] data = {designation, kind, rise, set, constellation,
+                bookmark, seen};
             SessionTableModel.addRow(data);
+        }
+    }
+
+    /**
+     * Build a formatted date string from a JD double (Rise/set)
+     *
+     * @param date
+     * @return string
+     */
+    private String makeDateTimeString(Double date) {
+        String y, M, d, h, m;
+        try {
+            AstroDate rdt = new AstroDate(date);
+
+            // PORTO 21/10 - 22h00 rise list DEBUG!!! timezone?
+            //y = Integer.toString(rdt.getYear());
+            M = new DecimalFormat("00").format(rdt.getMonth());
+            d = new DecimalFormat("00").format(rdt.getDay());
+            h = new DecimalFormat("00").format(rdt.getHour());
+            m = new DecimalFormat("00").format(rdt.getRoundedMinute());
+            //rise = y + "/" + M + "/" + d + " " + h + ":" + m;
+            return (M + "/" + d + " " + h + "h" + m);
+        } catch (JPARSECException | java.lang.IndexOutOfBoundsException e) {
+            return "N/A";
         }
     }
 

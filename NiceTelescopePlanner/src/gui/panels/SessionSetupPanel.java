@@ -49,8 +49,10 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         }
         
         // TODO: remove theses line after the first MVP release ;)
-        subpanel_telescopeAngles.setVisible(false);
+        
         btn_SetToTwilightTime.setVisible(false);
+        jPanel_telescope_azimuth.setVisible(false);
+        subpanel_telescopeAngles.setVisible(false);
     }
 
     public void updateLocationsCombo() {
@@ -142,15 +144,17 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         cmb_endTime = new javax.swing.JComboBox<>();
         subpanel_telescopeAngles = new org.jdesktop.swingx.JXPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        spin_altStart = new javax.swing.JSpinner();
-        jLabel13 = new javax.swing.JLabel();
-        spin_altEnd = new javax.swing.JSpinner();
+        btn_SetToDegreesAboveHorizon = new javax.swing.JButton();
+        jPanel_telescope_azimuth = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
+        spin_azEnd = new javax.swing.JSpinner();
         spin_azStart = new javax.swing.JSpinner();
         jLabel14 = new javax.swing.JLabel();
-        spin_azEnd = new javax.swing.JSpinner();
-        btn_SetToDegreesAboveHorizon = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        spin_altEnd = new javax.swing.JSpinner();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        spin_altStart = new javax.swing.JSpinner();
         subpanel_filterSugestions = new org.jdesktop.swingx.JXPanel();
         jLabel17 = new javax.swing.JLabel();
         lbl_kind = new javax.swing.JLabel();
@@ -298,59 +302,101 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel11.setText("Telescope Angles");
 
+        btn_SetToDegreesAboveHorizon.setText("Set to 5º above the horizon");
+        btn_SetToDegreesAboveHorizon.setName("btn_SetToDegreesAboveHorizon"); // NOI18N
+
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Azimuth range:");
+
+        spin_azEnd.setName("spin_azEnd"); // NOI18N
+
+        spin_azStart.setName("spin_azStart"); // NOI18N
+
+        jLabel14.setText("to");
+
+        javax.swing.GroupLayout jPanel_telescope_azimuthLayout = new javax.swing.GroupLayout(jPanel_telescope_azimuth);
+        jPanel_telescope_azimuth.setLayout(jPanel_telescope_azimuthLayout);
+        jPanel_telescope_azimuthLayout.setHorizontalGroup(
+            jPanel_telescope_azimuthLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_telescope_azimuthLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel_telescope_azimuthLayout.setVerticalGroup(
+            jPanel_telescope_azimuthLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_telescope_azimuthLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel_telescope_azimuthLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(0, 0, 0))
+        );
+
+        spin_altEnd.setName("spin_altEnd"); // NOI18N
+
+        jLabel13.setText("to");
+
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Altitude range:");
 
         spin_altStart.setModel(new javax.swing.SpinnerNumberModel(5.0d, -90.0d, 90.0d, 1.0d));
         spin_altStart.setName("spin_altStart"); // NOI18N
 
-        jLabel13.setText("to");
-
-        spin_altEnd.setName("spin_altEnd"); // NOI18N
-
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel15.setText("Azimuth range:");
-
-        spin_azStart.setName("spin_azStart"); // NOI18N
-
-        jLabel14.setText("to");
-
-        spin_azEnd.setName("spin_azEnd"); // NOI18N
-
-        btn_SetToDegreesAboveHorizon.setText("Set to 5º above the horizon");
-        btn_SetToDegreesAboveHorizon.setName("btn_SetToDegreesAboveHorizon"); // NOI18N
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(0, 0, 0))
+        );
 
         javax.swing.GroupLayout subpanel_telescopeAnglesLayout = new javax.swing.GroupLayout(subpanel_telescopeAngles);
         subpanel_telescopeAngles.setLayout(subpanel_telescopeAnglesLayout);
         subpanel_telescopeAnglesLayout.setHorizontalGroup(
             subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_telescopeAnglesLayout.createSequentialGroup()
+                .addGap(104, 104, 104)
+                .addComponent(btn_SetToDegreesAboveHorizon, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
             .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
-                        .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
-                                .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
-                                .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_telescopeAnglesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_SetToDegreesAboveHorizon, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                        .addComponent(jPanel_telescope_azimuth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))
+                    .addGroup(subpanel_telescopeAnglesLayout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(13, 13, 13)))
+                .addGap(1, 1, 1))
         );
         subpanel_telescopeAnglesLayout.setVerticalGroup(
             subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,17 +404,9 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel11)
                 .addGap(10, 10, 10)
-                .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(spin_altStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spin_altEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(subpanel_telescopeAnglesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spin_azStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(spin_azEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                .addComponent(jPanel_telescope_azimuth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_SetToDegreesAboveHorizon)
                 .addGap(4, 4, 4))
@@ -652,6 +690,8 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel_telescope_azimuth;
     private javax.swing.JLabel lbl_atConstellation;
     private javax.swing.JLabel lbl_kind;
     private org.jdesktop.swingx.JXPanel leftPanel;
