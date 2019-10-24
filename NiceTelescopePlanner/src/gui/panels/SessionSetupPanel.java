@@ -734,4 +734,8 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     public String getOnlyKind(){
         return this.cmb_kind.getSelectedItem().toString();
     }
+
+    public int getCmb_locationItemsCount() {
+        return cmb_location.getItemCount();
+    }
 }

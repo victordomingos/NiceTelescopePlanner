@@ -141,12 +141,25 @@ public class Main extends javax.swing.JFrame {
             this.setSize(1600, 980);
         }
         
-        rightPanel.setVisible(false);
         leftPanel.add(lpanel);
+
+        
+        rightPanel.setVisible(false);
         btn_rightPanel.setSelected(false);
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
 
+        
+        // If there is no location yet, instruct user to create a new location
+        if(this.lpanel.getCmb_locationItemsCount() == 0){
+            this.location_manager.setVisible(true);
+            this.btn_manageLocations.setSelected(true);
+            this.location_manager.toFront();   // Why isn't it getting to front??         
+        }
+
+        //activate new location editor
+        // display messagebox
+        
     }
 
     /**
