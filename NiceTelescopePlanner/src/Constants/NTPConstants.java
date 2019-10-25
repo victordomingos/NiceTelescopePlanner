@@ -37,9 +37,9 @@ public class NTPConstants {
             "Triton",                               // Neptune moon
             "Janus",                                // Saturn moon
             // Avoiding a JPARSEC error with Saturn and Uranus moons (why?...)
-            //"Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
-            //"Titan", "Iapetus", "Dione", "Rhea", 
-            //"Thetis", "Mimas", "Hyperion", "Enceladus", 
+            "Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
+            "Titan", "Iapetus", "Dione", "Rhea", 
+            "Thetis", "Mimas", "Hyperion", "Enceladus", 
         };
     
     public static final String[] CONSTELATIONS_FULL_LIST_WITH_ABBREVS = {

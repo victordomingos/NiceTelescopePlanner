@@ -125,25 +125,25 @@ public class Session {
             }
             targets.addAll(moons);
         }
-//        
-//        
-//        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){
-//            for (String NGCObject : NTPConstants.OUR_TOP_LIST_DEEPSPACE) {
-//                try {
-//                    SpaceObject s = new SpaceObject(NGCObject, observer, startTimeEl,
-//                            endTimeEl, "star");
-//                    if ((s.getAparentMag() < limMag) && s.willBeAboveHorizon()) {
-//                        if (constellation.equalsIgnoreCase("All constellations")
-//                                || s.getConstell().equals(constellation)) {
-//                            stars.add(s);
-//                        }
-//                    }
-//                } catch (JPARSECException e) {
-//                    System.out.println(e);
-//                }
-//            }
-//            targets.addAll(stars);
-//        }
+        
+        
+        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){
+            for (String NGCObject : NTPConstants.OUR_TOP_LIST_DEEPSPACE) {
+                try {
+                    SpaceObject s = new SpaceObject(NGCObject, observer, startTimeEl,
+                            endTimeEl, "star");
+                    if ((s.getAparentMag() < limMag) && s.willBeAboveHorizon()) {
+                        if (constellation.equalsIgnoreCase("All constellations")
+                                || s.getConstell().equals(constellation)) {
+                            stars.add(s);
+                        }
+                    }
+                } catch (JPARSECException e) {
+                    System.out.println(e);
+                }
+            }
+            targets.addAll(stars);
+        }
 
 
 //        

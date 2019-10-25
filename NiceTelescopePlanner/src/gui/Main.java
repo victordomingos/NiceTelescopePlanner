@@ -44,6 +44,8 @@ import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import jparsec.time.TimeElement;
@@ -982,7 +984,17 @@ public class Main extends javax.swing.JFrame {
                 return (col == 5 || col == 6) ? true : false;
             }
         };
-
+        
+            SessionTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(e.getType() == TableModelEvent.UPDATE){
+                    System.out.println(e.getFirstRow());
+                    System.out.println(e.getColumn());
+                }
+            }
+        });
+            
         table.setModel(SessionTableModel);
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
         table.setRowSelectionAllowed(true);
