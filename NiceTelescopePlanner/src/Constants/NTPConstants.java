@@ -26,17 +26,16 @@ public class NTPConstants {
     public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 5000;
 
     
-    public static final String[] NTPPlanets = {"Moon", "Mars", "Venus", "Saturn",  "Jupiter", 
+    public static final String[] NTP_PLANETS = {"Moon", "Mars", "Venus", "Saturn",  "Jupiter", 
                             "Mercury", "Neptune", "Uranus", "Pluto"};
     
     
-    public static final String[] NTPMoons = {
+    public static final String[] NTP_MOONS = {
             "Ganymede", "Io", "Europa",             // Jupiter moons
             "Amalthea", "Himalia", "Callisto",      // Jupiter moons
             "Phobos", "Deimos",                     // Mars moons
             "Triton",                               // Neptune moon
             "Janus",                                // Saturn moon
-            // Avoiding a JPARSEC error with Saturn and Uranus moons (why?...)
             "Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
             "Titan", "Iapetus", "Dione", "Rhea", 
             "Thetis", "Mimas", "Hyperion", "Enceladus", 

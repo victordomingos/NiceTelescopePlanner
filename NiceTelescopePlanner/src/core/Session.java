@@ -5,9 +5,6 @@
  */
 package core;
 
-import Constants.NTPConstants;
-import static Constants.NTPConstants.NTPMoons;
-import static Constants.NTPConstants.NTPPlanets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +12,8 @@ import jparsec.observer.ObserverElement;
 import jparsec.time.AstroDate;
 import jparsec.time.TimeElement;
 import jparsec.util.JPARSECException;
+import static Constants.NTPConstants.NTP_PLANETS;
+import static Constants.NTPConstants.NTP_MOONS;
 
 /**
  *
@@ -90,8 +89,8 @@ public class Session {
         //System.out.println("LIM.MAGNITUDE: " + limMag);
         System.out.println("\n\n");
         // ===============================================
-        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Planet")){
-            for (String planet : NTPPlanets) {
+        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Planet")) {
+            for (String planet : NTP_PLANETS) {
                 try {
                     SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
                             endTimeEl, "planet");
@@ -108,8 +107,8 @@ public class Session {
             targets.addAll(planets);
         }
 
-        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")){
-            for (String moon : NTPMoons) {
+        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")) {
+            for (String moon : NTP_MOONS) {
                 try {
                     SpaceObject m = new SpaceObject(moon, observer, startTimeEl,
                             endTimeEl, "moon");
@@ -125,27 +124,25 @@ public class Session {
             }
             targets.addAll(moons);
         }
-        
-        
-        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){
-            for (String NGCObject : NTPConstants.OUR_TOP_LIST_DEEPSPACE) {
-                try {
-                    SpaceObject s = new SpaceObject(NGCObject, observer, startTimeEl,
-                            endTimeEl, "star");
-                    if ((s.getAparentMag() < limMag) && s.willBeAboveHorizon()) {
-                        if (constellation.equalsIgnoreCase("All constellations")
-                                || s.getConstell().equals(constellation)) {
-                            stars.add(s);
-                        }
-                    }
-                } catch (JPARSECException e) {
-                    System.out.println(e);
-                }
-            }
-            targets.addAll(stars);
-        }
 
-
+//        
+//        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){
+//            for (String NGCObject : NTPConstants.OUR_TOP_LIST_DEEPSPACE) {
+//                try {
+//                    SpaceObject s = new SpaceObject(NGCObject, observer, startTimeEl,
+//                            endTimeEl, "star");
+//                    if ((s.getAparentMag() < limMag) && s.willBeAboveHorizon()) {
+//                        if (constellation.equalsIgnoreCase("All constellations")
+//                                || s.getConstell().equals(constellation)) {
+//                            stars.add(s);
+//                        }
+//                    }
+//                } catch (JPARSECException e) {
+//                    System.out.println(e);
+//                }
+//            }
+//            targets.addAll(stars);
+//        }
 //        
 //        int visible = 0;
 //        // TODO - check this for more times during the session?
@@ -158,16 +155,15 @@ public class Session {
 //        }
 //        System.out.println("\nNumber of targets above horizon: " + targets.size()
 //                + " (" + visible + " visible at naked eye).");
-
     }
 
     public ArrayList<SpaceObject> getTargets() {
         return targets;
     }
-    
-    public SpaceObject getTarget(String name){
+
+    public SpaceObject getTarget(String name) {
         for (SpaceObject target : targets) {
-            if(target.getName() == name){
+            if (target.getName() == name) {
                 return target;
             }
         }

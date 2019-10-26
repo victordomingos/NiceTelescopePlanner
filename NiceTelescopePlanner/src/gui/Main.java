@@ -56,6 +56,8 @@ import jparsec.time.TimeElement;
  */
 public class Main extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 1L;
+
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
@@ -121,6 +123,7 @@ public class Main extends javax.swing.JFrame {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public Component getTableCellRendererComponent(JTable table,
                     Object value, boolean isSelected, boolean hasFocus,
                     int row, int col) {
@@ -138,7 +141,7 @@ public class Main extends javax.swing.JFrame {
         double w = scrSize.getWidth();
         double h = scrSize.getHeight();
         if (w < 1920 && h < 1080) {
-            this.setExtendedState(this.MAXIMIZED_BOTH);
+            this.setExtendedState(Main.MAXIMIZED_BOTH);
         } else {
             this.setSize(1600, 980);
         }
@@ -981,7 +984,7 @@ public class Main extends javax.swing.JFrame {
 
             @Override
             public boolean isCellEditable(int row, int col) {
-                return (col == 5 || col == 6) ? true : false;
+                return (col == 5 || col == 6);
             }
         };
         
