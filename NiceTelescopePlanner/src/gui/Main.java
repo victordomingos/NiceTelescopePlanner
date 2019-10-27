@@ -210,26 +210,24 @@ public class Main extends javax.swing.JFrame {
         table_riseSetTransit = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_positions = new javax.swing.JTable();
-        subpanel_graph_sky2 = new org.jdesktop.swingx.JXPanel();
-        jLabel19 = new javax.swing.JLabel();
-        slider_sky_graph2 = new javax.swing.JSlider();
         leftPanel = new org.jdesktop.swingx.JXPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menu_file = new javax.swing.JMenu();
+        menu_newSession = new javax.swing.JMenuItem();
+        menu_saveSession = new javax.swing.JMenuItem();
+        menu_calculate = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        menu_newLocation = new javax.swing.JMenuItem();
+        menu_quit = new javax.swing.JMenuItem();
+        menu_view = new javax.swing.JMenu();
+        menu_showMainWindow = new javax.swing.JMenuItem();
+        menu_toggleSessionManager = new javax.swing.JCheckBoxMenuItem();
+        menu_toggleLocationManager = new javax.swing.JCheckBoxMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        menu_toggleLeftPanel = new javax.swing.JCheckBoxMenuItem();
+        menu_toggleRightPanel = new javax.swing.JCheckBoxMenuItem();
+        menu_toggleNotesPanel = new javax.swing.JCheckBoxMenuItem();
+        menu_help = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -240,7 +238,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        menu_about = new javax.swing.JMenuItem();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -633,48 +631,6 @@ public class Main extends javax.swing.JFrame {
 
         tabp_details.addTab("Positions", jScrollPane3);
 
-        subpanel_graph_sky2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        subpanel_graph_sky2.setPreferredSize(new java.awt.Dimension(334, 153));
-
-        jLabel19.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel19.setText("Graph");
-
-        slider_sky_graph2.setMajorTickSpacing(6);
-        slider_sky_graph2.setMaximum(12);
-        slider_sky_graph2.setMinorTickSpacing(1);
-        slider_sky_graph2.setPaintTicks(true);
-        slider_sky_graph2.setToolTipText("The apparent magnitude of the faintest object that is visible with the naked-eye or a telescope.");
-        slider_sky_graph2.setValue(0);
-        slider_sky_graph2.setName("slider_sky_graph"); // NOI18N
-        slider_sky_graph2.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                slider_sky_graph2StateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout subpanel_graph_sky2Layout = new javax.swing.GroupLayout(subpanel_graph_sky2);
-        subpanel_graph_sky2.setLayout(subpanel_graph_sky2Layout);
-        subpanel_graph_sky2Layout.setHorizontalGroup(
-            subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(slider_sky_graph2, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                    .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        subpanel_graph_sky2Layout.setVerticalGroup(
-            subpanel_graph_sky2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(subpanel_graph_sky2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                .addComponent(slider_sky_graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
@@ -686,17 +642,12 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(lbl_target_details_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(386, 386, 386))
                     .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tabp_details, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tabp_details, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(rightPanelLayout.createSequentialGroup()
                 .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addGap(169, 169, 169))
         );
-
-        rightPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {subpanel_graph_sky2, tabp_details});
-
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
@@ -706,8 +657,6 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(subpanel_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tabp_details, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(subpanel_graph_sky2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -715,83 +664,112 @@ public class Main extends javax.swing.JFrame {
         leftPanel.setPreferredSize(new java.awt.Dimension(350, 580));
         leftPanel.setLayout(new java.awt.GridLayout(1, 1));
 
-        jMenu1.setText("File");
+        menu_file.setText("File");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.META_MASK));
-        jMenuItem2.setText("New session (start over)");
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.META_MASK));
-        jMenuItem3.setText("Save current session");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menu_newSession.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.META_MASK));
+        menu_newSession.setText("New session (start over)");
+        menu_newSession.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menu_newSessionActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        menu_file.add(menu_newSession);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.META_MASK));
-        jMenuItem4.setText("Calculate session visibility");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        menu_saveSession.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.META_MASK));
+        menu_saveSession.setText("Save current session");
+        menu_saveSession.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                menu_saveSessionActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
-        jMenu1.add(jSeparator2);
+        menu_file.add(menu_saveSession);
 
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.META_MASK));
-        jMenuItem10.setText("New location");
-        jMenu1.add(jMenuItem10);
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
-        jMenuItem1.setText("Quit Nice Telescope Planner");
-        jMenu1.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu5.setText("View");
-
-        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.META_MASK));
-        jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("Session Manager");
-        jMenu5.add(jCheckBoxMenuItem1);
-
-        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.META_MASK));
-        jMenuItem11.setText("Location Manager");
-        jMenu5.add(jMenuItem11);
-        jMenu5.add(jSeparator1);
-
-        jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.META_MASK));
-        jMenuItem12.setText("Session setup configurator (left panel)");
-        jMenu5.add(jMenuItem12);
-
-        jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.META_MASK));
-        jMenuItem13.setText("Object details (right panel)");
-        jMenu5.add(jMenuItem13);
-
-        jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.META_MASK));
-        jMenuItem14.setText("Session notes");
-        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+        menu_calculate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.META_MASK));
+        menu_calculate.setText("Calculate session visibility");
+        menu_calculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem14ActionPerformed(evt);
+                menu_calculateActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem14);
+        menu_file.add(menu_calculate);
+        menu_file.add(jSeparator2);
 
-        jMenuBar1.add(jMenu5);
+        menu_newLocation.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.META_MASK));
+        menu_newLocation.setText("New location");
+        menu_file.add(menu_newLocation);
 
-        jMenu2.setText("Help");
+        menu_quit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
+        menu_quit.setText("Quit Nice Telescope Planner");
+        menu_file.add(menu_quit);
+
+        jMenuBar1.add(menu_file);
+
+        menu_view.setText("View");
+
+        menu_showMainWindow.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.META_MASK));
+        menu_showMainWindow.setText("Main Window (bring to front)");
+        menu_view.add(menu_showMainWindow);
+
+        menu_toggleSessionManager.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.META_MASK));
+        menu_toggleSessionManager.setText("Session Manager");
+        menu_toggleSessionManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_toggleSessionManagerActionPerformed(evt);
+            }
+        });
+        menu_view.add(menu_toggleSessionManager);
+
+        menu_toggleLocationManager.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.META_MASK));
+        menu_toggleLocationManager.setText("Location Manager");
+        menu_toggleLocationManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_toggleLocationManagerActionPerformed(evt);
+            }
+        });
+        menu_view.add(menu_toggleLocationManager);
+        menu_view.add(jSeparator1);
+
+        menu_toggleLeftPanel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.META_MASK));
+        menu_toggleLeftPanel.setSelected(true);
+        menu_toggleLeftPanel.setText("Session setup configurator (left panel)");
+        menu_toggleLeftPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_toggleLeftPanelActionPerformed(evt);
+            }
+        });
+        menu_view.add(menu_toggleLeftPanel);
+
+        menu_toggleRightPanel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.META_MASK));
+        menu_toggleRightPanel.setText("Object details (right panel)");
+        menu_toggleRightPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_toggleRightPanelActionPerformed(evt);
+            }
+        });
+        menu_view.add(menu_toggleRightPanel);
+
+        menu_toggleNotesPanel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.META_MASK));
+        menu_toggleNotesPanel.setText("Session notes");
+        menu_toggleNotesPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_toggleNotesPanelActionPerformed(evt);
+            }
+        });
+        menu_view.add(menu_toggleNotesPanel);
+
+        jMenuBar1.add(menu_view);
+
+        menu_help.setText("Help");
 
         jMenuItem8.setText("How to use");
-        jMenu2.add(jMenuItem8);
+        menu_help.add(jMenuItem8);
 
         jMenuItem6.setText("Report an issue");
-        jMenu2.add(jMenuItem6);
+        menu_help.add(jMenuItem6);
 
         jMenuItem7.setText("Visit the author's website");
-        jMenu2.add(jMenuItem7);
-        jMenu2.add(jSeparator4);
+        menu_help.add(jMenuItem7);
+        menu_help.add(jSeparator4);
 
         jMenu6.setText("Useful Wikipedia pages");
 
@@ -807,13 +785,13 @@ public class Main extends javax.swing.JFrame {
         jMenuItem16.setText("Coordinate systems");
         jMenu6.add(jMenuItem16);
 
-        jMenu2.add(jMenu6);
-        jMenu2.add(jSeparator3);
+        menu_help.add(jMenu6);
+        menu_help.add(jSeparator3);
 
-        jMenuItem9.setText("About Nice Telescope Planner");
-        jMenu2.add(jMenuItem9);
+        menu_about.setText("About Nice Telescope Planner");
+        menu_help.add(menu_about);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menu_help);
 
         setJMenuBar(jMenuBar1);
 
@@ -1045,40 +1023,71 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_leftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leftPanelActionPerformed
         this.leftPanel.setVisible(this.btn_leftPanel.isSelected());
+        this.menu_toggleLeftPanel.setSelected(this.btn_leftPanel.isSelected());
     }//GEN-LAST:event_btn_leftPanelActionPerformed
 
     private void btn_rightPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rightPanelActionPerformed
         this.rightPanel.setVisible(this.btn_rightPanel.isSelected());
+        this.menu_toggleRightPanel.setSelected(this.btn_rightPanel.isSelected());
 
     }//GEN-LAST:event_btn_rightPanelActionPerformed
 
     private void btn_sessionNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sessionNotesActionPerformed
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
+        this.menu_toggleNotesPanel.setSelected(this.btn_sessionNotes.isSelected());
     }//GEN-LAST:event_btn_sessionNotesActionPerformed
 
     private void btn_manageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_manageSessionsActionPerformed
         this.session_manager.setVisible(this.btn_manageSessions.isSelected());
+        this.menu_toggleSessionManager.setSelected(this.btn_manageSessions.isSelected());
     }//GEN-LAST:event_btn_manageSessionsActionPerformed
 
     private void btn_manageLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_manageLocationsActionPerformed
         this.location_manager.setVisible(this.btn_manageLocations.isSelected());
+        this.menu_toggleLocationManager.setSelected(this.btn_manageLocations.isSelected());
     }//GEN-LAST:event_btn_manageLocationsActionPerformed
 
-    private void slider_sky_graph2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_sky_graph2StateChanged
+    private void menu_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_calculateActionPerformed
+       applySessionSettings();
+    }//GEN-LAST:event_menu_calculateActionPerformed
 
-    }//GEN-LAST:event_slider_sky_graph2StateChanged
+    private void menu_saveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_saveSessionActionPerformed
+        
+    }//GEN-LAST:event_menu_saveSessionActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    private void menu_newSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newSessionActionPerformed
+        lpanel.clearSessionSetupPanel();
+    }//GEN-LAST:event_menu_newSessionActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void menu_toggleSessionManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_toggleSessionManagerActionPerformed
+        btn_manageSessions.setSelected(!btn_manageSessions.isSelected());
+        session_manager.setVisible(btn_manageSessions.isSelected());
+        menu_toggleSessionManager.setSelected(btn_manageSessions.isSelected());
+    }//GEN-LAST:event_menu_toggleSessionManagerActionPerformed
 
-    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem14ActionPerformed
+    private void menu_toggleLocationManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_toggleLocationManagerActionPerformed
+        btn_manageLocations.setSelected(!btn_manageLocations.isSelected());
+        location_manager.setVisible(btn_manageLocations.isSelected());
+        menu_toggleLocationManager.setSelected(btn_manageLocations.isSelected());
+    }//GEN-LAST:event_menu_toggleLocationManagerActionPerformed
+
+    private void menu_toggleNotesPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_toggleNotesPanelActionPerformed
+        btn_sessionNotes.setSelected(!btn_sessionNotes.isSelected());
+        centerBottomPanel.setVisible(btn_sessionNotes.isSelected());
+        menu_toggleNotesPanel.setSelected(btn_sessionNotes.isSelected());
+    }//GEN-LAST:event_menu_toggleNotesPanelActionPerformed
+
+    private void menu_toggleRightPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_toggleRightPanelActionPerformed
+        btn_rightPanel.setSelected(!btn_rightPanel.isSelected());
+        rightPanel.setVisible(btn_rightPanel.isSelected());
+        menu_toggleRightPanel.setSelected(btn_rightPanel.isSelected());        // TODO add your handling code here:
+    }//GEN-LAST:event_menu_toggleRightPanelActionPerformed
+
+    private void menu_toggleLeftPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_toggleLeftPanelActionPerformed
+        btn_leftPanel.setSelected(!btn_leftPanel.isSelected());
+        leftPanel.setVisible(this.btn_leftPanel.isSelected());
+        menu_toggleLeftPanel.setSelected(this.btn_leftPanel.isSelected());
+    }//GEN-LAST:event_menu_toggleLeftPanelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1130,34 +1139,19 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_sessionNotes;
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1176,9 +1170,22 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_photo_ra;
     private javax.swing.JLabel lbl_target_details_name;
     private org.jdesktop.swingx.JXPanel leftPanel;
+    private javax.swing.JMenuItem menu_about;
+    private javax.swing.JMenuItem menu_calculate;
+    private javax.swing.JMenu menu_file;
+    private javax.swing.JMenu menu_help;
+    private javax.swing.JMenuItem menu_newLocation;
+    private javax.swing.JMenuItem menu_newSession;
+    private javax.swing.JMenuItem menu_quit;
+    private javax.swing.JMenuItem menu_saveSession;
+    private javax.swing.JMenuItem menu_showMainWindow;
+    private javax.swing.JCheckBoxMenuItem menu_toggleLeftPanel;
+    private javax.swing.JCheckBoxMenuItem menu_toggleLocationManager;
+    private javax.swing.JCheckBoxMenuItem menu_toggleNotesPanel;
+    private javax.swing.JCheckBoxMenuItem menu_toggleRightPanel;
+    private javax.swing.JCheckBoxMenuItem menu_toggleSessionManager;
+    private javax.swing.JMenu menu_view;
     private org.jdesktop.swingx.JXPanel rightPanel;
-    private javax.swing.JSlider slider_sky_graph2;
-    private org.jdesktop.swingx.JXPanel subpanel_graph_sky2;
     private org.jdesktop.swingx.JXPanel subpanel_photo;
     private javax.swing.JTable table;
     private javax.swing.JTable table_info;

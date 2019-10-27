@@ -649,6 +649,10 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_saveSessionActionPerformed
 
     private void btn_clearSessionSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearSessionSetupActionPerformed
+        clearSessionSetupPanel();
+    }//GEN-LAST:event_btn_clearSessionSetupActionPerformed
+
+    public void clearSessionSetupPanel(){
         cmb_location.setSelectedIndex(0);
         date_picker.setDate(new Date());
         cmb_startTime.setSelectedIndex(22);
@@ -661,8 +665,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         spin_altEnd.setValue(90);
         spin_azStart.setValue(0);
         spin_azEnd.setValue(360);
-    }//GEN-LAST:event_btn_clearSessionSetupActionPerformed
-
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
