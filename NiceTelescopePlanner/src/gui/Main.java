@@ -159,6 +159,7 @@ public class Main extends javax.swing.JFrame {
         if(this.lpanel.getCmb_locationItemsCount() == 0){
             this.location_manager.setVisible(true);
             this.btn_manageLocations.setSelected(true);
+            menu_toggleLocationManager.setSelected(true);
             this.location_manager.toFront();   // Why isn't it getting to front??         
         }
 
@@ -183,7 +184,6 @@ public class Main extends javax.swing.JFrame {
         btn_leftPanel = new javax.swing.JToggleButton();
         btn_manageSessions = new javax.swing.JToggleButton();
         btn_manageLocations = new javax.swing.JToggleButton();
-        btn_includePlanets = new javax.swing.JToggleButton();
         btn_bookmarkedOnly = new javax.swing.JToggleButton();
         btn_hideAlreadySeen = new javax.swing.JToggleButton();
         btn_sessionNotes = new javax.swing.JToggleButton();
@@ -304,17 +304,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btn_manageLocations);
-
-        btn_includePlanets.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        btn_includePlanets.setSelected(true);
-        btn_includePlanets.setText("Include Planets");
-        btn_includePlanets.setFocusable(false);
-        btn_includePlanets.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_includePlanets.setMaximumSize(new java.awt.Dimension(300, 48));
-        btn_includePlanets.setMinimumSize(new java.awt.Dimension(100, 48));
-        btn_includePlanets.setPreferredSize(new java.awt.Dimension(128, 48));
-        btn_includePlanets.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btn_includePlanets);
 
         btn_bookmarkedOnly.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         btn_bookmarkedOnly.setText("Bookmarked Only");
@@ -830,6 +819,7 @@ public class Main extends javax.swing.JFrame {
         if (!rightPanel.isVisible()) {
             rightPanel.setVisible(true);
             this.btn_rightPanel.setSelected(true);
+            menu_toggleRightPanel.setSelected(true);
         }
 
         SpaceObject obj = this.current_session.getTarget(target);
@@ -1131,7 +1121,6 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btn_bookmarkedOnly;
     private javax.swing.JToggleButton btn_hideAlreadySeen;
-    private javax.swing.JToggleButton btn_includePlanets;
     private javax.swing.JToggleButton btn_leftPanel;
     private javax.swing.JToggleButton btn_manageLocations;
     private javax.swing.JToggleButton btn_manageSessions;
