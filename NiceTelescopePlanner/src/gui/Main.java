@@ -18,6 +18,7 @@
  */
 package gui;
 
+import com.sun.org.apache.xpath.internal.functions.FuncBoolean;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
@@ -48,6 +49,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
+import jparsec.ephem.Functions;
+import jparsec.math.Constant;
 import jparsec.time.TimeElement;
 
 /**
@@ -201,8 +204,8 @@ public class Main extends javax.swing.JFrame {
         lbl_photo = new javax.swing.JLabel();
         lbl_photo_declination = new javax.swing.JLabel();
         lbl_photo_ra = new javax.swing.JLabel();
-        lbl_photo3 = new javax.swing.JLabel();
-        lbl_photo4 = new javax.swing.JLabel();
+        lbl_photo_mag = new javax.swing.JLabel();
+        lbl_photo_angDiameter = new javax.swing.JLabel();
         tabp_details = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         table_info = new javax.swing.JTable();
@@ -463,17 +466,17 @@ public class Main extends javax.swing.JFrame {
         lbl_photo_ra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_photo_ra.setText("RA: ");
 
-        lbl_photo3.setBackground(new java.awt.Color(0, 0, 0));
-        lbl_photo3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        lbl_photo3.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_photo3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_photo3.setText("Mag.: ");
+        lbl_photo_mag.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo_mag.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo_mag.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo_mag.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_photo_mag.setText("Mag.: ");
 
-        lbl_photo4.setBackground(new java.awt.Color(0, 0, 0));
-        lbl_photo4.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        lbl_photo4.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_photo4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_photo4.setText("Angular Radius: ");
+        lbl_photo_angDiameter.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_photo_angDiameter.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        lbl_photo_angDiameter.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_photo_angDiameter.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_photo_angDiameter.setText("Angular Diameter: ");
 
         javax.swing.GroupLayout subpanel_photoLayout = new javax.swing.GroupLayout(subpanel_photo);
         subpanel_photo.setLayout(subpanel_photoLayout);
@@ -482,12 +485,12 @@ public class Main extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_photoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_photo3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_photo4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_photo_declination, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_photo_mag, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_photo_angDiameter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_photo_declination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(29, 29, 29))
             .addGroup(subpanel_photoLayout.createSequentialGroup()
                 .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -501,11 +504,11 @@ public class Main extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_photo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbl_photo_mag, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_photo_declination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_photo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbl_photo_angDiameter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(570, 570, 570))
         );
 
@@ -837,7 +840,19 @@ public class Main extends javax.swing.JFrame {
         }
 
         // Populate white labels below image 
+        
+        lbl_photo_mag.setText("Mag.: " 
+                + new DecimalFormat("0.0").format(obj.getAparentMag()));
+        lbl_photo_angDiameter.setText("Angular diameter: " 
+                + Functions.formatAngle(obj.getAngularDiameter(), 1));
+        
+        
+        
+        
+        
+        
         // Populate the Info panel ==========================================
+        
         // Populate the Rise/Set/transit table ==============================
         // Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};
@@ -1153,9 +1168,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private org.jdesktop.swingx.JXTextArea jXTextArea1;
     private javax.swing.JLabel lbl_photo;
-    private javax.swing.JLabel lbl_photo3;
-    private javax.swing.JLabel lbl_photo4;
+    private javax.swing.JLabel lbl_photo_angDiameter;
     private javax.swing.JLabel lbl_photo_declination;
+    private javax.swing.JLabel lbl_photo_mag;
     private javax.swing.JLabel lbl_photo_ra;
     private javax.swing.JLabel lbl_target_details_name;
     private org.jdesktop.swingx.JXPanel leftPanel;

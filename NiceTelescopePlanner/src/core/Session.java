@@ -163,7 +163,7 @@ public class Session {
 
     public SpaceObject getTarget(String name) {
         for (SpaceObject target : targets) {
-            if (target.getName() == name) {
+            if (target.getName().equals(name)) {
                 return target;
             }
         }
