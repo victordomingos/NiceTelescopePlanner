@@ -23,6 +23,8 @@ import javax.swing.DefaultComboBoxModel;
  */
 public final class SessionSetupPanel extends javax.swing.JPanel {
 
+    private static final long serialVersionUID = 1L;
+
     private final DbConnection mydb = new DbConnection();
     private Location curSelectedLocation = null;
     private final Main master;
@@ -41,15 +43,14 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         DefaultComboBoxModel dlm = new DefaultComboBoxModel(LIM_MAGNITUDE.values());
         cmb_limitingMagnitude.setModel(dlm);
         updateLocationsCombo();
-        
+
         NTPConstellations constellations = new NTPConstellations();
         cmb_atConstellation.addItem("All constellations");
         for (String constellation : constellations.getAllLatinNames()) {
             cmb_atConstellation.addItem(constellation);
         }
-        
+
         // TODO: remove theses line after the first MVP release ;)
-        
         btn_SetToTwilightTime.setVisible(false);
         jPanel_telescope_azimuth.setVisible(false);
         subpanel_telescopeAngles.setVisible(false);
@@ -64,9 +65,8 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
             dlocm.addElement(Integer.toString(loc.getId()) + " - " + loc.getName());
         }
         this.cmb_location.setModel(dlocm);
-        
-        if(dlocm.getSize()>0)
-        {
+
+        if (dlocm.getSize() > 0) {
             this.cmb_location.setSelectedIndex(0);
             this.setCurSelectedLocation();
         }
@@ -80,14 +80,14 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     public LocalDateTime getStartDatetime() {
         Date startDate = this.date_picker.getDate();
         String startHour = cmb_startTime.getSelectedItem().toString();
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strData = dateFormat.format(startDate);
         strData = strData + " " + startHour;
-        
+
         DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(strData, dtformatter);
-        
+
     }
 
     /**
@@ -102,16 +102,16 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     public LocalDateTime getEndDatetime() {
         Date endDate = this.date_picker.getDate();
         String endHour = cmb_endTime.getSelectedItem().toString();
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strEndDate = dateFormat.format(endDate);
         strEndDate = strEndDate + " " + endHour;
-        
+
         DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime endDateL = LocalDateTime.parse(strEndDate, dtformatter);
-        
+
         endDateL = LocalDateTime.parse(strEndDate, dtformatter);
-        
+
         if (endDateL.getHour() <= getStartDatetime().getHour()) {
             endDateL = endDateL.plusDays(1);
         }
@@ -652,7 +652,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         clearSessionSetupPanel();
     }//GEN-LAST:event_btn_clearSessionSetupActionPerformed
 
-    public void clearSessionSetupPanel(){
+    public void clearSessionSetupPanel() {
         cmb_location.setSelectedIndex(0);
         date_picker.setDate(new Date());
         cmb_startTime.setSelectedIndex(22);
@@ -666,7 +666,7 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
         spin_azStart.setValue(0);
         spin_azEnd.setValue(360);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SetToDegreesAboveHorizon;
@@ -724,17 +724,16 @@ public final class SessionSetupPanel extends javax.swing.JPanel {
     public javax.swing.JButton getBtn_applySessionSettings() {
         return btn_calculate;
     }
-    
-    public int getLimitingMagnitude(){
+
+    public int getLimitingMagnitude() {
         return Integer.parseInt(this.spin_limitingMagnitude.getValue().toString());
     }
-    
-    
-    public String getAtConstellation(){
+
+    public String getAtConstellation() {
         return this.cmb_atConstellation.getSelectedItem().toString();
     }
-    
-    public String getOnlyKind(){
+
+    public String getOnlyKind() {
         return this.cmb_kind.getSelectedItem().toString();
     }
 

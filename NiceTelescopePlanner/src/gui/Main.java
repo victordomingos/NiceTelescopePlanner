@@ -18,7 +18,6 @@
  */
 package gui;
 
-import com.sun.org.apache.xpath.internal.functions.FuncBoolean;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
@@ -39,6 +38,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 
@@ -50,7 +51,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import jparsec.ephem.Functions;
-import jparsec.math.Constant;
+import jparsec.math.Converter;
 import jparsec.time.TimeElement;
 
 /**
@@ -148,18 +149,16 @@ public class Main extends javax.swing.JFrame {
         } else {
             this.setSize(1600, 980);
         }
-        
+
         leftPanel.add(lpanel);
 
-        
         rightPanel.setVisible(false);
         btn_rightPanel.setSelected(false);
         centerBottomPanel.setVisible(false);
         btn_sessionNotes.setSelected(false);
 
-        
         // If there is no location yet, instruct user to create a new location
-        if(this.lpanel.getCmb_locationItemsCount() == 0){
+        if (this.lpanel.getCmb_locationItemsCount() == 0) {
             this.location_manager.setVisible(true);
             this.btn_manageLocations.setSelected(true);
             menu_toggleLocationManager.setSelected(true);
@@ -168,7 +167,6 @@ public class Main extends javax.swing.JFrame {
 
         //activate new location editor
         // display messagebox
-        
     }
 
     /**
@@ -483,15 +481,15 @@ public class Main extends javax.swing.JFrame {
         subpanel_photoLayout.setHorizontalGroup(
             subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subpanel_photoLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_photo_mag, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_photo_angDiameter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(30, 30, 30)
                 .addGroup(subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_photo_declination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbl_photo_ra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(29, 29, 29))
+                .addGap(19, 19, 19))
             .addGroup(subpanel_photoLayout.createSequentialGroup()
                 .addComponent(lbl_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -840,18 +838,85 @@ public class Main extends javax.swing.JFrame {
         }
 
         // Populate white labels below image 
-        
-        lbl_photo_mag.setText("Mag.: " 
+        lbl_photo_mag.setText("Magnitude: "
                 + new DecimalFormat("0.0").format(obj.getAparentMag()));
-        lbl_photo_angDiameter.setText("Angular diameter: " 
+        lbl_photo_angDiameter.setText("Angular diameter: "
                 + Functions.formatAngle(obj.getAngularDiameter(), 1));
-        
-        
-        
-        
-        
-        
+
+        lbl_photo_ra.setText("RA: "
+                + Functions.formatRA(obj.getRA(), 0));
+        lbl_photo_declination.setText("Dec.: "
+                + Functions.formatDEC(obj.getDec(), 0));
+
         // Populate the Info panel ==========================================
+        String infoCols[] = {"Characteristic", "Value"};
+        DefaultTableModel infoTableModel = new DefaultTableModel(infoCols, 0) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        table_info.setModel(infoTableModel);
+
+        infoTableModel.addRow(new Object[]{"Magnitude",
+            new DecimalFormat("0.00").format(obj.getAparentMag())});
+        infoTableModel.addRow(new Object[]{"Angular Diameter",
+            Functions.formatAngle(obj.getAngularDiameter(), 2)});
+        
+        infoTableModel.addRow(new Object[]{"Elongation",
+            new DecimalFormat("0.00").format(obj.getElongation())});
+        infoTableModel.addRow(new Object[]{"Phase", 
+            new DecimalFormat("0.0").format(obj.getPhase()) + "%"});
+        infoTableModel.addRow(new Object[]{"Phase Angle", 
+            Functions.formatAngle(obj.getPhaseAngle(), 2)});
+        
+        System.out.println(obj.getStatus());
+        
+        infoTableModel.addRow(new Object[]{"", ""});
+        infoTableModel.addRow(new Object[]{"Equatorial coordinates:", ""});
+        infoTableModel.addRow(new Object[]{"   - Right Ascension",
+            Functions.formatRA(obj.getRA(), 1)});
+        infoTableModel.addRow(new Object[]{"   - Declination",
+            Functions.formatDEC(obj.getDec(), 1)});
+
+        infoTableModel.addRow(new Object[]{"", ""});
+        infoTableModel.addRow(new Object[]{"Distance:", ""});
+        Double millionKm = obj.getDistance() * 149.5978707;
+        if (millionKm > 1) {
+            infoTableModel.addRow(new Object[]{"   - Astronomical Units",
+                new DecimalFormat("0.00")
+                .format(obj.getDistance()) + " AU"});
+
+            infoTableModel.addRow(new Object[]{"   - Million Kilometers",
+                new DecimalFormat("0.00")
+                .format(millionKm) + " km x 10^6"});
+        } else {
+            infoTableModel.addRow(new Object[]{"   - Astronomical Units",
+                new DecimalFormat("0.000").format(obj.getDistance()) + " AU"});
+
+            infoTableModel.addRow(new Object[]{"   - Kilometers",
+                new DecimalFormat("0").format(millionKm * 1_000_000) + " km"});
+        }
+
+        if (obj.getDistance() < 1) {
+            // basically, the Moon and, eventually, artifitial sattelites.
+            infoTableModel.addRow(new Object[]{"   - Light-seconds",
+                new DecimalFormat("0.00")
+                .format(obj.getDistance() * 499.00478) + " ls"});
+        } else if (obj.getDistance() < 50) {
+            // Solar System
+            infoTableModel.addRow(new Object[]{"   - Light-minutes",
+                new DecimalFormat("0.00")
+                .format(obj.getDistance() * 8.3167464) + " lm"});
+        } else {
+            // Deep Space Objects
+            infoTableModel.addRow(new Object[]{"   - Light-years",
+                new DecimalFormat("0.00000")
+                .format(obj.getDistance() * 0.000015812507) + " ly"});
+        }
+
         
         // Populate the Rise/Set/transit table ==============================
         // Set columns headers and table Model for rise/set/transit - make it non-editable
@@ -938,7 +1003,7 @@ public class Main extends javax.swing.JFrame {
 
     public void applySessionSettings() {
         this.updateTable();
-        if(table.getRowCount()>0){
+        if (table.getRowCount() > 0) {
             table.setRowSelectionInterval(0, 0);
         }
     }
@@ -970,17 +1035,17 @@ public class Main extends javax.swing.JFrame {
                 return (col == 5 || col == 6);
             }
         };
-        
-            SessionTableModel.addTableModelListener(new TableModelListener() {
+
+        SessionTableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                if(e.getType() == TableModelEvent.UPDATE){
+                if (e.getType() == TableModelEvent.UPDATE) {
                     System.out.println(e.getFirstRow());
                     System.out.println(e.getColumn());
                 }
             }
         });
-            
+
         table.setModel(SessionTableModel);
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
         table.setRowSelectionAllowed(true);
@@ -992,10 +1057,10 @@ public class Main extends javax.swing.JFrame {
             rise = makeDateTimeString(t.getRises().get(0));
             set = makeDateTimeString(t.getSets().get(0));
             constellation = t.getConstell();
-            
+
             bookmark = false;   // TODO
             seen = false;       // TODO
-            
+
             Object[] data = {designation, kind, rise, set, constellation,
                 bookmark, seen};
             SessionTableModel.addRow(data);
@@ -1053,11 +1118,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_manageLocationsActionPerformed
 
     private void menu_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_calculateActionPerformed
-       applySessionSettings();
+        applySessionSettings();
     }//GEN-LAST:event_menu_calculateActionPerformed
 
     private void menu_saveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_saveSessionActionPerformed
-        
+
     }//GEN-LAST:event_menu_saveSessionActionPerformed
 
     private void menu_newSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newSessionActionPerformed

@@ -5,6 +5,7 @@
  */
 package core;
 
+import static Constants.NTPConstants.NTP_COMETS;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class Session {
     private ObserverElement observer;
     private ArrayList<SpaceObject> planets = new ArrayList<>();
     private ArrayList<SpaceObject> moons = new ArrayList<>();
+    private ArrayList<SpaceObject> comets = new ArrayList<>();
     private ArrayList<SpaceObject> stars = new ArrayList<>();
     private ArrayList<SpaceObject> targets = new ArrayList<>();
 
@@ -108,7 +110,9 @@ public class Session {
         }
 
         if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")) {
+            System.out.println("moons");
             for (String moon : NTP_MOONS) {
+                System.out.println(moon);
                 try {
                     SpaceObject m = new SpaceObject(moon, observer, startTimeEl,
                             endTimeEl, "moon");
@@ -124,6 +128,26 @@ public class Session {
             }
             targets.addAll(moons);
         }
+//        
+//        System.out.println("comets");
+//        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Comet")) {
+//            for (String comet : NTP_COMETS) {
+//                System.out.println(comet);
+//                try {
+//                    SpaceObject c = new SpaceObject(comet, observer, startTimeEl,
+//                            endTimeEl, "comet");
+//                    if ((c.getAparentMag() < limMag) && c.willBeAboveHorizon()) {
+//                        if (constellation.equalsIgnoreCase("All constellations")
+//                                || c.getConstell().equals(constellation)) {
+//                            comets.add(c);
+//                        }
+//                    }
+//                } catch (JPARSECException e) {
+//                    System.out.println(e);
+//                }
+//            }
+//            targets.addAll(comets);
+//        }
 
 //        
 //        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){

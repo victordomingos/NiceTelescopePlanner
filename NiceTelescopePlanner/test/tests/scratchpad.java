@@ -63,6 +63,8 @@ public class scratchpad {
         System.out.println(endTimeEl);
         
         
+        listAllTargets(4);
+        
         
         /*
         // Testing retrieval of data about planets: ==================

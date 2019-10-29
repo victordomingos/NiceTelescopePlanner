@@ -35,11 +35,20 @@ public class NTPConstants {
             "Amalthea", "Himalia", "Callisto",      // Jupiter moons
             "Phobos", "Deimos",                     // Mars moons
             "Triton",                               // Neptune moon
-            "Janus",                                // Saturn moon
-            "Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
+            "Janus",                                 // Saturn moons
+            "Mimas", 
+            //"Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
             "Titan", "Iapetus", "Dione", "Rhea", 
-            "Thetis", "Mimas", "Hyperion", "Enceladus", 
+            "Hyperion", "Enceladus",
         };
+    
+    public static final String[] NTP_COMETS = {
+        //"9P/Tempel 1", 
+        //"19P/Borrelly",
+        
+            
+            };
+   
     
     public static final String[] CONSTELATIONS_FULL_LIST_WITH_ABBREVS = {
         "And - Andromeda",       "Ant - Antlia",          "Aps - Apus",

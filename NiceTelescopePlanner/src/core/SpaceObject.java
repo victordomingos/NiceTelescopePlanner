@@ -65,6 +65,10 @@ public class SpaceObject {
     private final double distance;
     private final double aparentMagnitude;
     private final double angularDiameter;
+    private final double elongation;
+    private final float phase;
+    private final double phaseAngle;
+    private final String status;
 
     /**
      * The default constructor for the SpaceObject class
@@ -130,15 +134,22 @@ public class SpaceObject {
 //                RiseSetTransit.TWILIGHT.TWILIGHT_ASTRONOMICAL);
         this.angularDiameter = riseEl.angularRadius * 2;
         this.aparentMagnitude = riseEl.magnitude;
-
-        cleanRiseSetTransitListFromArray(riseEl.rise, rises);
-        cleanRiseSetTransitListFromArray(riseEl.set, sets);
-        cleanRiseSetTransitListFromArray(riseEl.transit, transits);
-
         this.constellation = riseEl.constellation;
         this.distance = riseEl.distance;
+        this.ra = riseEl.rightAscension;
+        this.dec = riseEl.declination;
+        this.elongation = riseEl.elongation;
+        this.phase = riseEl.phase * 100; //%
+        this.phaseAngle = riseEl.phaseAngle;
+        this.status = riseEl.status;
 
-        showRisesSetsTransits(); // DEBUG
+        
+        setCleanRiseSetTransitListFromArray(riseEl.rise, rises);
+        setCleanRiseSetTransitListFromArray(riseEl.set, sets);
+        setCleanRiseSetTransitListFromArray(riseEl.transit, transits);
+
+
+        //showRisesSetsTransits(); // DEBUG
     }
 
     /**
@@ -150,7 +161,7 @@ public class SpaceObject {
      * EphemElelement
      * @param destination an ArrayList of Doubles without invalid values
      */
-    private void cleanRiseSetTransitListFromArray(double[] source,
+    private void setCleanRiseSetTransitListFromArray(double[] source,
             ArrayList<Double> destination) {
 
         for (double d : source) {
@@ -346,5 +357,35 @@ public class SpaceObject {
     public ArrayList<Double> getTransits() {
         return new ArrayList<>(transits);
     }
+
+    public double getRA() {
+        return ra;
+    }
+
+    public double getDec() {
+        return dec;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public double getElongation() {
+        return elongation;
+    }
+
+    public double getPhase() {
+        return phase;
+    }
+
+    public double getPhaseAngle() {
+        return phaseAngle;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
 
 }
