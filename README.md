@@ -28,16 +28,21 @@ In case you're still not familiar with the concept of limiting magnitude, it bas
 
 You may also filter by kind and by constelation. However, at this time, it won't be very useful, since this application does not include deep space objects yet. So, in fact there is no urging need to filter through a large number of targets.
 
-### Press Calculate to get some interesting data!
+### 4. Press Calculate to get some interesting data!
 
 Press calculate and let the computer generate a list of targets that will be above the horizon during that session. If you click on one item of the list, the right panel shows some details about that object, like the hourly altitudes and azimuths, rise, transit and set times, and more.
 
+Keep in mind that the photos in the details panel are from NASA, so they are way more detailed and colorful than what you can  expect to see throught the lens of a regular "domestic" telescope.
 
 
-## Installation and dependencies
+## Current status
 
 At this time, this application is still under development and requires a MySQL database server. The database must be manually created, for instance by "forward engineering" the provided file (`docs/EER_diagram.mwb`) using MySQL Workbench. 
 
+Please take into consideration that there are still lots of features missing, like session saving and management, session notes, deep space targets listing, bookmarking favourite targets, filtering bookmarked and seen objects, and others. At this time, you can expect the application to display all the Solar System planets, the Moon and some of the natural sattelites that can be seen from Earth.
+
+
+## Installation and dependencies
 
 This application integrates a few useful third-party libraries that are essential for its operation and must be loaded into NetBeans or your prefered IDE:
 
