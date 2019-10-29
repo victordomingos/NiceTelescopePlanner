@@ -53,6 +53,8 @@ This application integrates a few useful third-party libraries that are essentia
 
 The "Detect By IP" feature works by issuing a basic HTTP request to a JSON web API at http://ip-api.com.
 
+The included images are from NASA and were selected from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Main_Page), where they were made available as Public Domain.
+
 
 ## Did you find a bug or do you want to contribute?
 
