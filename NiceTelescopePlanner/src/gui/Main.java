@@ -38,8 +38,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 
@@ -51,7 +49,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import jparsec.ephem.Functions;
-import jparsec.math.Converter;
 import jparsec.time.TimeElement;
 
 /**
@@ -864,18 +861,16 @@ public class Main extends javax.swing.JFrame {
             new DecimalFormat("0.00").format(obj.getAparentMag())});
         infoTableModel.addRow(new Object[]{"Angular Diameter",
             Functions.formatAngle(obj.getAngularDiameter(), 2)});
-        
+
         infoTableModel.addRow(new Object[]{"Elongation",
             new DecimalFormat("0.00").format(obj.getElongation())});
-        infoTableModel.addRow(new Object[]{"Phase", 
+        infoTableModel.addRow(new Object[]{"Phase",
             new DecimalFormat("0.0").format(obj.getPhase()) + "%"});
-        infoTableModel.addRow(new Object[]{"Phase Angle", 
+        infoTableModel.addRow(new Object[]{"Phase Angle",
             Functions.formatAngle(obj.getPhaseAngle(), 2)});
-        
-        System.out.println(obj.getStatus());
-        
+
         infoTableModel.addRow(new Object[]{"", ""});
-        infoTableModel.addRow(new Object[]{"Equatorial coordinates:", ""});
+        infoTableModel.addRow(new Object[]{"Equatorial Coordinates:", ""});
         infoTableModel.addRow(new Object[]{"   - Right Ascension",
             Functions.formatRA(obj.getRA(), 1)});
         infoTableModel.addRow(new Object[]{"   - Declination",
@@ -917,7 +912,6 @@ public class Main extends javax.swing.JFrame {
                 .format(obj.getDistance() * 0.000015812507) + " ly"});
         }
 
-        
         // Populate the Rise/Set/transit table ==============================
         // Set columns headers and table Model for rise/set/transit - make it non-editable
         String cols[] = {"Event", "Date/time"};

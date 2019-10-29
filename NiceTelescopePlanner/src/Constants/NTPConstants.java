@@ -39,7 +39,7 @@ public class NTPConstants {
             "Mimas", 
             //"Titania", "Umbriel", "Ariel", "Oberon",  // Uranus moons
             "Titan", "Iapetus", "Dione", "Rhea", 
-            "Hyperion", "Enceladus",
+            "Hyperion", "Enceladus"
         };
     
     public static final String[] NTP_COMETS = {

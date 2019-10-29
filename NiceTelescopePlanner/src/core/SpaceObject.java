@@ -58,8 +58,8 @@ public class SpaceObject {
     private ArrayList<Double> transits = new ArrayList<>();
     private ArrayList<Double> sets = new ArrayList<>();
 
-    private double ra;                  // right ascension
-    private double dec;                 // declination
+    private final double ra;                  // right ascension
+    private final double dec;                 // declination
     private final String constellation;
 
     private final double distance;
@@ -68,7 +68,7 @@ public class SpaceObject {
     private final double elongation;
     private final float phase;
     private final double phaseAngle;
-    private final String status;
+    //private final String status;
 
     /**
      * The default constructor for the SpaceObject class
@@ -141,7 +141,7 @@ public class SpaceObject {
         this.elongation = riseEl.elongation;
         this.phase = riseEl.phase * 100; //%
         this.phaseAngle = riseEl.phaseAngle;
-        this.status = riseEl.status;
+        //this.status = riseEl.status;
 
         
         setCleanRiseSetTransitListFromArray(riseEl.rise, rises);
@@ -213,6 +213,7 @@ public class SpaceObject {
      * returns true.
      *
      * @return
+     * @throws jparsec.util.JPARSECException
      */
     public boolean willBeAboveHorizon() throws JPARSECException {
         for (TimeElement t : getHourlyTimeElements()) {
@@ -298,24 +299,7 @@ public class SpaceObject {
         return visible;
     }
 
-    public void showTargetDetails() throws JPARSECException {
-        ConsoleReport.basicEphemReportToConsole(ephemEl);
-        System.out.println(name + ": Ang. Diameter:  " + this.angularDiameter);
-        System.out.println(name + ": App. Magnitude: " + this.aparentMagnitude);
-        System.out.println(name + ": RA: " + this.ra);
-        System.out.println(name + ": Dec: " + this.dec);
-        System.out.println(name + ": Distance: " + this.distance);
-
-        System.out.println("\n=======> RISE"
-                + "\n  Alt: " + riseEl.elevation * RAD_TO_DEG
-                + "\n  Az: " + riseEl.azimuth * RAD_TO_DEG
-                + "\n Constellation: " + riseEl.constellation
-                + "\n Magnitude: " + riseEl.magnitude
-                + "\n Phase: " + riseEl.phase * 100 + "%"
-                + "\n Phase Angle: " + riseEl.phaseAngle * RAD_TO_DEG + "˚"
-        );
-    }
-
+   
     public String getAlt(TimeElement t) throws JPARSECException {
         ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
         return formatAngle(ephemEl.elevation, 0);
@@ -383,9 +367,9 @@ public class SpaceObject {
     }
 
 
-    public String getStatus() {
-        return status;
-    }
+//    public String getStatus() {
+//        return status;
+//    }
 
 
 }

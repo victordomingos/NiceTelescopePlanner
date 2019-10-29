@@ -93,6 +93,7 @@ public class Session {
         // ===============================================
         if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Planet")) {
             for (String planet : NTP_PLANETS) {
+                System.out.println("P:" + planet);
                 try {
                     SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
                             endTimeEl, "planet");
@@ -112,7 +113,7 @@ public class Session {
         if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")) {
             System.out.println("moons");
             for (String moon : NTP_MOONS) {
-                System.out.println(moon);
+                System.out.println("M: " + moon);
                 try {
                     SpaceObject m = new SpaceObject(moon, observer, startTimeEl,
                             endTimeEl, "moon");
