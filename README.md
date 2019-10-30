@@ -1,4 +1,4 @@
-# Nice Telescope Planner [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/NicetelescopePlanner/latest.svg)](https://github.com/victordomingos/NiceTelescopePlanner)
+# Nice Telescope Planner [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/NiceTelescopePlanner/latest.svg)](https://github.com/victordomingos/NiceTelescopePlanner)
 
 ![Nice Telescope Planner - main window](screenshots/nice_telescope_planner.png)
 
