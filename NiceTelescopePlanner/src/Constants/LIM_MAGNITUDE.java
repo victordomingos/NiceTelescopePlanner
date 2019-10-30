@@ -34,27 +34,23 @@ public enum LIM_MAGNITUDE {
     public int getLimit() {
         return limit;
     }
-    
-    
-   
+
     // Build immutable map of String name to enum pairs. Any Map impl can be used.
     // Adapted from https://stackoverflow.com/a/37841094
     private static final Map<String, LIM_MAGNITUDE> ENUM_MAP;
-    
+
     static {
-        Map<String,LIM_MAGNITUDE> map = new ConcurrentHashMap<>();
+        Map<String, LIM_MAGNITUDE> map = new ConcurrentHashMap<>();
         for (LIM_MAGNITUDE lim : LIM_MAGNITUDE.values()) {
             map.put(lim.name(), lim);
         }
         ENUM_MAP = Collections.unmodifiableMap(map);
     }
-    
-    
-    public static LIM_MAGNITUDE get (String name) {
+
+    public static LIM_MAGNITUDE get(String name) {
         return ENUM_MAP.get(name);
     }
 
-        
     public static boolean contains(String comparisonText) {
         for (LIM_MAGNITUDE lim : LIM_MAGNITUDE.values()) {
             if (lim.name().equals(comparisonText)) {
@@ -63,7 +59,5 @@ public enum LIM_MAGNITUDE {
         }
         return false;
     }
-
-   
 
 }
