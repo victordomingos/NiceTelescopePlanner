@@ -24,7 +24,6 @@ import javax.swing.DefaultComboBoxModel;
 public final class SessionSetupPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
-
     private final DbConnection mydb = new DbConnection();
     private Location curSelectedLocation = null;
     private final Main master;

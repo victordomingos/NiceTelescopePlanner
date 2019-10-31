@@ -5,16 +5,14 @@
  */
 package core;
 
-import static Constants.NTPConstants.NTP_COMETS;
+import static Constants.NTPConstants.NTP_MOONS;
+import static Constants.NTPConstants.NTP_PLANETS;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import jparsec.observer.ObserverElement;
 import jparsec.time.AstroDate;
 import jparsec.time.TimeElement;
 import jparsec.util.JPARSECException;
-import static Constants.NTPConstants.NTP_PLANETS;
-import static Constants.NTPConstants.NTP_MOONS;
 
 /**
  *
@@ -22,13 +20,13 @@ import static Constants.NTPConstants.NTP_MOONS;
  */
 public class Session {
 
-    int session_id;
-    int location_id;
-    Date date;
-    int bookmarked_targets = 0;
-    int seen_targets = 0;
-    String description = "";
-    String notes = "";
+//    private int session_id;
+//    private int location_id;
+//    private Date date;
+//    private int bookmarked_targets = 0;
+//    private int seen_targets = 0;
+//    private String description = "";
+//    private String notes = "";
     private ObserverElement observer;
     private ArrayList<SpaceObject> planets = new ArrayList<>();
     private ArrayList<SpaceObject> moons = new ArrayList<>();
@@ -40,6 +38,13 @@ public class Session {
      * Assemble an ArrayList of SpaceObjects targets, filtering out targets less
      * bright than the selected limiting magnitude as well as those that wil be
      * below the horizon line, and so on…
+     * 
+     * @param loc Location
+     * @param datetime_start (LocalDateTime)
+     * @param datetime_end (LocalDateTime)
+     * @param limMag  Limiting magnitude (int)
+     * @param constellation
+     * @param kind
      */
     public Session(Location loc, LocalDateTime datetime_start,
             LocalDateTime datetime_end, int limMag, String constellation, String kind) {
@@ -51,9 +56,6 @@ public class Session {
 
         TimeElement startTimeEl, endTimeEl;
 
-        Double latitude = loc.getLatitudeRad();
-        Double longitude = loc.getLongitudeRad();
-        int height = loc.getHeight();
         Double timezone = loc.getTimeZoneOffset();
 
         AstroDate astrodtStart = new AstroDate(
@@ -75,25 +77,25 @@ public class Session {
         endTimeEl = new TimeElement(astrodtEnd, TimeElement.SCALE.UNIVERSAL_TIME_UT1);
 
         // DEBUG =========================================
-        System.out.println("START: " + datetime_start + " - "
-                + startTimeEl.toString());
-        System.out.println("       " + startTimeEl
-                + "  -  A: " + astrodtStart.toStringTZ());
-
-        System.out.println("END: " + datetime_end + " - "
-                + endTimeEl.toString());
-        System.out.println("       " + endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
+//        System.out.println("START: " + datetime_start + " - "
+//                + startTimeEl.toString());
+//        System.out.println("       " + startTimeEl
+//                + "  -  A: " + astrodtStart.toStringTZ());
+//
+//        System.out.println("END: " + datetime_end + " - "
+//                + endTimeEl.toString());
+//        System.out.println("       " + endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
 
 //        System.out.println("COORDS: LAT " + latitude 
 //                + " / LON " + longitude 
 //                + " / HEIGHT " + height);
-        System.out.println("TIMEZONE: " + timezone);
+//        System.out.println("TIMEZONE: " + timezone);
         //System.out.println("LIM.MAGNITUDE: " + limMag);
-        System.out.println("\n\n");
+//        System.out.println("\n\n");
         // ===============================================
         if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Planet")) {
             for (String planet : NTP_PLANETS) {
-                System.out.println("P:" + planet);
+                //System.out.println("P:" + planet);
                 try {
                     SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
                             endTimeEl, "planet");
@@ -111,7 +113,7 @@ public class Session {
         }
 
         if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")) {
-            System.out.println("moons");
+            //System.out.println("moons");
             for (String moon : NTP_MOONS) {
                 System.out.println("M: " + moon);
                 try {

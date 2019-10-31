@@ -29,7 +29,6 @@ import static jparsec.ephem.RiseSetTransit.CIRCUMPOLAR;
 import static jparsec.ephem.RiseSetTransit.NO_RISE_SET_TRANSIT;
 import jparsec.ephem.Target;
 import jparsec.ephem.planets.EphemElement;
-import jparsec.io.ConsoleReport;
 import static jparsec.math.Constant.RAD_TO_DEG;
 import jparsec.observer.ObserverElement;
 import jparsec.time.AstroDate;
@@ -118,7 +117,6 @@ public class SpaceObject {
                 break;
             default:
                 ephemerisEl.algorithm = EphemerisElement.ALGORITHM.MOSHIER;
-
         }
 
         ephemerisEl.optimizeForSpeed();
@@ -143,11 +141,9 @@ public class SpaceObject {
         this.phaseAngle = riseEl.phaseAngle;
         //this.status = riseEl.status;
 
-        
         setCleanRiseSetTransitListFromArray(riseEl.rise, rises);
         setCleanRiseSetTransitListFromArray(riseEl.set, sets);
         setCleanRiseSetTransitListFromArray(riseEl.transit, transits);
-
 
         //showRisesSetsTransits(); // DEBUG
     }
@@ -175,7 +171,6 @@ public class SpaceObject {
                 }
             }
         }
-
     }
 
     public void showRisesSetsTransits() throws JPARSECException {
@@ -299,7 +294,6 @@ public class SpaceObject {
         return visible;
     }
 
-   
     public String getAlt(TimeElement t) throws JPARSECException {
         ephemEl = Ephem.getEphemeris(t, this.observer, ephemerisEl, true);
         return formatAngle(ephemEl.elevation, 0);
@@ -366,10 +360,7 @@ public class SpaceObject {
         return phaseAngle;
     }
 
-
 //    public String getStatus() {
 //        return status;
 //    }
-
-
 }

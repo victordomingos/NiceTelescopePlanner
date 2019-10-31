@@ -11,7 +11,8 @@ package gui;
  */
 public class SessionManager extends javax.swing.JFrame {
 
-    
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates new form Sessions
      */
@@ -20,7 +21,6 @@ public class SessionManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(false);
         this.btn_sessionNotes.setSelected(false);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -211,7 +211,7 @@ public class SessionManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_sessionNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sessionNotesActionPerformed
-        String btn_text = this.btn_newSession.isSelected()? "Hide Session Notes": "Show Session Notes";
+        String btn_text = this.btn_newSession.isSelected() ? "Hide Session Notes" : "Show Session Notes";
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
         this.btn_sessionNotes.setText(btn_text);
     }//GEN-LAST:event_btn_sessionNotesActionPerformed

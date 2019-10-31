@@ -30,8 +30,8 @@ import java.util.ArrayList;
  */
 public class NTPConstellations {
 
-    private ArrayList<String> abbrevs;
-    private ArrayList<String> latinNames;
+    private final ArrayList<String> abbrevs;
+    private final ArrayList<String> latinNames;
 
     /**
      * The constructor for the class NTPConstellations

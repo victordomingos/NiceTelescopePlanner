@@ -5,31 +5,30 @@
  */
 package gui;
 
+import core.Location;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import jparsec.math.Constant;
 import jparsec.observer.City;
 import jparsec.observer.CityElement;
 import jparsec.observer.Country;
 import jparsec.observer.Country.COUNTRY;
-import jparsec.util.JPARSECException;
-
-import javax.swing.JOptionPane;
-
-import core.Location;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.table.DefaultTableModel;
 import jparsec.observer.Observatory;
 import jparsec.observer.ObservatoryElement;
+import jparsec.util.JPARSECException;
 
 /**
  *
  * @author victordomingos
  */
 public class LocationManager extends javax.swing.JFrame {
+
+    private static final long serialVersionUID = 1L;
 
     private final db.DbConnection mydb = new db.DbConnection();
     // -1 means form empty or editing a new session; 
@@ -63,6 +62,7 @@ public class LocationManager extends javax.swing.JFrame {
 //                /* code run when component hidden*/
 //            }
 
+            @Override
             public void componentShown(ComponentEvent e) {
                 updateTable();
             }
@@ -76,7 +76,7 @@ public class LocationManager extends javax.swing.JFrame {
         Double lat_rad, lat_deg, lon_rad, lon_deg, timezone;
         String lat, lon, height;
         String tz_formatted = "";
-        
+
         // get all locations from the database
         ArrayList<Location> allLocations = mydb.getAllLocations();
 
@@ -93,7 +93,7 @@ public class LocationManager extends javax.swing.JFrame {
         };
 
         table.setModel(LocationsTableModel);
-        
+
         // add location records to table
         for (int i = 0; i < allLocations.size(); i++) {
             String id = Integer.toString(allLocations.get(i).getId());
@@ -115,7 +115,7 @@ public class LocationManager extends javax.swing.JFrame {
             //tz_formatted = String.format("%.6f", timezone);
             //tz_formatted = tz_formatted.substring(0, Math.min(tz_formatted.length(), 6));
             tz_formatted = timezone.toString();
-            
+
             Object[] data = {id, name, lat, lon, height, tz_formatted};
             LocationsTableModel.addRow(data);
         }
@@ -143,41 +143,6 @@ public class LocationManager extends javax.swing.JFrame {
         cmb_observatory.setSelectedIndex(0);
         cmb_city.setEnabled(false);
         cmb_observatory.setEnabled(false);
-//
-//        try {
-//            CityElement[] cities = City.getAllCities();
-//            ArrayList<String> cities_names = new ArrayList<>();
-//
-//            for (CityElement c : cities) {
-//                cities_names.add(c.name);
-//            }
-//
-//            Collections.sort(cities_names);
-//
-//            for (String city : cities_names) {
-//                cmb_city.addItem(city);
-//            }
-//            
-//            
-//            ObservatoryElement[] observatories = Observatory.getAllObservatories();
-//            ArrayList<String> observatories_names = new ArrayList<>();
-//
-//            for (ObservatoryElement o : observatories) {
-//                observatories_names.add(o.name);
-//            }
-//
-//            Collections.sort(observatories_names);
-//
-//            for (String observatory : observatories_names) {
-//                if(!observatory.trim().isEmpty()) {
-//                    cmb_observatory.addItem(observatory);
-//                }
-//            }
-//            
-//            
-//        } catch (JPARSECException e) {
-//            System.out.println(e);
-//        }
 
     }
 
@@ -751,7 +716,7 @@ public class LocationManager extends javax.swing.JFrame {
     private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
         Integer locId;
         String locName = "";
-        Double locTz = 0.0;
+        Double locTz;
         Double latitude_rad, longitude_rad;
         int height;
         String msg;
@@ -812,17 +777,13 @@ public class LocationManager extends javax.swing.JFrame {
 
         locTz = Location.getTimeZoneOffset(latitude_rad, longitude_rad);
 
-        
-        System.out.println("=== BTN_SAVE_LOCATION =========================");
-        System.out.println("LAT_RAD: " + latitude_rad);
-        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
-        System.out.println("LON_RAD: " + longitude_rad);
-        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
-        System.out.println("LOC_TZ:  " + locTz);
-        System.out.println("== /BTN_SAVE_LOCATION =========================");
-        
-        
-        
+//        System.out.println("=== BTN_SAVE_LOCATION =========================");
+//        System.out.println("LAT_RAD: " + latitude_rad);
+//        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+//        System.out.println("LON_RAD: " + longitude_rad);
+//        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);
+//        System.out.println("LOC_TZ:  " + locTz);
+//        System.out.println("== /BTN_SAVE_LOCATION =========================");
         // Save to the database
         int status = mydb.insertOrUpdateLocation(locId, locName, latitude_rad,
                 longitude_rad, height, txt_address.getText(), locTz);
@@ -886,7 +847,7 @@ public class LocationManager extends javax.swing.JFrame {
             newLocation = new Location();
             Double latitude_deg = newLocation.getLatitudeRad() * Constant.RAD_TO_DEG;
             Double longitude_deg = newLocation.getLongitudeRad() * Constant.RAD_TO_DEG;
-            
+
             txt_latitude.setText(latitude_deg.toString());
             txt_longitude.setText(longitude_deg.toString());
             txt_height.setText(Constants.NTPConstants.DEFAULT_LOCATION_HEIGHT);
@@ -952,7 +913,6 @@ public class LocationManager extends javax.swing.JFrame {
             curLocationBeingEdited = getCurrentSelectedLocationID();
             loadBottomPanel(curLocationBeingEdited);
         }
-
     }//GEN-LAST:event_btn_editSelectedLocationActionPerformed
 
     private void btn_deleteSelectedLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteSelectedLocationActionPerformed
@@ -1032,15 +992,14 @@ public class LocationManager extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LocationManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LocationManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LocationManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LocationManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */

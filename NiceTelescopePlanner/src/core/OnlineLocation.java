@@ -10,10 +10,11 @@ import java.util.Objects;
 /**
  * This class is a generic container intended to receive the contents of a web
  * request from core.Location.getOnlineLocation().
- * 
+ *
  * @author victordomingos
  */
 public final class OnlineLocation {
+
     // These names must stay just like this 
     // for the sake of JSON conversion compatibility:
     private String city;
@@ -22,7 +23,7 @@ public final class OnlineLocation {
     private Double lon; // in degres
     private String timezone;
 
-    public OnlineLocation(String city, String country, Double latitude, 
+    public OnlineLocation(String city, String country, Double latitude,
             Double longitude, String timezone) {
         this.setCity(city);
         this.setCountry(country);
@@ -85,16 +86,16 @@ public final class OnlineLocation {
             return false;
         }
         final OnlineLocation other = (OnlineLocation) obj;
-        if (!Objects.equals(this.city, other.city)) {
+        if (!Objects.equals(this.city, other.getCity())) {
             return false;
         }
-        if (!Objects.equals(this.country, other.country)) {
+        if (!Objects.equals(this.country, other.getCountry())) {
             return false;
         }
-        if (!Objects.equals(this.lat, other.lat)) {
+        if (!Objects.equals(this.lat, other.getLat())) {
             return false;
         }
-        if (!Objects.equals(this.lon, other.lon)) {
+        if (!Objects.equals(this.lon, other.getLon())) {
             return false;
         }
         return true;
@@ -102,10 +103,11 @@ public final class OnlineLocation {
 
     @Override
     public String toString() {
-        return "OnlineLocation{" + "city=" + city + ", country=" + country 
-                + ", lat=" + lat + "º, lon=" + lon 
-                + "º, timezone=" + timezone +"}";
+        return "OnlineLocation{" + "city=" + city + ", country=" + country
+                + ", lat=" + lat + "º, lon=" + lon
+                + "º, timezone=" + timezone + "}";
     }
+
     public void setTimezone(String timezone) {
         this.timezone = timezone;
     }

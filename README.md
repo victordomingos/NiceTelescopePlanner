@@ -37,7 +37,10 @@ Keep in mind that the photos in the details panel are from NASA, so they are way
 
 ## Current status
 
-At this time, this application is still under development and requires a MySQL database server. The database must be manually created, for instance by "forward engineering" the provided file (`docs/EER_diagram.mwb`) using MySQL Workbench. 
+At this time, this application is still under development and requires a MySQL database server.
+The database must be manually created, for instance by "forward engineering" the provided
+file (`docs/EER_diagram.mwb`) using MySQL Workbench. Then you need to manually edit the file
+`src/db/Config.java`, adding the necessary database access data. 
 
 Please take into consideration that there are still lots of features missing, like session saving and management, session notes, deep space targets listing, bookmarking favourite targets, filtering bookmarked and seen objects, and others. At this time, you can expect the application to display all the Solar System planets, the Moon and some of the natural sattelites that can be seen from Earth.
 

@@ -26,8 +26,11 @@ class MainTableCellRenderer extends DefaultTableCellRenderer {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int col) {
+
+        super.getTableCellRendererComponent(table, value, isSelected,
+                hasFocus, row, col);
         setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         return this;
     }

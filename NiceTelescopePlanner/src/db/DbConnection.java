@@ -5,16 +5,14 @@
  */
 package db;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import core.Location;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import jparsec.math.Constant;
 
 /**
  *
@@ -85,7 +83,6 @@ public class DbConnection {
         return null;
     }
 
-    
     public Location getOneLocation(int id) {
         Connection con = null;
         Statement st = null;
@@ -95,7 +92,7 @@ public class DbConnection {
         String ssql = "SELECT id, name, address, latitude, longitude, height, timezone "
                 + "FROM location "
                 + "WHERE id=" + id;
-        
+
         try {
             con = DriverManager.getConnection(url, user, password);
             st = con.createStatement();
@@ -109,10 +106,10 @@ public class DbConnection {
                         r.getDouble("longitude"),
                         r.getInt("height"),
                         r.getDouble("timezone"));
-            
-                System.out.println("timezone db: "+r.getDouble("timezone"));
+
+                System.out.println("timezone db: " + r.getDouble("timezone"));
             }
-            
+
             return loc;
 
         } catch (SQLException e) {
@@ -157,17 +154,15 @@ public class DbConnection {
         PreparedStatement st = null;
         String ssql;
         int r = -1;
-       
-        
-        System.out.println("=== insertOrUpdateLocation =========================");
-        System.out.println("LAT_RAD: " + latitude_rad);
-        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
-        System.out.println("LON_RAD: " + longitude_rad);
-        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);    
-        System.out.println("LOC_TZ:  " + timezone);
-        System.out.println("== /insertOrUpdateLocation =========================");
-        
-        
+//
+//        System.out.println("=== insertOrUpdateLocation =========================");
+//        System.out.println("LAT_RAD: " + latitude_rad);
+//        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+//        System.out.println("LON_RAD: " + longitude_rad);
+//        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);
+//        System.out.println("LOC_TZ:  " + timezone);
+//        System.out.println("== /insertOrUpdateLocation =========================");
+
         try {
             con = DriverManager.getConnection(url, user, password);
             if (locId == -1) {

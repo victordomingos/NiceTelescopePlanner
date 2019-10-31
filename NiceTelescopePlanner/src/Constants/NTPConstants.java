@@ -26,8 +26,8 @@ public class NTPConstants {
     public static final int DEFAULT_HTTP_CONNECTION_TIMEOUT = 5000;
 
     
-    public static final String[] NTP_PLANETS = {"Moon", "Mars", "Venus", "Saturn",  "Jupiter", 
-                            "Mercury", "Neptune", "Uranus", "Pluto"};
+    public static final String[] NTP_PLANETS = {"Moon", "Mars", "Venus", 
+        "Saturn",  "Jupiter", "Mercury", "Neptune", "Uranus", "Pluto"};
     
     
     public static final String[] NTP_MOONS = {
@@ -45,7 +45,6 @@ public class NTPConstants {
     public static final String[] NTP_COMETS = {
         //"9P/Tempel 1", 
         //"19P/Borrelly",
-        
             
             };
    
