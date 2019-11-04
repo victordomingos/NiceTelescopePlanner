@@ -82,6 +82,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 btn_manageSessions.setSelected(false);
+                menu_toggleSessionManager.setSelected(false);
             }
         });
 
@@ -89,6 +90,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void windowActivated(WindowEvent e) {
                 btn_manageSessions.setSelected(true);
+                menu_toggleSessionManager.setSelected(true);
             }
         });
 
@@ -97,6 +99,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 btn_manageLocations.setSelected(false);
+                menu_toggleLocationManager.setSelected(false);
                 lpanel.updateLocationsCombo();
             }
         });
@@ -105,6 +108,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void windowActivated(WindowEvent e) {
                 btn_manageLocations.setSelected(true);
+                menu_toggleLocationManager.setSelected(true);
             }
         });
 
