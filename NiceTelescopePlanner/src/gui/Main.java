@@ -41,6 +41,8 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -67,6 +69,7 @@ public class Main extends javax.swing.JFrame {
     private final SessionManager session_manager = new SessionManager();
     private final LocationManager location_manager = new LocationManager();
     private final gui.panels.SessionSetupPanel lpanel = new gui.panels.SessionSetupPanel(this);
+    private DefaultTableModel SessionTableModel;
     private Session current_session;
     private String curSelectedTarget = "";
     private String curSelectedKind = "";
@@ -77,57 +80,9 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
 
-        // Update button state when Session Manager window opens/closes --------
-        session_manager.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                btn_manageSessions.setSelected(false);
-                menu_toggleSessionManager.setSelected(false);
-            }
-        });
-
-        session_manager.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowActivated(WindowEvent e) {
-                btn_manageSessions.setSelected(true);
-                menu_toggleSessionManager.setSelected(true);
-            }
-        });
-
-        // Update button state when Location Manager window opens/closes -------
-        location_manager.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                btn_manageLocations.setSelected(false);
-                menu_toggleLocationManager.setSelected(false);
-                lpanel.updateLocationsCombo();
-            }
-        });
-
-        location_manager.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowActivated(WindowEvent e) {
-                btn_manageLocations.setSelected(true);
-                menu_toggleLocationManager.setSelected(true);
-            }
-        });
-
-        ListSelectionModel cellSelectionModel = table.getSelectionModel();
-        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int[] selectedRows = table.getSelectedRows();
-                if (selectedRows.length > 0) {
-                    curSelectedTarget = (String) table.getValueAt(selectedRows[0], 0);
-                    curSelectedKind = (String) table.getValueAt(selectedRows[0], 1);
-                    if (curSelectedTarget.length() > 0) {
-                        fillDetailsPanel(curSelectedTarget, curSelectedKind);
-                    }
-                }
-            }
-        });
+        configureWindowListeners();
+        
+        
 
         class SecondaryTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -851,6 +806,69 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    private void configureWindowListeners(){
+        // Update button state when Session Manager window opens/closes --------
+        session_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                btn_manageSessions.setSelected(false);
+                menu_toggleSessionManager.setSelected(false);
+            }
+        });
+
+        session_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                btn_manageSessions.setSelected(true);
+                menu_toggleSessionManager.setSelected(true);
+            }
+        });
+
+        // Update button state when Location Manager window opens/closes -------
+        location_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                btn_manageLocations.setSelected(false);
+                menu_toggleLocationManager.setSelected(false);
+                lpanel.updateLocationsCombo();
+            }
+        });
+
+        location_manager.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                btn_manageLocations.setSelected(true);
+                menu_toggleLocationManager.setSelected(true);
+            }
+        });
+    
+        
+        ListSelectionModel cellSelectionModel = table.getSelectionModel();
+        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int[] selectedRows = table.getSelectedRows();
+                if (selectedRows.length > 0) {
+                    curSelectedTarget = (String) table.getValueAt(selectedRows[0], 0);
+                    curSelectedKind = (String) table.getValueAt(selectedRows[0], 1);
+                    if (!e.getValueIsAdjusting() && curSelectedTarget.length() > 0) {
+                        Instant start = Instant.now(); //DEBUG
+                        fillDetailsPanel(curSelectedTarget, curSelectedKind);
+                        Instant end = Instant.now(); //DEBUG
+                        System.out.println("fillDetailsPanel("+curSelectedTarget+", " 
+                                + curSelectedKind + "): " 
+                                + Duration.between(start, end)); //DEBUG
+                    }
+                }
+            }
+        });
+    
+    }
+    
+    
     /**
      * Populate the Details panel
      *
@@ -1046,21 +1064,49 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Update the list of targets, hiding/showing bookemarked or already seen ones
+     * 
+     * @param includeBookmarked
+     * @param includeAlreadySeen 
+     */
     private void updateTable() {
         String designation, kind, rise, set, constellation;
         Boolean bookmark, seen;
+        
+        configureMainTable();
 
         // get all targets 
         this.current_session = new Session(lpanel.getCurSelectedLocation(),
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
                 lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(),
                 lpanel.getOnlyKind());
+        
+        // add location records to table
+        //TO-DO: make this loop multithreaded.
+        for (SpaceObject t : current_session.getTargets()) {
+            designation = t.getName();
+            kind = t.getKind();
+            rise = makeDateTimeString(t.getRises().get(0));
+            set = makeDateTimeString(t.getSets().get(0));
+            constellation = t.getConstell();
 
+            bookmark = false;   // TODO
+            seen = false;       // TODO
+
+            Object[] data = {designation, kind, rise, set, constellation,
+                bookmark, seen};
+            SessionTableModel.addRow(data);
+        }
+    }
+
+        
+    private void configureMainTable(){
         //Set columns headers and table Model - make it non-editable
         String cols[] = {"Designation", "Kind", "Rise", "Set",
             "Constellation", "Bookmark", "Seen"};
 
-        DefaultTableModel SessionTableModel = new DefaultTableModel(cols, 0) {
+        SessionTableModel = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -1087,24 +1133,10 @@ public class Main extends javax.swing.JFrame {
         table.setModel(SessionTableModel);
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
         table.setRowSelectionAllowed(true);
-
-        // add location records to table
-        for (SpaceObject t : current_session.getTargets()) {
-            designation = t.getName();
-            kind = t.getKind();
-            rise = makeDateTimeString(t.getRises().get(0));
-            set = makeDateTimeString(t.getSets().get(0));
-            constellation = t.getConstell();
-
-            bookmark = false;   // TODO
-            seen = false;       // TODO
-
-            Object[] data = {designation, kind, rise, set, constellation,
-                bookmark, seen};
-            SessionTableModel.addRow(data);
-        }
     }
-
+    
+    
+    
     /**
      * Build a formatted date string from a JD double (Rise/set)
      *

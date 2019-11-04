@@ -7,6 +7,8 @@ package core;
 
 import static Constants.NTPConstants.NTP_MOONS;
 import static Constants.NTPConstants.NTP_PLANETS;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import jparsec.observer.ObserverElement;
@@ -27,36 +29,105 @@ public class Session {
 //    private int seen_targets = 0;
 //    private String description = "";
 //    private String notes = "";
+    private int limMag; 
+    private String constellation;
+    private String onlyIncludeKind;
+    private Boolean showBookmarked = true;
+    private Boolean showAlreadySeen = true;
+
     private ObserverElement observer;
-    private ArrayList<SpaceObject> planets = new ArrayList<>();
-    private ArrayList<SpaceObject> moons = new ArrayList<>();
-    private ArrayList<SpaceObject> comets = new ArrayList<>();
-    private ArrayList<SpaceObject> stars = new ArrayList<>();
+    private TimeElement startTimeEl, endTimeEl;
+    Double timezone;
+
+//    private ArrayList<SpaceObject> planets = new ArrayList<>();
+//    private ArrayList<SpaceObject> moons = new ArrayList<>();
+//    private ArrayList<SpaceObject> comets = new ArrayList<>();
+//    private ArrayList<SpaceObject> stars = new ArrayList<>();
     private ArrayList<SpaceObject> targets = new ArrayList<>();
 
     /**
      * Assemble an ArrayList of SpaceObjects targets, filtering out targets less
      * bright than the selected limiting magnitude as well as those that wil be
      * below the horizon line, and so on…
-     * 
+     *
      * @param loc Location
      * @param datetime_start (LocalDateTime)
      * @param datetime_end (LocalDateTime)
-     * @param limMag  Limiting magnitude (int)
+     * @param limMag Limiting magnitude (int)
      * @param constellation
-     * @param kind
+     * @param onlyIncludeKind
      */
     public Session(Location loc, LocalDateTime datetime_start,
-            LocalDateTime datetime_end, int limMag, String constellation, String kind) {
+            LocalDateTime datetime_end, int limMag, String constellation, 
+            String onlyIncludeKind) {
+        
+        initializeSession(loc, datetime_start, datetime_end, limMag, 
+                constellation, onlyIncludeKind);
+        
+
+        // DEBUG =========================================
+//        System.out.println("START: " + datetime_start + " - "
+//                + startTimeEl.toString());
+//        System.out.println("       " + startTimeEl
+//                + "  -  A: " + astrodtStart.toStringTZ());
+//
+//        System.out.println("END: " + datetime_end + " - "
+//                + endTimeEl.toString());
+//        System.out.println("       " + endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
+//        System.out.println("COORDS: LAT " + latitude 
+//                + " / LON " + longitude 
+//                + " / HEIGHT " + height);
+//        System.out.println("TIMEZONE: " + timezone);
+        //System.out.println("LIM.MAGNITUDE: " + limMag);
+//        System.out.println("\n\n");
+        // ===============================================
+        
+        Instant start = Instant.now(); //DEBUG
+        if (onlyIncludeKind.equalsIgnoreCase("All kinds") || onlyIncludeKind.equalsIgnoreCase("Planet")) {
+            addTargets(NTP_PLANETS, "planet");
+        }
+        Instant end = Instant.now(); //DEBUG
+        System.out.println("Planets: " + Duration.between(start, end)); //DEBUG
+        
+
+        
+        start = Instant.now(); //DEBUG
+        if (onlyIncludeKind.equalsIgnoreCase("All kinds") || onlyIncludeKind.equalsIgnoreCase("Moon")) {
+            addTargets(NTP_MOONS, "moon");
+        }
+        end = Instant.now(); //DEBUG
+        System.out.println("Moons: " + Duration.between(start, end)); //DEBUG
+        
+
+        
+//        
+//        int visible = 0;
+//        // TODO - check this for more times during the session?
+//        for (SpaceObject target : targets) {
+//            if (target.isVisibleNakedEye(startTimeEl)) {
+//                System.out.println(target.getName());
+//                visible++;
+//                //target.showTargetDetails();
+//            }
+//        }
+//        System.out.println("\nNumber of targets above horizon: " + targets.size()
+//                + " (" + visible + " visible at naked eye).");
+    }
+
+    private void initializeSession(Location loc, LocalDateTime datetime_start,
+            LocalDateTime datetime_end, int limMag, String constellation, 
+            String onlyIncludeKind) {
+        
+        this.limMag = limMag;
+        this.constellation = constellation;
+        this.onlyIncludeKind = onlyIncludeKind;
 
         // Gather and convert session configuration parameters --------------
         observer = new ObserverElement(loc.getName(),
                 loc.getLongitudeRad(), loc.getLatitudeRad(),
                 loc.getHeight(), loc.getTimezone());
 
-        TimeElement startTimeEl, endTimeEl;
-
-        Double timezone = loc.getTimeZoneOffset();
+        timezone = loc.getTimeZoneOffset();
 
         AstroDate astrodtStart = new AstroDate(
                 datetime_start.getYear(),
@@ -75,115 +146,27 @@ public class Session {
                 datetime_end.getMinute(),
                 datetime_end.getSecond());
         endTimeEl = new TimeElement(astrodtEnd, TimeElement.SCALE.UNIVERSAL_TIME_UT1);
-
-        // DEBUG =========================================
-//        System.out.println("START: " + datetime_start + " - "
-//                + startTimeEl.toString());
-//        System.out.println("       " + startTimeEl
-//                + "  -  A: " + astrodtStart.toStringTZ());
-//
-//        System.out.println("END: " + datetime_end + " - "
-//                + endTimeEl.toString());
-//        System.out.println("       " + endTimeEl + "  -  A: " + astrodtEnd.toStringTZ());
-
-//        System.out.println("COORDS: LAT " + latitude 
-//                + " / LON " + longitude 
-//                + " / HEIGHT " + height);
-//        System.out.println("TIMEZONE: " + timezone);
-        //System.out.println("LIM.MAGNITUDE: " + limMag);
-//        System.out.println("\n\n");
-        // ===============================================
-        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Planet")) {
-            for (String planet : NTP_PLANETS) {
-                //System.out.println("P:" + planet);
-                try {
-                    SpaceObject p = new SpaceObject(planet, observer, startTimeEl,
-                            endTimeEl, "planet");
-                    if ((p.getAparentMag() < limMag) && p.willBeAboveHorizon()) {
-                        if (constellation.equalsIgnoreCase("All constellations")
-                                || p.getConstell().equals(constellation)) {
-                            planets.add(p);
-                        }
-                    }
-                } catch (JPARSECException e) {
-                    System.out.println(e);
-                }
-            }
-            targets.addAll(planets);
-        }
-
-        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Moon")) {
-            //System.out.println("moons");
-            for (String moon : NTP_MOONS) {
-                System.out.println("M: " + moon);
-                try {
-                    SpaceObject m = new SpaceObject(moon, observer, startTimeEl,
-                            endTimeEl, "moon");
-                    if ((m.getAparentMag() < limMag) && m.willBeAboveHorizon()) {
-                        if (constellation.equalsIgnoreCase("All constellations")
-                                || m.getConstell().equals(constellation)) {
-                            moons.add(m);
-                        }
-                    }
-                } catch (JPARSECException e) {
-                    System.out.println(e);
-                }
-            }
-            targets.addAll(moons);
-        }
-//        
-//        System.out.println("comets");
-//        if (kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Comet")) {
-//            for (String comet : NTP_COMETS) {
-//                System.out.println(comet);
-//                try {
-//                    SpaceObject c = new SpaceObject(comet, observer, startTimeEl,
-//                            endTimeEl, "comet");
-//                    if ((c.getAparentMag() < limMag) && c.willBeAboveHorizon()) {
-//                        if (constellation.equalsIgnoreCase("All constellations")
-//                                || c.getConstell().equals(constellation)) {
-//                            comets.add(c);
-//                        }
-//                    }
-//                } catch (JPARSECException e) {
-//                    System.out.println(e);
-//                }
-//            }
-//            targets.addAll(comets);
-//        }
-
-//        
-//        if(kind.equalsIgnoreCase("All kinds") || kind.equalsIgnoreCase("Star")){
-//            for (String NGCObject : NTPConstants.OUR_TOP_LIST_DEEPSPACE) {
-//                try {
-//                    SpaceObject s = new SpaceObject(NGCObject, observer, startTimeEl,
-//                            endTimeEl, "star");
-//                    if ((s.getAparentMag() < limMag) && s.willBeAboveHorizon()) {
-//                        if (constellation.equalsIgnoreCase("All constellations")
-//                                || s.getConstell().equals(constellation)) {
-//                            stars.add(s);
-//                        }
-//                    }
-//                } catch (JPARSECException e) {
-//                    System.out.println(e);
-//                }
-//            }
-//            targets.addAll(stars);
-//        }
-//        
-//        int visible = 0;
-//        // TODO - check this for more times during the session?
-//        for (SpaceObject target : targets) {
-//            if (target.isVisibleNakedEye(startTimeEl)) {
-//                System.out.println(target.getName());
-//                visible++;
-//                //target.showTargetDetails();
-//            }
-//        }
-//        System.out.println("\nNumber of targets above horizon: " + targets.size()
-//                + " (" + visible + " visible at naked eye).");
+        
     }
 
+    private void addTargets(String[] targetList, String kind){
+        for (String planet : targetList) {
+                try {
+                    SpaceObject o = new SpaceObject(planet, observer, startTimeEl,
+                            endTimeEl, kind);
+                    if ((o.getAparentMag() < limMag) && o.willBeAboveHorizon()) {
+                        if (constellation.equalsIgnoreCase("All constellations")
+                                || o.getConstell().equals(constellation)) {
+                            targets.add(o);
+                        }
+                    }
+                } catch (JPARSECException e) {
+                    System.out.println("addTargets: " + planet + " (" + kind + ")\n" + e );
+                }
+            }
+    }
+    
+    
     public ArrayList<SpaceObject> getTargets() {
         return targets;
     }
@@ -199,5 +182,21 @@ public class Session {
 
     public ObserverElement getObserver() {
         return this.observer;
+    }
+
+    public Boolean getShowBookmarked() {
+        return showBookmarked;
+    }
+
+    public void setShowBookmarked(Boolean showBookmarked) {
+        this.showBookmarked = showBookmarked;
+    }
+
+    public Boolean getShowAlreadySeen() {
+        return showAlreadySeen;
+    }
+
+    public void setShowAlreadySeen(Boolean showAlreadySeen) {
+        this.showAlreadySeen = showAlreadySeen;
     }
 }
