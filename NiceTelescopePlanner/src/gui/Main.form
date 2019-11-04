@@ -158,20 +158,29 @@
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_howToUse">
               <Properties>
                 <Property name="text" type="java.lang.String" value="How to use"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_howToUseActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_reportAnIssue">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Report an issue"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_reportAnIssueActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_visitAuthor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Visit the author&apos;s website"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_visitAuthorActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
             </MenuItem>
@@ -180,25 +189,37 @@
                 <Property name="text" type="java.lang.String" value="Useful Wikipedia pages"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem17">
+                <MenuItem class="javax.swing.JMenuItem" name="menu_wikiSolarSystem">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Solar System"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_wikiSolarSystemActionPerformed"/>
+                  </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem18">
+                <MenuItem class="javax.swing.JMenuItem" name="menu_wikiConstellations">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Constellations"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_wikiConstellationsActionPerformed"/>
+                  </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem15">
+                <MenuItem class="javax.swing.JMenuItem" name="menu_wikiLimitingMag">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Limiting magnitude"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_wikiLimitingMagActionPerformed"/>
+                  </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem16">
+                <MenuItem class="javax.swing.JMenuItem" name="menu_wikiCoordinateSystems">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Coordinate systems"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_wikiCoordinateSystemsActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -643,7 +664,7 @@
                   </Group>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="subpanel_photo" pref="350" max="32767" attributes="0"/>
+                  <Component id="subpanel_photo" pref="340" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
               </Group>
           </Group>

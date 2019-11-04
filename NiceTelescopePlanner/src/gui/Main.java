@@ -18,6 +18,7 @@
  */
 package gui;
 
+import Constants.NTP_URLs;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
@@ -34,8 +35,12 @@ import javax.swing.table.DefaultTableModel;
 import jparsec.time.AstroDate;
 import jparsec.util.JPARSECException;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -226,15 +231,15 @@ public class Main extends javax.swing.JFrame {
         menu_toggleRightPanel = new javax.swing.JCheckBoxMenuItem();
         menu_toggleNotesPanel = new javax.swing.JCheckBoxMenuItem();
         menu_help = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        menu_howToUse = new javax.swing.JMenuItem();
+        menu_reportAnIssue = new javax.swing.JMenuItem();
+        menu_visitAuthor = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenu6 = new javax.swing.JMenu();
-        jMenuItem17 = new javax.swing.JMenuItem();
-        jMenuItem18 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
+        menu_wikiSolarSystem = new javax.swing.JMenuItem();
+        menu_wikiConstellations = new javax.swing.JMenuItem();
+        menu_wikiLimitingMag = new javax.swing.JMenuItem();
+        menu_wikiCoordinateSystems = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         menu_about = new javax.swing.JMenuItem();
 
@@ -632,7 +637,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(tabp_details, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                .addComponent(subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addGap(169, 169, 169))
         );
         rightPanelLayout.setVerticalGroup(
@@ -748,29 +753,64 @@ public class Main extends javax.swing.JFrame {
 
         menu_help.setText("Help");
 
-        jMenuItem8.setText("How to use");
-        menu_help.add(jMenuItem8);
+        menu_howToUse.setText("How to use");
+        menu_howToUse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_howToUseActionPerformed(evt);
+            }
+        });
+        menu_help.add(menu_howToUse);
 
-        jMenuItem6.setText("Report an issue");
-        menu_help.add(jMenuItem6);
+        menu_reportAnIssue.setText("Report an issue");
+        menu_reportAnIssue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_reportAnIssueActionPerformed(evt);
+            }
+        });
+        menu_help.add(menu_reportAnIssue);
 
-        jMenuItem7.setText("Visit the author's website");
-        menu_help.add(jMenuItem7);
+        menu_visitAuthor.setText("Visit the author's website");
+        menu_visitAuthor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_visitAuthorActionPerformed(evt);
+            }
+        });
+        menu_help.add(menu_visitAuthor);
         menu_help.add(jSeparator4);
 
         jMenu6.setText("Useful Wikipedia pages");
 
-        jMenuItem17.setText("Solar System");
-        jMenu6.add(jMenuItem17);
+        menu_wikiSolarSystem.setText("Solar System");
+        menu_wikiSolarSystem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_wikiSolarSystemActionPerformed(evt);
+            }
+        });
+        jMenu6.add(menu_wikiSolarSystem);
 
-        jMenuItem18.setText("Constellations");
-        jMenu6.add(jMenuItem18);
+        menu_wikiConstellations.setText("Constellations");
+        menu_wikiConstellations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_wikiConstellationsActionPerformed(evt);
+            }
+        });
+        jMenu6.add(menu_wikiConstellations);
 
-        jMenuItem15.setText("Limiting magnitude");
-        jMenu6.add(jMenuItem15);
+        menu_wikiLimitingMag.setText("Limiting magnitude");
+        menu_wikiLimitingMag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_wikiLimitingMagActionPerformed(evt);
+            }
+        });
+        jMenu6.add(menu_wikiLimitingMag);
 
-        jMenuItem16.setText("Coordinate systems");
-        jMenu6.add(jMenuItem16);
+        menu_wikiCoordinateSystems.setText("Coordinate systems");
+        menu_wikiCoordinateSystems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_wikiCoordinateSystemsActionPerformed(evt);
+            }
+        });
+        jMenu6.add(menu_wikiCoordinateSystems);
 
         menu_help.add(jMenu6);
         menu_help.add(jSeparator3);
@@ -1153,6 +1193,53 @@ public class Main extends javax.swing.JFrame {
         menu_toggleLeftPanel.setSelected(this.btn_leftPanel.isSelected());
     }//GEN-LAST:event_menu_toggleLeftPanelActionPerformed
 
+    private void menu_visitAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_visitAuthorActionPerformed
+        openLink(NTP_URLs.AUTHOR_WEBSITE);
+    }//GEN-LAST:event_menu_visitAuthorActionPerformed
+
+    private void menu_reportAnIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_reportAnIssueActionPerformed
+        openLink(NTP_URLs.ISSUE_TRACKER);
+    }//GEN-LAST:event_menu_reportAnIssueActionPerformed
+
+    private void menu_howToUseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_howToUseActionPerformed
+        openLink(NTP_URLs.HOW_TO_USE);
+    }//GEN-LAST:event_menu_howToUseActionPerformed
+
+    private void menu_wikiSolarSystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_wikiSolarSystemActionPerformed
+        openLink(NTP_URLs.WIKI_SOLAR_SYSTEM);
+    }//GEN-LAST:event_menu_wikiSolarSystemActionPerformed
+
+    private void menu_wikiConstellationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_wikiConstellationsActionPerformed
+        openLink(NTP_URLs.WIKI_CONSTELLATIONS);
+    }//GEN-LAST:event_menu_wikiConstellationsActionPerformed
+
+    private void menu_wikiLimitingMagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_wikiLimitingMagActionPerformed
+        openLink(NTP_URLs.WIKI_LIMITING_MAGNITUDE);
+    }//GEN-LAST:event_menu_wikiLimitingMagActionPerformed
+
+    private void menu_wikiCoordinateSystemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_wikiCoordinateSystemsActionPerformed
+        openLink(NTP_URLs.WIKI_COORDINATE_SYSTEMS);
+    }//GEN-LAST:event_menu_wikiCoordinateSystemsActionPerformed
+
+    private void openLink(String url){
+        Desktop d = Desktop.getDesktop();
+        URI u = null;
+        
+        try {
+            u = new URI(url);
+        } catch (URISyntaxException e) {
+            System.out.println(e);
+        }
+        
+        try {
+            d.browse(u);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -1208,13 +1295,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
-    private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1237,9 +1317,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_calculate;
     private javax.swing.JMenu menu_file;
     private javax.swing.JMenu menu_help;
+    private javax.swing.JMenuItem menu_howToUse;
     private javax.swing.JMenuItem menu_newLocation;
     private javax.swing.JMenuItem menu_newSession;
     private javax.swing.JMenuItem menu_quit;
+    private javax.swing.JMenuItem menu_reportAnIssue;
     private javax.swing.JMenuItem menu_saveSession;
     private javax.swing.JMenuItem menu_showMainWindow;
     private javax.swing.JCheckBoxMenuItem menu_toggleLeftPanel;
@@ -1248,6 +1330,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem menu_toggleRightPanel;
     private javax.swing.JCheckBoxMenuItem menu_toggleSessionManager;
     private javax.swing.JMenu menu_view;
+    private javax.swing.JMenuItem menu_visitAuthor;
+    private javax.swing.JMenuItem menu_wikiConstellations;
+    private javax.swing.JMenuItem menu_wikiCoordinateSystems;
+    private javax.swing.JMenuItem menu_wikiLimitingMag;
+    private javax.swing.JMenuItem menu_wikiSolarSystem;
     private org.jdesktop.swingx.JXPanel rightPanel;
     private org.jdesktop.swingx.JXPanel subpanel_photo;
     private javax.swing.JTable table;
