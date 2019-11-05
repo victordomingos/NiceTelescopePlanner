@@ -39,9 +39,9 @@ public class ImageLoader {
     public static ImageIcon getScaledSpaceImage(String objectName, JLabel label) {
         String path = Paths.get("src/images/" + objectName + ".jpg")
                 .toAbsolutePath().toString();
+
         //System.out.println(path);
         BufferedImage buffImg;
-
         try {
             buffImg = ImageIO.read(new File(path));
             img = buffImg.getScaledInstance(label.getWidth(), label.getHeight(),

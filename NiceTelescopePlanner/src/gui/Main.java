@@ -22,41 +22,39 @@ import Constants.NTP_URLs;
 import core.Session;
 import core.SpaceObject;
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.text.DecimalFormat;
-import javax.swing.JToggleButton;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import jparsec.time.AstroDate;
-import jparsec.util.JPARSECException;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingWorker;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import jparsec.ephem.Functions;
+import jparsec.time.AstroDate;
 import jparsec.time.TimeElement;
+import jparsec.util.JPARSECException;
 
 /**
  *
@@ -81,8 +79,6 @@ public class Main extends javax.swing.JFrame {
         initComponents();
 
         configureWindowListeners();
-        
-        
 
         class SecondaryTableCellRenderer extends DefaultTableCellRenderer {
 
@@ -806,8 +802,7 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void configureWindowListeners(){
+    private void configureWindowListeners() {
         // Update button state when Session Manager window opens/closes --------
         session_manager.addWindowListener(new WindowAdapter() {
             @Override
@@ -842,8 +837,7 @@ public class Main extends javax.swing.JFrame {
                 menu_toggleLocationManager.setSelected(true);
             }
         });
-    
-        
+
         ListSelectionModel cellSelectionModel = table.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -855,20 +849,14 @@ public class Main extends javax.swing.JFrame {
                     curSelectedTarget = (String) table.getValueAt(selectedRows[0], 0);
                     curSelectedKind = (String) table.getValueAt(selectedRows[0], 1);
                     if (!e.getValueIsAdjusting() && curSelectedTarget.length() > 0) {
-                        Instant start = Instant.now(); //DEBUG
                         fillDetailsPanel(curSelectedTarget, curSelectedKind);
-                        Instant end = Instant.now(); //DEBUG
-                        System.out.println("fillDetailsPanel("+curSelectedTarget+", " 
-                                + curSelectedKind + "): " 
-                                + Duration.between(start, end)); //DEBUG
                     }
                 }
             }
         });
-    
+
     }
-    
-    
+
     /**
      * Populate the Details panel
      *
@@ -884,30 +872,141 @@ public class Main extends javax.swing.JFrame {
 
         SpaceObject obj = this.current_session.getTarget(target);
 
-        // Populate the image section ========================================
-        // Images must have the right proportions (330x160), 
-        // since we are not doing proportional resizing here.
-        Icon img = gui.ImageLoader.getScaledSpaceImage(target, lbl_photo);
-        if (img != null) {
-            lbl_photo.setIcon(img);
-            lbl_photo.setText("");
-        } else {
-            lbl_photo.setText("[No picture available.]");
-            lbl_photo.setIcon(null);
+        //TO-DO: split this into Threads (
+        SwingWorker worker_photo = new SwingWorker<Boolean, Integer>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                fillPhotoArea(obj);
+                return true;
+            }
+        };
+
+        SwingWorker worker_info = new SwingWorker<Boolean, Integer>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                fillInfoTab(obj);
+                return true;
+            }
+        };
+
+        SwingWorker worker_rst = new SwingWorker<Boolean, Integer>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                fillRiseSetTransitTab(obj);
+                return true;
+            }
+        };
+
+        SwingWorker worker_positions = new SwingWorker<Boolean, Integer>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                fillPositionsTab(obj);
+                return true;
+            }
+        };
+
+        worker_photo.execute();
+        worker_info.execute();
+        worker_rst.execute();
+        worker_positions.execute();
+
+    }
+
+    /**
+     * Populate the Positions table
+     *
+     * @param obj
+     */
+    private void fillPositionsTab(SpaceObject obj) {
+        String cols_pos[] = {"Time", "Altitude", "Azimuth"};
+        DefaultTableModel PositionsTableModel = new DefaultTableModel(cols_pos, 0) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        table_positions.setModel(PositionsTableModel);
+
+        for (TimeElement t : obj.getHourlyTimeElements()) {
+            try {
+                String dt = t.astroDate.toStringTZ().substring(11, 16);
+                Object[] data = {dt, obj.getAlt(t), obj.getAz(t)};
+                PositionsTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
+    /**
+     * Populate the Rise/Set/transit table
+     *
+     * @param obj
+     */
+    private void fillRiseSetTransitTab(SpaceObject obj) {
+        // Set columns headers and table Model for rise/set/transit - make it non-editable
+        String cols[] = {"Event", "Date/time"};
+        DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        table_riseSetTransit.setModel(RSTTableModel);
+
+        for (Double rise : obj.getRises()) {
+            try {
+                String dt = (new AstroDate(rise))
+                        .toString(-1)
+                        .replace(" ", "   ");
+                Object[] data = {"Rise", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+        for (Double set : obj.getSets()) {
+            try {
+                String dt = (new AstroDate(set))
+                        .toString(-1)
+                        .replace(" ", "   ");
+                Object[] data = {"Set", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
+        }
+        for (Double transit : obj.getTransits()) {
+            try {
+                String dt = (new AstroDate(transit))
+                        .toString(-1)
+                        .replace(" ", "   ");
+                Object[] data = {"Transit", dt};
+                RSTTableModel.addRow(data);
+            } catch (JPARSECException ex) {
+                System.out.println(ex);
+            }
         }
 
-        // Populate white labels below image 
-        lbl_photo_mag.setText("Magnitude: "
-                + new DecimalFormat("0.0").format(obj.getAparentMag()));
-        lbl_photo_angDiameter.setText("Angular diameter: "
-                + Functions.formatAngle(obj.getAngularDiameter(), 1));
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) table_riseSetTransit.getModel());
+        table_riseSetTransit.setRowSorter(sorter);
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+        sorter.sort();
 
-        lbl_photo_ra.setText("RA: "
-                + Functions.formatRA(obj.getRA(), 0));
-        lbl_photo_declination.setText("Dec.: "
-                + Functions.formatDEC(obj.getDec(), 0));
+    }
 
-        // Populate the Info panel ==========================================
+    /**
+     * Populate the Info panel
+     *
+     * @param obj
+     */
+    private void fillInfoTab(SpaceObject obj) {
         String infoCols[] = {"Characteristic", "Value"};
         DefaultTableModel infoTableModel = new DefaultTableModel(infoCols, 0) {
             private static final long serialVersionUID = 1L;
@@ -973,80 +1072,38 @@ public class Main extends javax.swing.JFrame {
                 new DecimalFormat("0.00000")
                 .format(obj.getDistance() * 0.000015812507) + " ly"});
         }
+    }
 
-        // Populate the Rise/Set/transit table ==============================
-        // Set columns headers and table Model for rise/set/transit - make it non-editable
-        String cols[] = {"Event", "Date/time"};
-        DefaultTableModel RSTTableModel = new DefaultTableModel(cols, 0) {
-            private static final long serialVersionUID = 1L;
+    /**
+     * Populate the image section
+     *
+     * Images must have the right proportions (330x160), since we are not doing
+     * proportional resizing here.
+     *
+     * @param obj
+     */
+    private void fillPhotoArea(SpaceObject obj) {
 
-            @Override
-            public boolean isCellEditable(int i, int i1) {
-                return false; //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        table_riseSetTransit.setModel(RSTTableModel);
+        Icon img = gui.ImageLoader.getScaledSpaceImage(obj.getName(), lbl_photo);
 
-        for (Double rise : obj.getRises()) {
-            try {
-                String dt = (new AstroDate(rise))
-                        .toString(-1)
-                        .replace(" ", "   ");
-                Object[] data = {"Rise", dt};
-                RSTTableModel.addRow(data);
-            } catch (JPARSECException ex) {
-                System.out.println(ex);
-            }
+        if (img != null) {
+            lbl_photo.setIcon(img);
+            lbl_photo.setText("");
+        } else {
+            lbl_photo.setText("[No picture available.]");
+            lbl_photo.setIcon(null);
         }
-        for (Double set : obj.getSets()) {
-            try {
-                String dt = (new AstroDate(set))
-                        .toString(-1)
-                        .replace(" ", "   ");
-                Object[] data = {"Set", dt};
-                RSTTableModel.addRow(data);
-            } catch (JPARSECException ex) {
-                System.out.println(ex);
-            }
-        }
-        for (Double transit : obj.getTransits()) {
-            try {
-                String dt = (new AstroDate(transit))
-                        .toString(-1)
-                        .replace(" ", "   ");
-                Object[] data = {"Transit", dt};
-                RSTTableModel.addRow(data);
-            } catch (JPARSECException ex) {
-                System.out.println(ex);
-            }
-        }
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) table_riseSetTransit.getModel());
-        table_riseSetTransit.setRowSorter(sorter);
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
 
-        // Populate the Positions table =====================================
-        String cols_pos[] = {"Time", "Altitude", "Azimuth"};
-        DefaultTableModel PositionsTableModel = new DefaultTableModel(cols_pos, 0) {
-            private static final long serialVersionUID = 1L;
+        // Populate white labels below image 
+        lbl_photo_mag.setText("Magnitude: "
+                + new DecimalFormat("0.0").format(obj.getAparentMag()));
+        lbl_photo_angDiameter.setText("Angular diameter: "
+                + Functions.formatAngle(obj.getAngularDiameter(), 1));
 
-            @Override
-            public boolean isCellEditable(int i, int i1) {
-                return false; //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        table_positions.setModel(PositionsTableModel);
-        for (TimeElement t : obj.getHourlyTimeElements()) {
-            try {
-                String dt = t.astroDate.toStringTZ().substring(11, 16);
-                Object[] data = {dt, obj.getAlt(t), obj.getAz(t)};
-                PositionsTableModel.addRow(data);
-            } catch (JPARSECException ex) {
-                System.out.println(ex);
-            }
-        }
+        lbl_photo_ra.setText("RA: "
+                + Functions.formatRA(obj.getRA(), 0));
+        lbl_photo_declination.setText("Dec.: "
+                + Functions.formatDEC(obj.getDec(), 0));
     }
 
     public JToggleButton getBtn_manageLocations() {
@@ -1065,15 +1122,16 @@ public class Main extends javax.swing.JFrame {
     }
 
     /**
-     * Update the list of targets, hiding/showing bookemarked or already seen ones
-     * 
+     * Update the list of targets, hiding/showing bookemarked or already seen
+     * ones
+     *
      * @param includeBookmarked
-     * @param includeAlreadySeen 
+     * @param includeAlreadySeen
      */
     private void updateTable() {
         String designation, kind, rise, set, constellation;
         Boolean bookmark, seen;
-        
+
         configureMainTable();
 
         // get all targets 
@@ -1081,7 +1139,7 @@ public class Main extends javax.swing.JFrame {
                 lpanel.getStartDatetime(), lpanel.getEndDatetime(),
                 lpanel.getLimitingMagnitude(), lpanel.getAtConstellation(),
                 lpanel.getOnlyKind());
-        
+
         // add location records to table
         //TO-DO: make this loop multithreaded.
         for (SpaceObject t : current_session.getTargets()) {
@@ -1100,8 +1158,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-        
-    private void configureMainTable(){
+    private void configureMainTable() {
         //Set columns headers and table Model - make it non-editable
         String cols[] = {"Designation", "Kind", "Rise", "Set",
             "Constellation", "Bookmark", "Seen"};
@@ -1134,9 +1191,7 @@ public class Main extends javax.swing.JFrame {
         table.setDefaultRenderer(Object.class, new MainTableCellRenderer());
         table.setRowSelectionAllowed(true);
     }
-    
-    
-    
+
     /**
      * Build a formatted date string from a JD double (Rise/set)
      *
@@ -1257,25 +1312,23 @@ public class Main extends javax.swing.JFrame {
         openLink(NTP_URLs.WIKI_COORDINATE_SYSTEMS);
     }//GEN-LAST:event_menu_wikiCoordinateSystemsActionPerformed
 
-    private void openLink(String url){
+    private void openLink(String url) {
         Desktop d = Desktop.getDesktop();
         URI u = null;
-        
+
         try {
             u = new URI(url);
         } catch (URISyntaxException e) {
             System.out.println(e);
         }
-        
+
         try {
             d.browse(u);
         } catch (IOException e) {
             System.out.println(e);
         }
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */

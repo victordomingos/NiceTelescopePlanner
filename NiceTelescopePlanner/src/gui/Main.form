@@ -664,7 +664,7 @@
                   </Group>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="subpanel_photo" pref="340" max="32767" attributes="0"/>
+                  <Component id="subpanel_photo" pref="350" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
               </Group>
           </Group>
