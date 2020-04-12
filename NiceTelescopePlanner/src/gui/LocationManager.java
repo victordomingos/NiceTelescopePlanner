@@ -54,8 +54,6 @@ public class LocationManager extends javax.swing.JFrame {
         String btn_text = this.btn_locationDetails.isSelected() ? "Hide Location Details" : "Show Location Details";
         this.btn_locationDetails.setText(btn_text);
 
-        this.subpanel_enterAddress.setVisible(false); // Rescheduled to a future release
-        this.img_map.setVisible(false);               // Rescheduled to a future release
 
         this.addComponentListener(new ComponentAdapter() {
 //            public void componentHidden(ComponentEvent e) {
@@ -166,25 +164,35 @@ public class LocationManager extends javax.swing.JFrame {
         btn_locationDetails = new javax.swing.JToggleButton();
         centerBottomPanel = new org.jdesktop.swingx.JXPanel();
         jXPanel2 = new org.jdesktop.swingx.JXPanel();
-        jXPanel3 = new org.jdesktop.swingx.JXPanel();
-        cmb_country = new javax.swing.JComboBox<>();
-        cmb_city = new javax.swing.JComboBox<>();
-        cmb_observatory = new javax.swing.JComboBox<>();
-        jXPanel4 = new org.jdesktop.swingx.JXPanel();
+        lbl_locationName = new javax.swing.JLabel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jXPanelGPS = new org.jdesktop.swingx.JXPanel();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         txt_latitude = new javax.swing.JFormattedTextField();
         txt_longitude = new javax.swing.JFormattedTextField();
         txt_height = new javax.swing.JFormattedTextField();
-        subpanel_enterAddress = new org.jdesktop.swingx.JXPanel();
-        txt_address = new javax.swing.JTextField();
-        jXPanel6 = new org.jdesktop.swingx.JXPanel();
-        btn_saveLocation = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         btn_detectByIP = new javax.swing.JButton();
-        img_map = new org.jdesktop.swingx.JXImageView();
-        lbl_locationName = new javax.swing.JLabel();
+        jXPanelObservatory = new org.jdesktop.swingx.JXPanel();
+        cmb_country1 = new javax.swing.JComboBox<>();
+        cmb_city1 = new javax.swing.JComboBox<>();
+        cmb_observatory1 = new javax.swing.JComboBox<>();
+        jXPanelCity = new org.jdesktop.swingx.JXPanel();
+        cmb_country = new javax.swing.JComboBox<>();
+        cmb_city = new javax.swing.JComboBox<>();
+        cmb_observatory = new javax.swing.JComboBox<>();
+        JXPanelAddress = new org.jdesktop.swingx.JXPanel();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_address = new org.jdesktop.swingx.JXTextArea();
+        jXPanel3 = new org.jdesktop.swingx.JXPanel();
+        btn_saveLocation = new javax.swing.JButton();
+        jXLabel4 = new org.jdesktop.swingx.JXLabel();
+        jXLabel5 = new org.jdesktop.swingx.JXLabel();
+        jLabel4 = new javax.swing.JLabel();
+        location_subpanel_photo = new org.jdesktop.swingx.JXPanel();
+        jMapViewer1 = new org.openstreetmap.gui.jmapviewer.JMapViewer();
 
         setTitle("Location Manager");
 
@@ -281,13 +289,13 @@ public class LocationManager extends javax.swing.JFrame {
         centerPanel.setLayout(centerPanelLayout);
         centerPanelLayout.setHorizontalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(centerPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addGap(0, 0, 0))
         );
         centerPanelLayout.setVerticalGroup(
             centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(centerPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
         btn_locationDetails.setText("Show Location Details");
@@ -318,61 +326,15 @@ public class LocationManager extends javax.swing.JFrame {
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_locationDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jXPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jXPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pick City or Observatory"));
-        jXPanel3.setToolTipText("Start by picking a country, then choose either a City or an Observatory.");
-
-        cmb_country.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select country" }));
-        cmb_country.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmb_countryItemStateChanged(evt);
-            }
-        });
-
-        cmb_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select city" }));
-        cmb_city.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmb_cityItemStateChanged(evt);
-            }
-        });
-
-        cmb_observatory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select observatory" }));
-        cmb_observatory.setToolTipText("Start by selecting a country, then pick either  a City or an Observatory to get approximate GPS coordinates.");
-        cmb_observatory.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmb_observatoryItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jXPanel3Layout = new javax.swing.GroupLayout(jXPanel3);
-        jXPanel3.setLayout(jXPanel3Layout);
-        jXPanel3Layout.setHorizontalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_observatory, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jXPanel3Layout.setVerticalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmb_observatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
-
-        jXPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter GPS coords"));
+        lbl_locationName.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
+        lbl_locationName.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lbl_locationName.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_locationName.setText("New location");
 
         jXLabel1.setText("Latitude ");
 
@@ -383,85 +345,16 @@ public class LocationManager extends javax.swing.JFrame {
         txt_latitude.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         txt_latitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_latitude.setToolTipText("Please enter latitude in degrees (decimal value).");
+        txt_latitude.setMaximumSize(new java.awt.Dimension(400, 2147483647));
 
         txt_longitude.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.######"))));
         txt_longitude.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_longitude.setToolTipText("Please enter latitude in degrees (decimal value).");
+        txt_longitude.setMaximumSize(new java.awt.Dimension(400, 2147483647));
 
         txt_height.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.###"))));
         txt_height.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_height.setToolTipText("Please enter latitude in degrees (decimal value).");
-
-        javax.swing.GroupLayout jXPanel4Layout = new javax.swing.GroupLayout(jXPanel4);
-        jXPanel4.setLayout(jXPanel4Layout);
-        jXPanel4Layout.setHorizontalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel4Layout.createSequentialGroup()
-                        .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jXPanel4Layout.createSequentialGroup()
-                        .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jXPanel4Layout.createSequentialGroup()
-                        .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-
-        jXPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_height, txt_latitude, txt_longitude});
-
-        jXPanel4Layout.setVerticalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel4Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        subpanel_enterAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter an address"));
-
-        javax.swing.GroupLayout subpanel_enterAddressLayout = new javax.swing.GroupLayout(subpanel_enterAddress);
-        subpanel_enterAddress.setLayout(subpanel_enterAddressLayout);
-        subpanel_enterAddressLayout.setHorizontalGroup(
-            subpanel_enterAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        subpanel_enterAddressLayout.setVerticalGroup(
-            subpanel_enterAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(subpanel_enterAddressLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
-        );
-
-        btn_saveLocation.setText("Save Location");
-        btn_saveLocation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_saveLocationActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-        jLabel3.setText("Choose one of these methods (GPS coordinates will provide results that are more precise).");
 
         btn_detectByIP.setText("Detect by IP");
         btn_detectByIP.addActionListener(new java.awt.event.ActionListener() {
@@ -470,87 +363,284 @@ public class LocationManager extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jXPanel6Layout = new javax.swing.GroupLayout(jXPanel6);
-        jXPanel6.setLayout(jXPanel6Layout);
-        jXPanel6Layout.setHorizontalGroup(
-            jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout jXPanelGPSLayout = new javax.swing.GroupLayout(jXPanelGPS);
+        jXPanelGPS.setLayout(jXPanelGPSLayout);
+        jXPanelGPSLayout.setHorizontalGroup(
+            jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanelGPSLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_detectByIP, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txt_height, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_latitude, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_longitude, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
+                .addContainerGap(89, Short.MAX_VALUE))
+        );
+        jXPanelGPSLayout.setVerticalGroup(
+            jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanelGPSLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(btn_detectByIP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_saveLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanelGPSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_detectByIP)
+                .addContainerGap(225, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("GPS Coords", jXPanelGPS);
+
+        jXPanelObservatory.setToolTipText("Start by picking a country, then choose either a City or an Observatory.");
+
+        cmb_country1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select country" }));
+        cmb_country1.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_country1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_country1ItemStateChanged(evt);
+            }
+        });
+
+        cmb_city1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select city" }));
+        cmb_city1.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_city1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_city1ItemStateChanged(evt);
+            }
+        });
+
+        cmb_observatory1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select observatory" }));
+        cmb_observatory1.setToolTipText("Start by selecting a country, then pick either  a City or an Observatory to get approximate GPS coordinates.");
+        cmb_observatory1.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_observatory1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_observatory1ItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jXPanelObservatoryLayout = new javax.swing.GroupLayout(jXPanelObservatory);
+        jXPanelObservatory.setLayout(jXPanelObservatoryLayout);
+        jXPanelObservatoryLayout.setHorizontalGroup(
+            jXPanelObservatoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanelObservatoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanelObservatoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmb_country1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_city1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_observatory1, 0, 401, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jXPanel6Layout.setVerticalGroup(
-            jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel6Layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addGroup(jXPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_saveLocation)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_detectByIP)))
+        jXPanelObservatoryLayout.setVerticalGroup(
+            jXPanelObservatoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanelObservatoryLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(cmb_country1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_city1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_observatory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout img_mapLayout = new javax.swing.GroupLayout(img_map);
-        img_map.setLayout(img_mapLayout);
-        img_mapLayout.setHorizontalGroup(
-            img_mapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jTabbedPane2.addTab("Observatory", jXPanelObservatory);
+
+        jXPanelCity.setToolTipText("Start by picking a country, then choose either a City or an Observatory.");
+
+        cmb_country.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select country" }));
+        cmb_country.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_country.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_countryItemStateChanged(evt);
+            }
+        });
+
+        cmb_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select city" }));
+        cmb_city.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_city.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_cityItemStateChanged(evt);
+            }
+        });
+
+        cmb_observatory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select observatory" }));
+        cmb_observatory.setToolTipText("Start by selecting a country, then pick either  a City or an Observatory to get approximate GPS coordinates.");
+        cmb_observatory.setMaximumSize(new java.awt.Dimension(400, 32767));
+        cmb_observatory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_observatoryItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jXPanelCityLayout = new javax.swing.GroupLayout(jXPanelCity);
+        jXPanelCity.setLayout(jXPanelCityLayout);
+        jXPanelCityLayout.setHorizontalGroup(
+            jXPanelCityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanelCityLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanelCityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmb_country, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_city, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_observatory, 0, 401, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        img_mapLayout.setVerticalGroup(
-            img_mapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 119, Short.MAX_VALUE)
+        jXPanelCityLayout.setVerticalGroup(
+            jXPanelCityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanelCityLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_observatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        lbl_locationName.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.browser.picker.background.light"));
-        lbl_locationName.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        lbl_locationName.setForeground(new java.awt.Color(51, 51, 51));
-        lbl_locationName.setText("New location");
+        jTabbedPane2.addTab("City", jXPanelCity);
+        jXPanelCity.getAccessibleContext().setAccessibleName("Pick a City or an Observatory");
+
+        jXButton1.setText("Geolocate");
+        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXButton1ActionPerformed(evt);
+            }
+        });
+
+        txt_address.setColumns(20);
+        txt_address.setRows(5);
+        jScrollPane2.setViewportView(txt_address);
+
+        javax.swing.GroupLayout JXPanelAddressLayout = new javax.swing.GroupLayout(JXPanelAddress);
+        JXPanelAddress.setLayout(JXPanelAddressLayout);
+        JXPanelAddressLayout.setHorizontalGroup(
+            JXPanelAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JXPanelAddressLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JXPanelAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JXPanelAddressLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        JXPanelAddressLayout.setVerticalGroup(
+            JXPanelAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JXPanelAddressLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Address", JXPanelAddress);
+
+        btn_saveLocation.setText("Save Location");
+        btn_saveLocation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_saveLocationActionPerformed(evt);
+            }
+        });
+
+        jXLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jXLabel4.setText("Selected coords: ");
+
+        jXLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jXLabel5.setText("0.2323213123 - 131312313123 (214)");
+
+        javax.swing.GroupLayout jXPanel3Layout = new javax.swing.GroupLayout(jXPanel3);
+        jXPanel3.setLayout(jXPanel3Layout);
+        jXPanel3Layout.setHorizontalGroup(
+            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 26, Short.MAX_VALUE)
+                .addComponent(btn_saveLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jXPanel3Layout.setVerticalGroup(
+            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(btn_saveLocation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
+            .addGroup(jXPanel3Layout.createSequentialGroup()
+                .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
+        jLabel4.setText("* GPS coordinates will usually provide results that are more precise.");
+
+        location_subpanel_photo.setBackground(new java.awt.Color(204, 204, 204));
+        location_subpanel_photo.setBorder(new javax.swing.border.MatteBorder(null));
+        location_subpanel_photo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        location_subpanel_photo.setPreferredSize(new java.awt.Dimension(334, 100));
+
+        javax.swing.GroupLayout location_subpanel_photoLayout = new javax.swing.GroupLayout(location_subpanel_photo);
+        location_subpanel_photo.setLayout(location_subpanel_photoLayout);
+        location_subpanel_photoLayout.setHorizontalGroup(
+            location_subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, location_subpanel_photoLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jMapViewer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        location_subpanel_photoLayout.setVerticalGroup(
+            location_subpanel_photoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jMapViewer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jXPanel2Layout = new javax.swing.GroupLayout(jXPanel2);
         jXPanel2.setLayout(jXPanel2Layout);
         jXPanel2Layout.setHorizontalGroup(
             jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jXPanel2Layout.createSequentialGroup()
-                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(img_map, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTabbedPane2)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(location_subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)))
+                    .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        jXPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jXPanel3, jXPanel4});
-
         jXPanel2Layout.setVerticalGroup(
             jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(subpanel_enterAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(img_map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lbl_locationName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTabbedPane2)
+                    .addComponent(location_subpanel_photo, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
-
-        jXPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jXPanel3, jXPanel4, subpanel_enterAddress});
-
-        jXPanel3.getAccessibleContext().setAccessibleName("Pick a City or an Observatory");
 
         javax.swing.GroupLayout centerBottomPanelLayout = new javax.swing.GroupLayout(centerBottomPanel);
         centerBottomPanel.setLayout(centerBottomPanelLayout);
@@ -563,9 +653,10 @@ public class LocationManager extends javax.swing.JFrame {
         );
         centerBottomPanelLayout.setVerticalGroup(
             centerBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, centerBottomPanelLayout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(centerBottomPanelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -575,7 +666,7 @@ public class LocationManager extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(centerBottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(centerBottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -604,6 +695,273 @@ public class LocationManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(this.btn_locationDetails.isSelected());
         this.btn_locationDetails.setText(btn_text);
     }//GEN-LAST:event_btn_locationDetailsActionPerformed
+
+    private void btn_newLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newLocationActionPerformed
+        this.centerBottomPanel.setVisible((true));
+        this.btn_locationDetails.setSelected(true);
+        this.btn_locationDetails.setText("Hide Location Details");
+        this.newLocation = null;
+
+        if (curLocationBeingEdited > 0) {
+            String msg = "You were already editing an existing location. \n"
+                    + "Do you prefer to keep editing or to start over \n"
+                    + "with an empty form?";
+
+            String[] options = {"Keep Editing", "Start Over"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                clearBottomPanel();
+                curLocationBeingEdited = -1;
+            }
+
+        } else if (!isBotomPanelEmpty()) {
+            String msg = "You were already editing a new location. \n"
+                    + "Do you prefer to keep editing or to start over \n"
+                    + "with an empty form?";
+
+            String[] options = {"Keep Editing", "Start Over"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                clearBottomPanel();
+                curLocationBeingEdited = -1;
+            }
+        }
+
+    }//GEN-LAST:event_btn_newLocationActionPerformed
+
+    private void btn_editSelectedLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editSelectedLocationActionPerformed
+        if (getCurrentSelectedLocationID() == -1) {
+            String msg = "You must select a location in the table to be able\n"
+                    + "to edit it. If you just want to create a new location,\n"
+                    + "please use the New Location button.";
+            JOptionPane.showMessageDialog(this, msg, "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        this.centerBottomPanel.setVisible((true));
+        this.btn_locationDetails.setSelected(true);
+        this.btn_locationDetails.setText("Hide Location Details");
+
+        if (curLocationBeingEdited > 0) {
+            String msg = "You were already editing an existing location. \n"
+                    + "Do you prefer to keep editing the previous location \n"
+                    + "or to start editing this one?";
+
+            String[] options = {"Keep Editing Previous", "Edit This One"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                curLocationBeingEdited = getCurrentSelectedLocationID();
+                loadBottomPanel(curLocationBeingEdited);
+            }
+
+        } else if (!isBotomPanelEmpty()) {
+            String msg = "You were already editing a new location. \n"
+                    + "Do you prefer to keep editing or to start editing \n"
+                    + "this location?";
+
+            String[] options = {"Keep Editing Previous", "Edit This One"};
+            int option = JOptionPane.showOptionDialog(this, msg, "Question",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
+            if (option == 1) {
+                curLocationBeingEdited = getCurrentSelectedLocationID();
+                loadBottomPanel(curLocationBeingEdited);
+            }
+        } else {
+            curLocationBeingEdited = getCurrentSelectedLocationID();
+            loadBottomPanel(curLocationBeingEdited);
+        }
+    }//GEN-LAST:event_btn_editSelectedLocationActionPerformed
+
+    private void btn_deleteSelectedLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteSelectedLocationActionPerformed
+        int id = getCurrentSelectedLocationID();
+        if (id == -1) {
+            String msg = "You must select a location in the table to be able\n"
+                    + "to delete it.";
+            JOptionPane.showMessageDialog(this, msg, "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            mydb.deleteLocation(id);
+            updateTable();
+        }
+    }//GEN-LAST:event_btn_deleteSelectedLocationActionPerformed
+
+    private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
+        Integer locId;
+        String locName = "";
+        Double locTz;
+        Double latitude_rad, longitude_rad;
+        int height;
+        String msg;
+
+        // Verify if there are valid GPS coordinates in their fields.
+        if (txt_latitude.getText().isEmpty()) {
+            msg = "Please specifiy latitude as a number, in degrees.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
+                JOptionPane.WARNING_MESSAGE);
+            txt_latitude.requestFocusInWindow();
+            return;
+        } else {
+            latitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
+                txt_latitude.getText().replace(',', '.'));
+        }
+
+        if (txt_longitude.getText().isEmpty()) {
+            msg = "Please specifiy longitude as a number, in degrees.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
+                JOptionPane.WARNING_MESSAGE);
+            txt_longitude.requestFocusInWindow();
+            return;
+        } else {
+            longitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
+                txt_longitude.getText().replace(',', '.'));
+        }
+
+        if (txt_height.getText().isEmpty()) {
+            msg = "Please enter an integer number (height in meters "
+            + "above the sea level) in the Altitude field.";
+            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
+                JOptionPane.WARNING_MESSAGE);
+            txt_height.requestFocusInWindow();
+            return;
+        } else {
+            height = Integer.parseInt(txt_height.getText());
+        }
+
+        locId = this.curLocationBeingEdited;
+
+        if (locId == -1) {
+            msg = "Please enter a new name for this observatory: ";
+            do {
+                if (locName.length() > 127) {
+                    msg = "The name should not exceed 128 characters. \n"
+                    + "Which, by the way, should be more that enough. ;-)";
+                    JOptionPane.showMessageDialog(this, msg, "Incorrect parameter",
+                        JOptionPane.WARNING_MESSAGE);
+                }
+                locName = (String) JOptionPane.showInputDialog(null, msg, "Preparing to save Location",
+                    JOptionPane.QUESTION_MESSAGE, null, null, locName);
+
+            } while (locName.trim().isEmpty() || locName.trim().length() > 128);
+            locName = locName.trim();
+        } else {
+            locName = lbl_locationName.getText();
+        }
+
+        locTz = Location.getTimeZoneOffset(latitude_rad, longitude_rad);
+
+        //        System.out.println("=== BTN_SAVE_LOCATION =========================");
+        //        System.out.println("LAT_RAD: " + latitude_rad);
+        //        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
+        //        System.out.println("LON_RAD: " + longitude_rad);
+        //        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);
+        //        System.out.println("LOC_TZ:  " + locTz);
+        //        System.out.println("== /BTN_SAVE_LOCATION =========================");
+        // Save to the database
+        int status = mydb.insertOrUpdateLocation(locId, locName, latitude_rad,
+            longitude_rad, height, txt_address.getText(), locTz);
+
+        // Update the table
+        // Present an option to create a new session using this location.
+        // Hide the bottom panel
+        this.clearBottomPanel();
+        this.curLocationBeingEdited = -1;
+        this.btn_locationDetails.setSelected(false);
+        this.centerBottomPanel.setVisible(false);
+        this.btn_locationDetails.setText("Show Location Details");
+        this.updateTable();
+    }//GEN-LAST:event_btn_saveLocationActionPerformed
+
+    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXButton1ActionPerformed
+
+    private void cmb_observatoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_observatoryItemStateChanged
+        // Not forgetting that we have a "Select city" item in the combo box.
+        if (cmb_observatory.getSelectedIndex() < 1) {
+            return;
+        }
+        String selectedObservatory = cmb_observatory.getSelectedItem().toString();
+
+        ObservatoryElement observatory;
+        try {
+
+            // TODO:
+            // We definitely should add a clear way to choose between multiple
+            // cities in case they happen to have the same name, but for now,
+            // for the sake of a faster MVP release, let's just present the user
+            // with a single, quick result…
+            if (cmb_country.getSelectedIndex() >= 1) {
+                // Not forgetting "Select country" is item #0 in the combo box.
+                String selectedCountry = cmb_country.getSelectedItem().toString();
+                COUNTRY countryID = Country.getID(selectedCountry);
+                observatory = Observatory.findObservatorybyName(selectedObservatory, countryID);
+            } else {
+                observatory = Observatory.findObservatorybyName(selectedObservatory);
+            }
+
+            Double lat = observatory.latitude;
+            Double lon = observatory.longitude;
+            int height = observatory.height;
+
+            DecimalFormat df = new DecimalFormat("###0.00000");
+            txt_latitude.setText(df.format(lat));
+            txt_longitude.setText(df.format(lon));
+            // TODO: See if we can provide a better default value here.
+            txt_height.setText(Integer.toString(height));
+
+        } catch (JPARSECException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_cmb_observatoryItemStateChanged
+
+    private void cmb_cityItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_cityItemStateChanged
+        // Not forgetting that we have a "Select city" item in the combo box.
+        if (cmb_city.getSelectedIndex() < 1) {
+            return;
+        }
+        CityElement realCity;
+        CityElement[] cities;
+
+        String selectedCity = cmb_city.getSelectedItem().toString();
+
+        try {
+            String selectedCountry = cmb_country.getSelectedItem().toString();
+            COUNTRY countryID = Country.getID(selectedCountry);
+            cities = City.getCities(countryID);
+
+            realCity = cities[0];
+            // Make sure the city is at least in the same country...
+            for (CityElement city : cities) {
+                if (city.name.equalsIgnoreCase(selectedCity)) {
+                    realCity = city;
+                }
+            }
+
+            Double lat_deg = realCity.latitude;
+            Double lon_deg = realCity.longitude;
+            int height = realCity.height;
+            String lat = lat_deg.toString();
+            lat = lat.substring(0, Math.min(lat.length(), 8));
+
+            String lon = lon_deg.toString();
+            lon = lon.substring(0, Math.min(lon.length(), 8));
+
+            txt_latitude.setText(lat);
+            txt_longitude.setText(lon);
+            txt_height.setText(Integer.toString(height));
+
+        } catch (JPARSECException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_cmb_cityItemStateChanged
 
     private void cmb_countryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_countryItemStateChanged
         COUNTRY countryID;
@@ -672,175 +1030,22 @@ public class LocationManager extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmb_countryItemStateChanged
 
-    private void cmb_cityItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_cityItemStateChanged
-        // Not forgetting that we have a "Select city" item in the combo box.
-        if (cmb_city.getSelectedIndex() < 1) {
-            return;
-        }
-        CityElement realCity;
-        CityElement[] cities;
+    private void cmb_observatory1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_observatory1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_observatory1ItemStateChanged
 
-        String selectedCity = cmb_city.getSelectedItem().toString();
+    private void cmb_city1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_city1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_city1ItemStateChanged
 
-        try {
-            String selectedCountry = cmb_country.getSelectedItem().toString();
-            COUNTRY countryID = Country.getID(selectedCountry);
-            cities = City.getCities(countryID);
-
-            realCity = cities[0];
-            // Make sure the city is at least in the same country...
-            for (CityElement city : cities) {
-                if (city.name.equalsIgnoreCase(selectedCity)) {
-                    realCity = city;
-                }
-            }
-
-            Double lat_deg = realCity.latitude;
-            Double lon_deg = realCity.longitude;
-            int height = realCity.height;
-            String lat = lat_deg.toString();
-            lat = lat.substring(0, Math.min(lat.length(), 8));
-
-            String lon = lon_deg.toString();
-            lon = lon.substring(0, Math.min(lon.length(), 8));
-
-            txt_latitude.setText(lat);
-            txt_longitude.setText(lon);
-            txt_height.setText(Integer.toString(height));
-
-        } catch (JPARSECException e) {
-            System.out.println(e);
-        }
-    }//GEN-LAST:event_cmb_cityItemStateChanged
-
-    private void btn_saveLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveLocationActionPerformed
-        Integer locId;
-        String locName = "";
-        Double locTz;
-        Double latitude_rad, longitude_rad;
-        int height;
-        String msg;
-
-        // Verify if there are valid GPS coordinates in their fields.
-        if (txt_latitude.getText().isEmpty()) {
-            msg = "Please specifiy latitude as a number, in degrees.";
-            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
-                    JOptionPane.WARNING_MESSAGE);
-            txt_latitude.requestFocusInWindow();
-            return;
-        } else {
-            latitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
-                    txt_latitude.getText().replace(',', '.'));
-        }
-
-        if (txt_longitude.getText().isEmpty()) {
-            msg = "Please specifiy longitude as a number, in degrees.";
-            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
-                    JOptionPane.WARNING_MESSAGE);
-            txt_longitude.requestFocusInWindow();
-            return;
-        } else {
-            longitude_rad = Constant.DEG_TO_RAD * Double.parseDouble(
-                    txt_longitude.getText().replace(',', '.'));
-        }
-
-        if (txt_height.getText().isEmpty()) {
-            msg = "Please enter an integer number (height in meters "
-                    + "above the sea level) in the Altitude field.";
-            JOptionPane.showMessageDialog(this, msg, "Missing parameter",
-                    JOptionPane.WARNING_MESSAGE);
-            txt_height.requestFocusInWindow();
-            return;
-        } else {
-            height = Integer.parseInt(txt_height.getText());
-        }
-
-        locId = this.curLocationBeingEdited;
-
-        if (locId == -1) {
-            msg = "Please enter a new name for this observatory: ";
-            do {
-                if (locName.length() > 127) {
-                    msg = "The name should not exceed 128 characters. \n"
-                            + "Which, by the way, should be more that enough. ;-)";
-                    JOptionPane.showMessageDialog(this, msg, "Incorrect parameter",
-                            JOptionPane.WARNING_MESSAGE);
-                }
-                locName = (String) JOptionPane.showInputDialog(null, msg, "Preparing to save Location",
-                        JOptionPane.QUESTION_MESSAGE, null, null, locName);
-
-            } while (locName.trim().isEmpty() || locName.trim().length() > 128);
-            locName = locName.trim();
-        } else {
-            locName = lbl_locationName.getText();
-        }
-
-        locTz = Location.getTimeZoneOffset(latitude_rad, longitude_rad);
-
-//        System.out.println("=== BTN_SAVE_LOCATION =========================");
-//        System.out.println("LAT_RAD: " + latitude_rad);
-//        System.out.println("LAT_DEG: " + latitude_rad * Constant.RAD_TO_DEG);
-//        System.out.println("LON_RAD: " + longitude_rad);
-//        System.out.println("LON_DEG: " + longitude_rad * Constant.RAD_TO_DEG);
-//        System.out.println("LOC_TZ:  " + locTz);
-//        System.out.println("== /BTN_SAVE_LOCATION =========================");
-        // Save to the database
-        int status = mydb.insertOrUpdateLocation(locId, locName, latitude_rad,
-                longitude_rad, height, txt_address.getText(), locTz);
-
-        // Update the table
-        // Present an option to create a new session using this location.
-        // Hide the bottom panel
-        this.clearBottomPanel();
-        this.curLocationBeingEdited = -1;
-        this.btn_locationDetails.setSelected(false);
-        this.centerBottomPanel.setVisible(false);
-        this.btn_locationDetails.setText("Show Location Details");
-        this.updateTable();
-
-    }//GEN-LAST:event_btn_saveLocationActionPerformed
-
-    private void btn_newLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newLocationActionPerformed
-        this.centerBottomPanel.setVisible((true));
-        this.btn_locationDetails.setSelected(true);
-        this.btn_locationDetails.setText("Hide Location Details");
-        this.newLocation = null;
-
-        if (curLocationBeingEdited > 0) {
-            String msg = "You were already editing an existing location. \n"
-                    + "Do you prefer to keep editing or to start over \n"
-                    + "with an empty form?";
-
-            String[] options = {"Keep Editing", "Start Over"};
-            int option = JOptionPane.showOptionDialog(this, msg, "Question",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options, options[0]);
-            if (option == 1) {
-                clearBottomPanel();
-                curLocationBeingEdited = -1;
-            }
-
-        } else if (!isBotomPanelEmpty()) {
-            String msg = "You were already editing a new location. \n"
-                    + "Do you prefer to keep editing or to start over \n"
-                    + "with an empty form?";
-
-            String[] options = {"Keep Editing", "Start Over"};
-            int option = JOptionPane.showOptionDialog(this, msg, "Question",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options, options[0]);
-            if (option == 1) {
-                clearBottomPanel();
-                curLocationBeingEdited = -1;
-            }
-        }
-
-    }//GEN-LAST:event_btn_newLocationActionPerformed
+    private void cmb_country1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_country1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_country1ItemStateChanged
 
     private void btn_detectByIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detectByIPActionPerformed
         String ipErrorMsg = "We were not able to get GPS coordinates from your\n"
-                + "current IP address. Please select enter your coordinates\n"
-                + "manually or choose country/city.\n\n";
+        + "current IP address. Please select enter your coordinates\n"
+        + "manually or choose country/city.\n\n";
 
         try {
             // Get current GPS coordinates from current outbound IP address
@@ -852,120 +1057,21 @@ public class LocationManager extends javax.swing.JFrame {
             txt_longitude.setText(longitude_deg.toString());
             txt_height.setText(Constants.NTPConstants.DEFAULT_LOCATION_HEIGHT);
             String msg = "According to IP-API.com, you're near " + newLocation.getName()
-                    + ".\nPlease keep in mind that GPS coordinates obtained by \n"
-                    + "this process are just (inherently imprecise) estimations.\n\n"
-                    + "Currently, altitude cannot be determined automatically,\n"
-                    + "so we have preset it for you to the median elevation\n"
-                    + "inhabited by humans. Please change it if necessary.";
+            + ".\nPlease keep in mind that GPS coordinates obtained by \n"
+            + "this process are just (inherently imprecise) estimations.\n\n"
+            + "Currently, altitude cannot be determined automatically,\n"
+            + "so we have preset it for you to the median elevation\n"
+            + "inhabited by humans. Please change it if necessary.";
             JOptionPane.showMessageDialog(this, msg, "Warning",
-                    JOptionPane.WARNING_MESSAGE);
+                JOptionPane.WARNING_MESSAGE);
 
         } catch (Exception ex) {
             ipErrorMsg += ex.getMessage().replace(": ", "\n");
             JOptionPane.showMessageDialog(this, ipErrorMsg, "Missing parameter",
-                    JOptionPane.WARNING_MESSAGE);
+                JOptionPane.WARNING_MESSAGE);
             txt_longitude.requestFocusInWindow();
         }
     }//GEN-LAST:event_btn_detectByIPActionPerformed
-
-    private void btn_editSelectedLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editSelectedLocationActionPerformed
-        if (getCurrentSelectedLocationID() == -1) {
-            String msg = "You must select a location in the table to be able\n"
-                    + "to edit it. If you just want to create a new location,\n"
-                    + "please use the New Location button.";
-            JOptionPane.showMessageDialog(this, msg, "Warning",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        this.centerBottomPanel.setVisible((true));
-        this.btn_locationDetails.setSelected(true);
-        this.btn_locationDetails.setText("Hide Location Details");
-
-        if (curLocationBeingEdited > 0) {
-            String msg = "You were already editing an existing location. \n"
-                    + "Do you prefer to keep editing the previous location \n"
-                    + "or to start editing this one?";
-
-            String[] options = {"Keep Editing Previous", "Edit This One"};
-            int option = JOptionPane.showOptionDialog(this, msg, "Question",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options, options[0]);
-            if (option == 1) {
-                curLocationBeingEdited = getCurrentSelectedLocationID();
-                loadBottomPanel(curLocationBeingEdited);
-            }
-
-        } else if (!isBotomPanelEmpty()) {
-            String msg = "You were already editing a new location. \n"
-                    + "Do you prefer to keep editing or to start editing \n"
-                    + "this location?";
-
-            String[] options = {"Keep Editing Previous", "Edit This One"};
-            int option = JOptionPane.showOptionDialog(this, msg, "Question",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options, options[0]);
-            if (option == 1) {
-                curLocationBeingEdited = getCurrentSelectedLocationID();
-                loadBottomPanel(curLocationBeingEdited);
-            }
-        } else {
-            curLocationBeingEdited = getCurrentSelectedLocationID();
-            loadBottomPanel(curLocationBeingEdited);
-        }
-    }//GEN-LAST:event_btn_editSelectedLocationActionPerformed
-
-    private void btn_deleteSelectedLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteSelectedLocationActionPerformed
-        int id = getCurrentSelectedLocationID();
-        if (id == -1) {
-            String msg = "You must select a location in the table to be able\n"
-                    + "to delete it.";
-            JOptionPane.showMessageDialog(this, msg, "Warning",
-                    JOptionPane.WARNING_MESSAGE);
-        } else {
-            mydb.deleteLocation(id);
-            updateTable();
-        }
-    }//GEN-LAST:event_btn_deleteSelectedLocationActionPerformed
-
-    private void cmb_observatoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_observatoryItemStateChanged
-        // Not forgetting that we have a "Select city" item in the combo box.
-        if (cmb_observatory.getSelectedIndex() < 1) {
-            return;
-        }
-        String selectedObservatory = cmb_observatory.getSelectedItem().toString();
-
-        ObservatoryElement observatory;
-        try {
-
-            // TODO: 
-            // We definitely should add a clear way to choose between multiple 
-            // cities in case they happen to have the same name, but for now, 
-            // for the sake of a faster MVP release, let's just present the user 
-            // with a single, quick result…
-            if (cmb_country.getSelectedIndex() >= 1) {
-                // Not forgetting "Select country" is item #0 in the combo box.
-                String selectedCountry = cmb_country.getSelectedItem().toString();
-                COUNTRY countryID = Country.getID(selectedCountry);
-                observatory = Observatory.findObservatorybyName(selectedObservatory, countryID);
-            } else {
-                observatory = Observatory.findObservatorybyName(selectedObservatory);
-            }
-
-            Double lat = observatory.latitude;
-            Double lon = observatory.longitude;
-            int height = observatory.height;
-
-            DecimalFormat df = new DecimalFormat("###0.00000");
-            txt_latitude.setText(df.format(lat));
-            txt_longitude.setText(df.format(lon));
-            // TODO: See if we can provide a better default value here.
-            txt_height.setText(Integer.toString(height));
-
-        } catch (JPARSECException e) {
-            System.out.println(e);
-        }
-    }//GEN-LAST:event_cmb_observatoryItemStateChanged
 
     public boolean isBotomPanelEmpty() {
         return cmb_country.getSelectedIndex() < 1
@@ -1011,6 +1117,7 @@ public class LocationManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXPanel JXPanelAddress;
     private org.jdesktop.swingx.JXButton btn_deleteSelectedLocation;
     private javax.swing.JButton btn_detectByIP;
     private org.jdesktop.swingx.JXButton btn_editSelectedLocation;
@@ -1020,24 +1127,39 @@ public class LocationManager extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel centerBottomPanel;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JComboBox<String> cmb_city;
+    private javax.swing.JComboBox<String> cmb_city1;
     private javax.swing.JComboBox<String> cmb_country;
+    private javax.swing.JComboBox<String> cmb_country1;
     private javax.swing.JComboBox<String> cmb_observatory;
-    private org.jdesktop.swingx.JXImageView img_map;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JComboBox<String> cmb_observatory1;
+    private javax.swing.JLabel jLabel4;
+    private org.openstreetmap.gui.jmapviewer.JMapViewer jMapViewer1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JToolBar jToolBar1;
+    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
+    private org.jdesktop.swingx.JXLabel jXLabel4;
+    private org.jdesktop.swingx.JXLabel jXLabel5;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private org.jdesktop.swingx.JXPanel jXPanel3;
-    private org.jdesktop.swingx.JXPanel jXPanel4;
-    private org.jdesktop.swingx.JXPanel jXPanel6;
+    private org.jdesktop.swingx.JXPanel jXPanelCity;
+    private org.jdesktop.swingx.JXPanel jXPanelGPS;
+    private org.jdesktop.swingx.JXPanel jXPanelObservatory;
     private javax.swing.JLabel lbl_locationName;
-    private org.jdesktop.swingx.JXPanel subpanel_enterAddress;
+    private javax.swing.JLabel lbl_photo;
+    private javax.swing.JLabel lbl_photo_angDiameter;
+    private javax.swing.JLabel lbl_photo_declination;
+    private javax.swing.JLabel lbl_photo_mag;
+    private javax.swing.JLabel lbl_photo_ra;
+    private org.jdesktop.swingx.JXPanel location_subpanel_photo;
+    private org.jdesktop.swingx.JXPanel subpanel_photo;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txt_address;
+    private org.jdesktop.swingx.JXTextArea txt_address;
     private javax.swing.JFormattedTextField txt_height;
     private javax.swing.JFormattedTextField txt_latitude;
     private javax.swing.JFormattedTextField txt_longitude;

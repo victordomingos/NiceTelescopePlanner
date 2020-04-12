@@ -90,6 +90,9 @@
               <Dimension value="[200, 32]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_newSessionActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btn_loadSelectedSession">
           <Properties>

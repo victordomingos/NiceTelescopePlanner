@@ -45,7 +45,6 @@ public class SessionManager extends javax.swing.JFrame {
         jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
 
         setTitle("Session Manager");
-        setMaximumSize(new java.awt.Dimension(800, 2000));
         setMinimumSize(new java.awt.Dimension(480, 400));
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 204));
@@ -62,6 +61,11 @@ public class SessionManager extends javax.swing.JFrame {
         btn_newSession.setMaximumSize(new java.awt.Dimension(400, 32));
         btn_newSession.setMinimumSize(new java.awt.Dimension(100, 32));
         btn_newSession.setPreferredSize(new java.awt.Dimension(200, 32));
+        btn_newSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newSessionActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_newSession);
 
         btn_loadSelectedSession.setText("Load Selected");
@@ -215,6 +219,10 @@ public class SessionManager extends javax.swing.JFrame {
         this.centerBottomPanel.setVisible(this.btn_sessionNotes.isSelected());
         this.btn_sessionNotes.setText(btn_text);
     }//GEN-LAST:event_btn_sessionNotesActionPerformed
+
+    private void btn_newSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newSessionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_newSessionActionPerformed
 
     /**
      * @param args the command line arguments

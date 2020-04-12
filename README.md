@@ -59,6 +59,8 @@ This application integrates a few useful third-party libraries that are essentia
 
 - SwingX, a set of GUI components that extend Swing.
 
+- JMapViewer, a Java component which allows to integrate an OSM map view into a Java application (GPL licensed).
+
 The "Detect By IP" feature works by issuing a basic HTTP request to a JSON web API at http://ip-api.com.
 
 The included images are from NASA and were selected from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Main_Page), where they were made available as Public Domain.
